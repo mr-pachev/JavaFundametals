@@ -10,7 +10,7 @@ public class DataTypeFinder_01 {
 
         while (!type.equals("END")) {
             Scanner input = new Scanner(type);
-            if (input.hasNextBoolean()) {
+            if (input.hasNextBoolean()) { //метод за проверка на тип променлива от стринг
                 System.out.printf("%s is boolean type%n", type);
             } else if (input.hasNextInt()) {
                 System.out.printf("%s is integer type%n", type);
