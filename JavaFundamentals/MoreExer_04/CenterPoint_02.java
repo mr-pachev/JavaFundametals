@@ -12,14 +12,15 @@ public class CenterPoint_02 {
         int secondPointX = Integer.parseInt(scanner.nextLine());
         int secondPointY = Integer.parseInt(scanner.nextLine());
 
-       int averageFirstPoint = Math.abs(firstPointX + firstPointY);
-       int averageSecondPoint = Math.abs(secondPointX + secondPointY);
-
-       if (averageFirstPoint <= averageSecondPoint){
+       if (average(firstPointX, firstPointY) <= average(secondPointX, secondPointY)){
            System.out.printf("(%d, %d)", firstPointX, firstPointY);
        }else {
            System.out.printf("(%d, %d)", secondPointX, secondPointY);
        }
 
+    }
+    public static Integer average (int pointX, int pointY){
+        int averagePoint = Math.abs(pointX + pointY);
+            return averagePoint;
     }
 }
