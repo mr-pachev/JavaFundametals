@@ -26,7 +26,7 @@ public class TribonacciSequence_04 {
     }
 
     static void printTrib(int n) {
-        for (int i = 3; i <= n + 2; i++)
+        for (int i = 1; i <= n; i++)
             System.out.print(printTribRec(i)
                     + " ");
     }
