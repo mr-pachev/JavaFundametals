@@ -40,7 +40,7 @@ public class MixedUpLists_04 {
         Collections.sort(resultList);
 
       for (int element : resultList){
-          if (element > startElement && element < endElement) {
+          if (element > startElement && element < endElement) { //принтиране на resultList в зададения диапазон
               System.out.printf("%d ", element);
           }
       }
