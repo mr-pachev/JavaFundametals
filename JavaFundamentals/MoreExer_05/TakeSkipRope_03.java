@@ -14,42 +14,101 @@ public class TakeSkipRope_03 {
 
         List<String> textSymbolList = Arrays.stream(input.split("")).collect(Collectors.toList());
 
-        List<Integer> digitList = new ArrayList<>(); //списък за цифрите
-        List<Integer> takeList = new ArrayList<>(); //Take list
-        List<Integer> skipList = new ArrayList<>(); //Skip list
+        List<Integer> numberList = makeNumList(textSymbolList); //списък с цифри
+        List<String> textList = makeSymbolList(textSymbolList); //списък само с букви
+        List<Integer> takeList = evenList(numberList); //Take list
+        List<Integer> skipList = oddList(numberList); //Skip list
         List<String> resultList = new ArrayList<>(); //декриптираният текст
 
-        for (int currentIndex = 0; currentIndex <= textSymbolList.size() - 1; currentIndex++) { //обхождаме входящия списък
-            char currentChar = (textSymbolList.get(currentIndex)).charAt(0); //превръщаме текущия елемент в символ
-            if (currentChar >= 48 && currentChar <= 57){ //проверка дали символа е цифра
-                int element = Integer.parseInt(textSymbolList.get(currentIndex)); //превръщане на елемента в число
+
+        for (int currentIndex = 0; currentIndex < numberList.size() / 2; currentIndex++) { //обхожда двата списъка takeList и skipeList
+
+           if (takeList.get(0) != 0) {
+               for (int indexTake = 0; indexTake < takeList.get(0); indexTake++) { //взима елементите до currentElementTakeList
+                  if (!textList.isEmpty()) { //проверка дали има останали елементи от textList
+                      String currenSymbol = textList.get(0);
+                      resultList.add(currenSymbol); //пълнене на списъка с декриптирания текст
+                      textList.remove(0);
+                  }else {
+                      break;
+                  }
+               }
+               takeList.remove(0);
+
+           } else{
+               takeList.remove(0);
+           }
+
+            if (skipList.get(0) != 0) {
+                for (int indexSkip = 0; indexSkip < skipList.get(0); indexSkip++) {
+                    if (!textList.isEmpty()) { //проверка дали има елементи за премахване
+                        textList.remove(0);
+                    }else {
+                        break;
+                    }
+                }
+                skipList.remove(0);
+
+            }else {
+                skipList.remove(0);
+            }
+
+
+        }
+        for (String elemnt: resultList) {
+            System.out.print(elemnt);
+        }
+    }
+
+    //създава списък само сцифри
+    public static List<Integer> makeNumList(List<String> inputList) {
+        List<Integer> digitList = new ArrayList<>(); //списък за цифрите
+        for (int currentIndex = 0; currentIndex <= inputList.size() - 1; currentIndex++) { //обхождаме входящия списък
+            char currentChar = (inputList.get(currentIndex)).charAt(0); //превръщаме текущия елемент в символ
+            if (currentChar >= 48 && currentChar <= 57) { //проверка дали символа е цифра
+                int element = Integer.parseInt(inputList.get(currentIndex)); //превръщане на елемента в число
                 digitList.add(element); //добавяне на цифрата в списъка
-                textSymbolList.remove(currentIndex); //премахване на цифрата от списъка
+            }
+        }
+        return digitList;
+    }
+
+    //създава списък само с букви
+    public static List<String> makeSymbolList(List<String> inputList) { //премахва цифрите и оставя само буквите
+        for (int currentIndex = 0; currentIndex <= inputList.size() - 1; currentIndex++) { //обхождаме входящия списък
+            char currentChar = (inputList.get(currentIndex)).charAt(0); //превръщаме текущия елемент в символ
+            if (currentChar >= 48 && currentChar <= 57) { //проверка дали символа е цифра
+                inputList.remove(currentIndex); //премахване на цифрата от списъка
                 currentIndex--;
             }
         }
-        for (int currentIndex = 0; currentIndex <= digitList.size() - 1; currentIndex++) { //обхождаме списъка с цифри, зада запълним takeList и skipList
-            int currentElements = digitList.get(currentIndex);
-
-            if (currentElements % 2 == 0){ //запълване на takeList
-                takeList.add(currentIndex);
-            }else {
-                skipList.add(currentIndex); //запълване на skipList
-            }
-        }
-        
-        for (int currentIndex = 0; currentIndex <= digitList.size() - 1; currentIndex++) { //обхождане на двата takeList и skipList последователно
-            int currentElementTakeList = takeList.get(currentIndex);
-
-            for (int indexTake = 0; indexTake < currentElementTakeList; indexTake++) { //определя броя на елементите за взимане от textSymbolList
-                String currenSymbol = textSymbolList.get(indexTake);
-                resultList.add(currenSymbol); //пълнене на списъка с декриптирания текст
-            }
-
-            currentIndex += skipList.get(currentIndex); //изпълняваме условието по текущия елемент от skipList
-
-        }
-
-
+        return inputList;
     }
+
+    //създаване на TakeList
+    public static List<Integer> evenList(List<Integer> evenTakeList) {
+        List<Integer> takeList = new ArrayList<>();
+        for (int currentIndex = 0; currentIndex <= evenTakeList.size() - 1; currentIndex++) { //обхождаме списъка с цифри, зада запълним takeList и skipList
+            int currentElements = evenTakeList.get(currentIndex);
+
+            if (currentIndex % 2 == 0) { //запълване на takeList
+                takeList.add(currentElements);
+            }
+        }
+        return takeList;
+    }
+
+    //създаване на skipList
+    public static List<Integer> oddList(List<Integer> oddSkipList) {
+        List<Integer> skipList = new ArrayList<>();
+        for (int currentIndex = 0; currentIndex <= oddSkipList.size() - 1; currentIndex++) { //обхождаме списъка с цифри, зада запълним takeList и skipList
+            int currentElements = oddSkipList.get(currentIndex);
+
+            if (currentIndex % 2 != 0) { //запълване на takeList
+                skipList.add(currentElements);
+            }
+        }
+        return skipList;
+    }
+
 }
