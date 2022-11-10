@@ -19,19 +19,17 @@ public class MemoryGame_03 {
             int firstIndex = Integer.parseInt(command.split(" ")[0]);
             int secondIndex = Integer.parseInt(command.split(" ")[1]);
 
-
-
             for (int index = 0; index <= numbersList.size() - 1; index++) {
 
                 if ((isValidIndex(firstIndex, numbersList)) && (isValidIndex(secondIndex, numbersList))
                         && isDuplication(firstIndex, secondIndex)) { //проверка дали индекса е валиден и дали двата индекса са различни
 
-                    if (isEquals(firstIndex, secondIndex, numbersList)) {
+                    if (isEquals(firstIndex, secondIndex, numbersList)) { //проверка дали двата елементи за равни
                         String firstElement = numbersList.get(index);
                         String secondElement = numbersList.get(index);
 
-                        numbersList.remove(firstElement);
-                        numbersList.remove(secondElement);
+                        numbersList.remove(firstElement); //премахване на елемента независимо къде е
+                        numbersList.remove(secondElement); //премахване на елемента независимо къде е
                         System.out.printf("Congrats! You have found matching elements - %s!%n", firstElement);
                     } else {
                         System.out.println("Try again!");
@@ -40,15 +38,15 @@ public class MemoryGame_03 {
                 } else {
                     int positionInsert = numbersList.size() / 2;
                     String elementInsert = "-" + moves + "a";
+
                     numbersList.add(positionInsert, elementInsert);
                     numbersList.add(positionInsert + 1, elementInsert);
                     System.out.println("Invalid input! Adding additional elements to the board");
                 }
                 break;
-
             }
 
-            if (numbersList.isEmpty()){
+            if (numbersList.isEmpty()) { //проверка дали листа е празен преди команда end
                 System.out.printf("You have won in %d turns!", moves);
                 break;
             }
@@ -56,9 +54,10 @@ public class MemoryGame_03 {
             moves++;
             command = scanner.nextLine();
         }
-        if (!numbersList.isEmpty()){
+        if (!numbersList.isEmpty()) { //проверка дали листа още е пълен и след команда end
             System.out.println("Sorry you lose :(");
-            for (String element : numbersList){
+
+            for (String element : numbersList) {
                 System.out.printf("%s ", element);
             }
         }
