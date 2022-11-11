@@ -66,7 +66,7 @@ public class MemoryGame_03 {
 
     //проверка дали идекса е валиден
     public static boolean isValidIndex(int index, List<String> listForCheck) {
-        return index >= 0 && index <= listForCheck.size();
+        return index >= 0 && index <= listForCheck.size() - 1;
     }
 
     //проверка дали елементите са равни
