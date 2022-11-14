@@ -24,6 +24,7 @@ public class ShootForTheWin_02 {
             }
 
             int shotElement = targetsArr[targetIndex]; //стойност на мишената
+            boolean isCurrentTarget = false;
 
             for (int index = 0; index <= targetsArr.length - 1; index++) {
                 int currentElement = targetsArr[index]; //текущ елемент
@@ -31,22 +32,18 @@ public class ShootForTheWin_02 {
                 if (currentElement == -1) { //проверка дали текущия елемент е бил отстрелван
                     continue;
                 } else {
-                    if (targetIndex == index) { //проверка телущия индекс дали отговаря на зададения индекс
+                    if (targetIndex == index) { //проверка текущия индекс дали отговаря на зададения индекс
                         counterShotTargets++;
+                        isCurrentTarget = true;
                         targetsArr[index] = -1;
-                    } else if (shotElement > currentElement) {
+                        index = 0;
+                    } else if (shotElement > currentElement && isCurrentTarget) {
                         targetsArr[index] = currentElement + shotElement;
-                    } else {
+                    } else if (isCurrentTarget) {
                         targetsArr[index] = currentElement - shotElement;
                     }
-
                 }
-
-
-
             }
-
-
             input = scanner.nextLine();
         }
 
