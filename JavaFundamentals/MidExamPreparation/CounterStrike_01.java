@@ -10,14 +10,29 @@ public class CounterStrike_01 {
         String input = scanner.nextLine();
 
         int counterWinGames = 0; //брояч спечелени игри
+        boolean noEnergy = false;
 
         while (!input.equals("End of battle")){
-            int currentEnergy = Integer.parseInt(input); //текущомразстояние и енергиа за него
+            int currentEnergy = Integer.parseInt(input); //текущо разстояние и нужка енергиа за него
 
+            if (startEnergy >= currentEnergy){ //проверка дали битката е спечелена
+                counterWinGames++;
 
+                if(counterWinGames % 3 == 0){ //проверка дали спечелената битка е трета по ред
+                    startEnergy += counterWinGames;
+                }
+                    startEnergy -= currentEnergy;
+
+            }else {
+                noEnergy = true;
+                System.out.printf("Not enough energy! Game ends with %d won battles and %d energy", counterWinGames, startEnergy);
+                break;
+            }
 
             input = scanner.nextLine();
         }
-
+        if(!noEnergy){
+            System.out.printf("Won battles: %d. Energy left: %d",counterWinGames, startEnergy);
+        }
     }
 }
