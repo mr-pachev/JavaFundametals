@@ -18,7 +18,7 @@ public class ShootForTheWin_02 {
         while (!input.equals("End")) {
             int targetIndex = Integer.parseInt(input); //индекс на мишената
 
-            if (!(isValid(targetIndex, targetsArr))) {
+            if (!(isValid(targetIndex, targetsArr))) { //проверка валидността на индекса
                 input = scanner.nextLine();
                 continue;
             }
@@ -31,19 +31,19 @@ public class ShootForTheWin_02 {
                 if (currentElement == -1) { //проверка дали текущия елемент е бил отстрелван
                     continue;
                 } else {
-
+                    if (targetIndex == index) { //проверка телущия индекс дали отговаря на зададения индекс
+                        counterShotTargets++;
+                        targetsArr[index] = -1;
+                    } else if (shotElement > currentElement) {
+                        targetsArr[index] = currentElement + shotElement;
+                    } else {
+                        targetsArr[index] = currentElement - shotElement;
+                    }
 
                 }
 
 
-                if (targetIndex == index) { //проверка телущия индекс дали отговаря на зададения индекс
-                    counterShotTargets++;
-                    targetsArr[index] = -1;
-                } else if (shotElement > currentElement) {
-                    targetsArr[index] = currentElement + shotElement;
-                } else {
-                    targetsArr[index] = currentElement - shotElement;
-                }
+
             }
 
 
