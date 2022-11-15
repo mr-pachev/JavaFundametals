@@ -24,26 +24,29 @@ public class ShootForTheWin_02 {
             }
 
             int shotElement = targetsArr[targetIndex]; //стойност на мишената
-            boolean isCurrentTarget = false;
 
             for (int index = 0; index <= targetsArr.length - 1; index++) {
                 int currentElement = targetsArr[index]; //текущ елемент
 
-                if (currentElement == -1) { //проверка дали текущия елемент е бил отстрелван
-                    continue;
-                } else {
-                    if (targetIndex == index) { //проверка текущия индекс дали отговаря на зададения индекс
+                if (targetIndex == index) { //проверка текущия индекс дали отговаря на зададения индекс
                         counterShotTargets++;
-                        isCurrentTarget = true;
                         targetsArr[index] = -1;
-                        index = 0;
-                    } else if (shotElement > currentElement && isCurrentTarget) {
-                        targetsArr[index] = currentElement + shotElement;
-                    } else if (isCurrentTarget) {
-                        targetsArr[index] = currentElement - shotElement;
-                    }
+                        break;
                 }
             }
+
+            for (int indexChange = 0; indexChange <= targetsArr.length - 1; indexChange++) {
+                int currentElement = targetsArr[indexChange]; //текущ елемент
+
+                if (currentElement == -1) { //проверка дали текущия елемент е бил отстрелван
+                    continue;
+                } else if (shotElement >= currentElement) {
+                    targetsArr[indexChange] = currentElement + shotElement;
+                } else {
+                    targetsArr[indexChange] = currentElement - shotElement;
+                }
+            }
+
             input = scanner.nextLine();
         }
 
