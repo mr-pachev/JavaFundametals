@@ -45,8 +45,17 @@ public class Inventory_03 {
             input = scanner.nextLine();
         }
 
-        System.out.println(itemsList.toString().replaceAll("[\\[\\],]", "")
+       /* System.out.println(itemsList.toString().replaceAll("[\\[\\],]", "")
                 .replaceAll(" ", ", "));
+              
+        */
+        for (int i = 0; i <= itemsList.size() - 1; i++) {
+            if (i == 0){
+                System.out.printf("%s ", itemsList.get(i));
+            }else {
+                System.out.printf("%s, ", itemsList.get(i));
+            }
+        }
     }
 
     //проверка дали артикула съществува
