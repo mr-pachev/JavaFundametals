@@ -37,7 +37,7 @@ public class TreasureHunt_02 {
                     break;
                 case "Steal": //премахване на последните
                     int numElement = Integer.parseInt(commandArr[1]);
-                    if (numElement >= tresureList.size()){
+                    if (numElement >= tresureList.size()) {
                         numElement = tresureList.size();
                     }
                     for (int i = 1; i <= numElement; i++) {
@@ -50,10 +50,10 @@ public class TreasureHunt_02 {
             input = scanner.nextLine();
         }
         System.out.println(stilList.toString().replaceAll("[\\[\\],]", "")
-                                                        .replaceAll(" ", ", "));
-        if(tresureList.isEmpty()){
+                .replaceAll(" ", ", "));
+        if (tresureList.isEmpty()) {
             System.out.println("Failed treasure hunt.");
-        }else {
+        } else {
             double avarage = avarageSum(tresureList);
             System.out.printf("Average treasure gain: %.2f pirate credits.", avarage);
         }
@@ -63,7 +63,7 @@ public class TreasureHunt_02 {
     public static boolean isExist(String item, List<String> currentList) {
         boolean isExist = false;
         for (int i = 0; i <= currentList.size() - 1; i++) {
-            if (item.equals(currentList.get(i))){
+            if (item.equals(currentList.get(i))) {
                 isExist = true;
                 break;
             }
@@ -78,11 +78,12 @@ public class TreasureHunt_02 {
     }
 
     //намиране средна стойност на съкровището
-    public static Double avarageSum (List<String> currentList){
+    public static Double avarageSum(List<String> currentList) {
         int counterChar = 0;
 
         for (int index = 0; index <= currentList.size() - 1; index++) {
-            counterChar += currentList.get(index).length();
+            String element = currentList.get(index);
+            counterChar += element.length();
         }
         return (counterChar * 1.0 / currentList.size());
     }
