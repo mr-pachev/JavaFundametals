@@ -10,7 +10,7 @@ public class TreasureHunt_02 {
         List<String> tresureList = Arrays.stream(scanner.nextLine().split("\\|"))
                 .collect(Collectors.toList());
 
-        List<String> stilList = new ArrayList<>();
+        List<String> stealList = new ArrayList<>();
 
         String input = scanner.nextLine();
 
@@ -41,15 +41,15 @@ public class TreasureHunt_02 {
                         numElement = tresureList.size();
                     }
                     for (int i = 1; i <= numElement; i++) {
-                        stilList.add(tresureList.get(tresureList.size() - 1));
+                        stealList.add(tresureList.get(tresureList.size() - 1));
                         tresureList.remove(tresureList.size() - 1);
                     }
-                    Collections.reverse(stilList);
+                    Collections.reverse(stealList);
                     break;
             }
             input = scanner.nextLine();
         }
-        System.out.println(stilList.toString().replaceAll("[\\[\\],]", "")
+        System.out.println(stealList.toString().replaceAll("[\\[\\],]", "")
                 .replaceAll(" ", ", "));
         if (tresureList.isEmpty()) {
             System.out.println("Failed treasure hunt.");
