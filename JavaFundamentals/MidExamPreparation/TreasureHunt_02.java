@@ -7,71 +7,69 @@ public class TreasureHunt_02 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<String> tresureList = Arrays.stream(scanner.nextLine().split("\\|"))
-                .collect(Collectors.toList());
+        List<String> tresureList = Arrays.stream(scanner.nextLine()
+                .split("\\|")).collect(Collectors.toList()); //списък със съкровището
 
-        List<String> stealList = new ArrayList<>();
-
-        String input = scanner.nextLine();
+        String input = scanner.nextLine(); //вход от конзолата
 
         while (!input.equals("Yohoho!")) {
-            String[] commandArr = input.split(" ");
+            String[] inputArr = input.split(" "); //масив съдържащ входните данни
+            String command = inputArr[0]; //команда
 
-            String command = commandArr[0]; //команда
+            if (command.equals("Loot")) { //добавяне на съкровище
 
-            switch (command) {
-                case "Loot": //прибавяне
-                    for (int indexArr = 1; indexArr < commandArr.length; indexArr++) {
-                        if (!(tresureList.contains(commandArr[indexArr]))) {
-                            tresureList.add(0, commandArr[indexArr]);
-                        }
+                for (int index = 1; index <= inputArr.length - 1; index++) { //обхождане на масива със съкровищата за добавяне
+                    String currentElement = inputArr[index]; //текущ елемент
+
+                    if (!tresureList.contains(currentElement)) { //проверка дали даденото съкровище е в списъка със съкровища
+                        tresureList.add(0, currentElement); //добавяне на съкровището в началото на списъка
                     }
-                    break;
-                case "Drop": //изпускане
-                    int index = Integer.parseInt(commandArr[1]); //индекс на първия елемент
-                    if (index >= 0 && index < tresureList.size()) { //проверка дали подадения индекса е валиден
-                        String element = tresureList.get(index); //елемента отговарящ на подадения индекс
-                        tresureList.remove(index); //премахване на индекса
-                        tresureList.add(element); //добавяне на елемента на края на списъка със съкровища
-                    }
-                    break;
-                case "Steal": //премахване на последните
-                    int numElement = Integer.parseInt(commandArr[1]); //брой на елементите за премахване
+                }
 
-                    if (numElement > tresureList.size()) { //проверка дали има достатъчно елементи за премахване в листа със съкровището
-                        numElement = tresureList.size(); //елементите за премахване стават колкото е съкровището в листа
-                    }
+            } else if (command.equals("Drop")) { //преместване
+                int indexForDrop = Integer.parseInt(inputArr[1]); //индекс за преместване
 
-                    stealList = tresureList.subList(tresureList.size() - numElement, tresureList.size()); //пълни списъка с премахнатитет елементи
+                if (indexForDrop >= 0 && indexForDrop <= tresureList.size() - 1) { //проверка дали индекса е валиден
+                    String elementForDrop = tresureList.get(indexForDrop); //елемент за преместване
 
-                    System.out.print(stealList.toString().replaceAll("[\\[\\],]", "")
-                            .replaceAll(" ", ", "));
+                    tresureList.remove(indexForDrop); //премахваме индекса
+                    tresureList.add(elementForDrop); //добавяме елемента в края на списъка
+                }
 
-                    tresureList = tresureList.subList(0, tresureList.size() - numElement); //премахва последните съкровища от списъка
+            } else if (command.equals("Steal")) {
+                int elementsForSteal = Integer.parseInt(inputArr[1]); //елементи за крадене от списъка със съкрове
 
-//                    for (int i = 1; i <= numElement; i++) { //цикъл според броя елементи за премахване
-//                        stealList.add(tresureList.get(tresureList.size() - 1)); //добавя в листа на премахнатите елементи
-//                        tresureList.remove(tresureList.size() - 1); //премахва от листа на съкровището
-//                    }
-//                    Collections.reverse(stealList);
-//                    break;
+                if (elementsForSteal > tresureList.size()) { //проверка дали има толкова елементи в списък
+                    elementsForSteal = tresureList.size();
+                }
+
+                while (elementsForSteal > 1) {
+
+                    System.out.printf("%s, ", tresureList.get(tresureList.size() - elementsForSteal));
+
+                    tresureList.remove(tresureList.get(tresureList.size() - elementsForSteal)); //премахване на  съкровището от списъка
+                    elementsForSteal--;
+                }
+                System.out.printf("%s%n", tresureList.get(tresureList.size() - elementsForSteal));
+                elementsForSteal--;
+                tresureList.remove(tresureList.get((tresureList.size() - 1) - elementsForSteal)); //премахване на  съкровището от списъка
             }
+
             input = scanner.nextLine();
         }
-        System.out.println();
 
-        if (tresureList.isEmpty()) {
+        if (tresureList.isEmpty()) { //проверка дали сандъка е празен
             System.out.println("Failed treasure hunt.");
-        } else {
+        } else { //намиране на средната стойност на останалото съкровище
             int counterChar = 0;
             double avarage = 0;
 
-            for (int index = 0; index < tresureList.size(); index++) {
+            for (int index = 0; index <= tresureList.size() - 1; index++) {
                 String element = tresureList.get(index);
                 counterChar += element.length();
             }
 
-            avarage = (counterChar * 1.0 / tresureList.size());
+            avarage = counterChar * 1.0 / tresureList.size();
 
             System.out.printf("Average treasure gain: %.2f pirate credits.", avarage);
         }
