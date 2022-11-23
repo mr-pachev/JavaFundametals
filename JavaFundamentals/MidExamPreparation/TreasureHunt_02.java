@@ -21,70 +21,59 @@ public class TreasureHunt_02 {
 
             switch (command) {
                 case "Loot": //прибавяне
-                    for (int indexArr = 1; indexArr <= commandArr.length - 1; indexArr++) {
-                        if (!isExist(commandArr[indexArr], tresureList)) {
+                    for (int indexArr = 1; indexArr < commandArr.length; indexArr++) {
+                        if (!(tresureList.contains(commandArr[indexArr]))) {
                             tresureList.add(0, commandArr[indexArr]);
                         }
                     }
                     break;
                 case "Drop": //изпускане
                     int index = Integer.parseInt(commandArr[1]); //индекс на първия елемент
-                    if (isValid(index, tresureList)) {
-                        String element = tresureList.get(index);
-                        tresureList.remove(index);
-                        tresureList.add(element);
+                    if (index >= 0 && index < tresureList.size()) { //проверка дали подадения индекса е валиден
+                        String element = tresureList.get(index); //елемента отговарящ на подадения индекс
+                        tresureList.remove(index); //премахване на индекса
+                        tresureList.add(element); //добавяне на елемента на края на списъка със съкровища
                     }
                     break;
                 case "Steal": //премахване на последните
-                    int numElement = Integer.parseInt(commandArr[1]);
-                    if (numElement >= tresureList.size()) {
-                        numElement = tresureList.size();
+                    int numElement = Integer.parseInt(commandArr[1]); //брой на елементите за премахване
+
+                    if (numElement > tresureList.size()) { //проверка дали има достатъчно елементи за премахване в листа със съкровището
+                        numElement = tresureList.size(); //елементите за премахване стават колкото е съкровището в листа
                     }
-                    for (int i = 1; i <= numElement; i++) {
-                        stealList.add(tresureList.get(tresureList.size() - 1));
-                        tresureList.remove(tresureList.size() - 1);
-                    }
-                    Collections.reverse(stealList);
-                    break;
+
+                    stealList = tresureList.subList(tresureList.size() - numElement, tresureList.size()); //пълни списъка с премахнатитет елементи
+
+                    System.out.print(stealList.toString().replaceAll("[\\[\\],]", "")
+                            .replaceAll(" ", ", "));
+
+                    tresureList = tresureList.subList(0, tresureList.size() - numElement); //премахва последните съкровища от списъка
+
+//                    for (int i = 1; i <= numElement; i++) { //цикъл според броя елементи за премахване
+//                        stealList.add(tresureList.get(tresureList.size() - 1)); //добавя в листа на премахнатите елементи
+//                        tresureList.remove(tresureList.size() - 1); //премахва от листа на съкровището
+//                    }
+//                    Collections.reverse(stealList);
+//                    break;
             }
             input = scanner.nextLine();
         }
-        System.out.println(stealList.toString().replaceAll("[\\[\\],]", "")
-                .replaceAll(" ", ", "));
+        System.out.println();
+
         if (tresureList.isEmpty()) {
             System.out.println("Failed treasure hunt.");
         } else {
-            double avarage = avarageSum(tresureList);
+            int counterChar = 0;
+            double avarage = 0;
+
+            for (int index = 0; index < tresureList.size(); index++) {
+                String element = tresureList.get(index);
+                counterChar += element.length();
+            }
+
+            avarage = (counterChar * 1.0 / tresureList.size());
+
             System.out.printf("Average treasure gain: %.2f pirate credits.", avarage);
         }
-    }
-
-    //проверка дали списъка съдържа елемента
-    public static boolean isExist(String item, List<String> currentList) {
-        boolean isExist = false;
-        for (int i = 0; i <= currentList.size() - 1; i++) {
-            if (item.equals(currentList.get(i))) {
-                isExist = true;
-                break;
-            }
-        }
-        return isExist;
-        //return currentList.contains(item);
-    }
-
-    //проверка дали индекса е валиден
-    public static boolean isValid(int index, List<String> currentList) {
-        return (index >= 0 && index <= currentList.size() - 1);
-    }
-
-    //намиране средна стойност на съкровището
-    public static Double avarageSum(List<String> currentList) {
-        int counterChar = 0;
-
-        for (int index = 0; index <= currentList.size() - 1; index++) {
-            String element = currentList.get(index);
-            counterChar += element.length();
-        }
-        return (counterChar * 1.0 / currentList.size());
     }
 }
