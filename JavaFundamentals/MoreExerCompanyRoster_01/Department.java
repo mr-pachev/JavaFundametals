@@ -2,20 +2,29 @@ package MoreExerCompanyRoster_01;
 
 public class Department {
     private String department;
-    private String employee;
-    private double  salary;
+    private double salary;
+    private String name;
 
-    public Department(String department, String employee, double salary){
+    public Department(String department, double salary, String name) {
         this.department = department;
-        this.employee = employee;
         this.salary = salary;
+        this.name = name;
+    }
+
+    public String getDepartment() {
+        return this.department;
     }
 
     public double getSalary() {
         return this.salary;
     }
 
-    public String getDepartment(){
-        return this.department;
+    public String getName() {
+        return this.name;
     }
+
+    public double setSalary(double salary) {
+        return this.salary+=salary;
+    }
+
 }

@@ -8,10 +8,7 @@ public class Main {
 
         int n = Integer.parseInt(scanner.nextLine());
 
-        double averageSalary = 0; //средна заплата на отдела
-        int counterCurrentDepartmentSalary = 0; //брояч на заплатите в най-добре заплатения отдел
-        double maxSalary = 0;
-        String theBestDepartment = "";
+        List<Employee> employeeList = new ArrayList<>();
         List<Department> departmentList = new ArrayList<>();
 
         for (int currentEmployee = 1; currentEmployee <= n; currentEmployee++) { //цикъл според въведените брой служители
@@ -35,15 +32,52 @@ public class Main {
                 age = Integer.parseInt(incoming[5]);
             }
 
-
-
-
-
-
-
+            Employee employee = new Employee(name, salary, position, currentDepartment, email, age); //създаване на обект служител
+            employeeList.add(employee); //вкарване на обекта служител в списък
         }
 
+        for (Employee employee : employeeList) { //обхождаме листа със служителите
+            String departmentOfEmployee = employee.getDepartment(); //отдела на конкретния служител
+            Department department = new Department(employee.getDepartment(), employee.getSalary(), employee.getName()); //създаване на обект отдел
+            double salaryOfDepartment = employee.getSalary(); //заплата на конкретния отдел и служител от завъртането
 
+            if (departmentList.isEmpty()) { //проверка дали листа с отделите е празен
+                departmentList.add(department);
+                continue;
+            }
+
+            for (Department departmentObject : departmentList) { //обхождане на листа с отделите за сумиране на заплатите
+                String departmentOfDepartment = departmentObject.getDepartment(); //конкретния отдел от списъка с отдели
+
+                if (!departmentOfDepartment.equals(departmentOfEmployee)) { //проверка дали отдела съществува в списъка с отдели
+                    departmentList.add(department); //създаване добавяне на отдел в списъка
+                    break;
+                } else {
+                    departmentObject.setSalary(salaryOfDepartment);
+                    break;
+                }
+            }
+
+        }
+        double maxSalary = 0;
+        String bestDepartment = "";
+
+        for (Department department : departmentList){ //обхождане на листа с отделите, зада се извади отдела с най-високи заплати
+            if ((department.getSalary()) >= maxSalary){
+                maxSalary = department.getSalary();
+                bestDepartment = department.getDepartment();
+            }
+        }
+        List<DepartmentAll> departmentAllList = new ArrayList<>(); //списък със служителите на най-
+
+        for (Employee employee : employeeList) { //обхождаме листа със служителите
+            String departmentOfEmployee = employee.getDepartment(); //отдела на конкретния служител
+
+            if (departmentOfEmployee.equals(bestDepartment)){
+                DepartmentAll department = new DepartmentAll(employee.getName(), employee.getSalary(), employee.getPosition(), employee.getDepartment(), employee.getEmail(), employee.getAge());
+                departmentAllList.add(department);
+            }
+        }
         System.out.println();
     }
 

@@ -1,14 +1,14 @@
 package MoreExerCompanyRoster_01;
 
-public class Employee {
-    private String name; //име
-    private double salary; //заплата
+public class DepartmentAll {
+    private String department;
+    private double salary;
+    private String name;
     private String position; //длъжност
-    private String department; //отдел
     private String email; //имейл
     private int age; //възраст
 
-    public Employee(String name, double salary, String position, String department, String email, int age) {
+    public DepartmentAll(String name, double salary, String position, String department, String email, int age) {
         this.name = name;
         this.salary = salary;
         this.position = position;
@@ -40,7 +40,4 @@ public class Employee {
     public int getAge() {
         return this.age;
     }
-
 }
-
-
