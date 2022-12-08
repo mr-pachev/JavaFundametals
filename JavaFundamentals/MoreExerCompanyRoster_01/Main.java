@@ -10,6 +10,7 @@ public class Main {
 
         List<Employee> employeeList = new ArrayList<>();
         List<Department> departmentList = new ArrayList<>();
+        double avarage = 0;
 
         for (int currentEmployee = 1; currentEmployee <= n; currentEmployee++) { //цикъл според въведените брой служители
             String[] incoming = scanner.nextLine().split(" ");
@@ -31,17 +32,20 @@ public class Main {
                 email = incoming[4];
                 age = Integer.parseInt(incoming[5]);
             }
-
             Employee employee = new Employee(name, salary, position, currentDepartment, email, age); //създаване на обект служител
             employeeList.add(employee); //вкарване на обекта служител в списък
         }
 
         for (Employee employee : employeeList) { //обхождаме листа със служителите
             String departmentOfEmployee = employee.getDepartment(); //отдела на конкретния служител
-            Department department = new Department(employee.getDepartment(), employee.getSalary(), employee.getName()); //създаване на обект отдел
             double salaryOfDepartment = employee.getSalary(); //заплата на конкретния отдел и служител от завъртането
 
-            if (departmentList.isEmpty()) { //проверка дали листа с отделите е празен
+            List<Double> salaryList = new ArrayList<>();
+            salaryList.add(salaryOfDepartment);
+
+            Department department = new Department(employee.getDepartment(), employee.getSalary(), employee.getName(), salaryList); //създаване на обект отдел
+
+            if (departmentList.isEmpty()) { //проверка дали листа е празен
                 departmentList.add(department);
                 continue;
             }
@@ -53,12 +57,14 @@ public class Main {
                     departmentList.add(department); //създаване добавяне на отдел в списъка
                     break;
                 } else {
-                    departmentObject.setSalary(salaryOfDepartment);
+
+                    departmentObject.setSalaryList(salaryOfDepartment);
                     break;
                 }
             }
 
         }
+
         double maxSalary = 0;
         String bestDepartment = "";
 
@@ -68,7 +74,7 @@ public class Main {
                 bestDepartment = department.getDepartment();
             }
         }
-        List<DepartmentAll> departmentAllList = new ArrayList<>(); //списък със служителите на най-
+        List<DepartmentAll> departmentAllList = new ArrayList<>(); //списък със служителите на най-добре платения отдел
 
         for (Employee employee : employeeList) { //обхождаме листа със служителите
             String departmentOfEmployee = employee.getDepartment(); //отдела на конкретния служител
