@@ -33,14 +33,13 @@ public class Department {
         return this.salaryList;
     }
 
-    public double setSalary(double salary, List<Double> salaryCurrentList) {
-        this.salary += salary;
-        return this.salary / salaryCurrentList.size();
-    }
+    public double setSalary(double salary) { //метоз за събиране на заплатите на дадения отдел
+        return  this.salary += salary;
 
-    public List<Double> setSalaryList(double salary) {
+    }
+    public List<Double> setSalaryList(double salary) { //метод за пълнене на списък със заплатите от един отдел
       salaryList.add(salary);
-       return salaryList;
+       return this.salaryList;
     }
 
 }
