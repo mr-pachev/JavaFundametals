@@ -10,7 +10,7 @@ public class Main {
 
         List<Employee> employeeList = new ArrayList<>();
         List<Department> departmentList = new ArrayList<>();
-        double avarage = 0;
+        List<DepartmentAll> departmentAllList = new ArrayList<>(); //списък със служителите на най-добре платения отдел
 
         for (int currentEmployee = 1; currentEmployee <= n; currentEmployee++) { //цикъл според въведените брой служители
             String[] incoming = scanner.nextLine().split(" ");
@@ -82,7 +82,6 @@ public class Main {
                 bestDepartment = department.getDepartment();
             }
         }
-        List<DepartmentAll> departmentAllList = new ArrayList<>(); //списък със служителите на най-добре платения отдел
 
         for (Employee employee : employeeList) { //обхождаме листа със служителите
             String departmentOfEmployee = employee.getDepartment(); //отдела на конкретния служител
@@ -92,7 +91,11 @@ public class Main {
                 departmentAllList.add(department);
             }
         }
-        System.out.println();
+
+        System.out.printf("Highest Average Salary: %s%n", bestDepartment);
+        departmentAllList.stream().sorted((s1, s2) -> Double.compare(s2.getSalary(), s1.getSalary()))
+                .forEach(department -> System.out.println(department));
+
     }
 
     //метод за проверка даден стринг дали е число

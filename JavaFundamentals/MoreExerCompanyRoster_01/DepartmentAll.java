@@ -40,4 +40,9 @@ public class DepartmentAll {
     public int getAge() {
         return this.age;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %.2f %s %d", getName(), getSalary(), getEmail(), getAge());
+    }
 }
