@@ -24,21 +24,19 @@ public class Main {
             int cargoWeight = Integer.parseInt(carInfo[3]); //тегло на товара
             String cargoType = carInfo[4]; //тип на товара
 
-            double tirePressure1 = Double.parseDouble(carInfo[5]); //налягане на първата гума
-            int tireAge1 = Integer.parseInt(carInfo[6]); //възраст на първата гума
+            double[] tirePressureArr = {(Double.parseDouble(carInfo[5])), //налягането на всичките бетири гуми
+                    (Double.parseDouble(carInfo[7])),
+                    (Double.parseDouble(carInfo[9])),
+                    (Double.parseDouble(carInfo[11]))};
 
-            double tirePressure2 = Double.parseDouble(carInfo[7]); //налягане на втората гума
-            int tireAge2 = Integer.parseInt(carInfo[8]); //възраст на втората гума
-
-            double tirePressure3 = Double.parseDouble(carInfo[9]); //налягане на третата гума
-            int tireAge3 = Integer.parseInt(carInfo[10]); //възраст на третата гума
-
-            double tirePressure4 = Double.parseDouble(carInfo[11]); //налягане на четвърта гума
-            int tireAge4 = Integer.parseInt(carInfo[12]); //възраст на четвъртата гума
+            int[] tireAgeArr = {(Integer.parseInt(carInfo[6])), //възрастта на всичките четири гуми
+                    (Integer.parseInt(carInfo[8])),
+                    (Integer.parseInt(carInfo[10])),
+                    (Integer.parseInt(carInfo[12]))};
 
             Engine engine = new Engine(engineSpeed, enginePower); //конструктор с данните за двигателя
             Cargo cargo = new Cargo(cargoWeight, cargoType); //конструктор с данните за товара
-            Tires tires = new Tires(tirePressure1, tireAge1, tirePressure2, tireAge2, tirePressure3, tireAge3, tirePressure4, tireAge4); //конструктор с данните за гумите
+            Tires tires = new Tires(tirePressureArr, tireAgeArr); //конструктор с данните за гумите
             Car car = new Car(model, engine, cargo, tires); //коснструктор са данните да колата
 
             carList.add(car); //пълнене на листа с информацията за колите
@@ -46,8 +44,23 @@ public class Main {
 
         String command = scanner.nextLine(); //команда, кои коли да се изпечатват
 
+        for (Car car : carList) { //обхождаме листа с колите и вадим елементите, които ни трябват
+            String typeCargo = car.getCargo().getType(); //вади текущия лемент тип товар
+            int tyrePressureLength = car.getTires().getTiresPressureArr().length - 1; //вади дължината на масива на налягането но гумите
+
+            for (int currentTire = 0; currentTire <= tyrePressureLength; currentTire++) { //обхождаме масива с налягането на гумите, зада видим коя отговаря на условието
+
+                if (typeCargo.equals(command) && car.getTires().getTiresPressureArr()[currentTire] < 1){
+                    System.out.println(car.getModel());
+                    break;
+                }else if (typeCargo.equals(command) && car.getEngine().getPower() > 250){
+                    System.out.println(car.getModel());
+                    break;
+                }
+            }
 
 
-        System.out.println();
+        }
+
     }
 }
