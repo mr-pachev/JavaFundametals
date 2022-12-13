@@ -27,10 +27,20 @@ public class Main {
             String displacement = "n/a"; //работен обем
             String efficiency = "n/a"; //ефективност на двигателя
 
-            if (inputArr.length == 3) { //проверка дали има подадени робетен обем и ефективност на двигателя
-                displacement = inputArr[2];
+            if (inputArr.length == 3) { //проверка дали има подадени робетен обем и ефективност на двигателя и проверка дали стринга е число
+                if (isNumeric(inputArr[2])) {
+                    displacement = inputArr[2];
+                } else {
+                    efficiency = inputArr[2];
+                }
+
             } else if (inputArr.length == 4) {
-                efficiency = inputArr[3];
+                if (isNumeric(inputArr[2])) {
+                    displacement = inputArr[2];
+                    efficiency = inputArr[3];
+                }else {
+                    efficiency = inputArr[3];
+                }
             }
 
             Engine engine = new Engine(engineModel, power, displacement, efficiency);
