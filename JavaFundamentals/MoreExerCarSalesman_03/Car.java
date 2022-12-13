@@ -40,4 +40,11 @@ public class Car {
     public void setColor(String color) {
         this.color = color;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s:%n" + "  %s:%n" + "    Power: %d%n" + "    Displacement: %s%n"
+        + "    Efficiency: %s%n" + "  Weight: %s%n" + "  Color: %s%n", getModel(), getEngine().getEngineModel(), getEngine().getPower(),
+        getEngine().getDisplacement(), getEngine().getEfficiency(), getWeight(), getColor());
+    }
 }

@@ -61,8 +61,7 @@ public class Main {
                 }
             }
 
-
-            for (Engine engine : engineList) { //обхожда листа с модели двигатели и при съвпадение създава обект и го вкарва с листа с колите
+            for (Engine engine : engineList) { //обхожда листа с модели двигатели и създава обект със съответващия вид двигател
                 if (engine.getEngineModel().equals(engineCarModel)) { //проверява дали зададения модел двигател го има в листа с модела двигатели
                     Engine engine1 = new Engine(engineCarModel, engine.getPower(), engine.getDisplacement(), engine.getEfficiency());
                     Car car = new Car(modelCar, engine1, weightCar, carColor);
@@ -71,7 +70,9 @@ public class Main {
             }
 
         }
-        System.out.println();
+        for (Car car : carList) {
+            System.out.print(car.toString());
+        }
     }
 
     //метод за проверка даден стринг дали е число
