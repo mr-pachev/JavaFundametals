@@ -29,4 +29,9 @@ public class Team {
     public void setUserList(String user) {
         this.userList.add(user);
     }
+
+    @Override
+    public String toString(){
+      return String.format("%s", getName());
+    }
 }
