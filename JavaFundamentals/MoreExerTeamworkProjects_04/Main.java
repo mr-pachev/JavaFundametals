@@ -11,19 +11,18 @@ public class Main {
         int n = Integer.parseInt(scanner.nextLine()); //брой отбори, които трябва да се ригистрират
 
         List<Team> teamList = new ArrayList<>(); //списък с обектите от клас екип
-        List<String> userTeamList = new ArrayList<>();
-        boolean isTrue = true;
+        boolean isExistsTeam = false;
 
         for (int currentTeam = 1; currentTeam <= n; currentTeam++) {
             String input = scanner.nextLine();
 
-            isTrue = true;
+            isExistsTeam = false;
             String creator = input.split("-")[0]; //създател на екипа
             String teamName = input.split("-")[1]; //създадения екип
 
             if(teamList.isEmpty()){ //първоначално запълване на листа с екипите
-                userTeamList = new ArrayList<>();
-                userTeamList.add(creator);
+                List<String> userTeamList = new ArrayList<>();
+                userTeamList.add(creator); //добавяне на създателя към дадения екип
                 Team team = new Team(teamName, creator, userTeamList);
                 teamList.add(team);
                 System.out.printf("Team %s has been created by %s!%n", teamName, creator); //при вече създаден екип
@@ -33,17 +32,17 @@ public class Main {
             for (Team team : teamList){
                if (team.getName().equals(teamName)){ //проверка дали екипа вече е създаден
                    System.out.printf("Team %s was already created!%n", teamName); //при вече създаден екип
-                   isTrue = false;
+                   isExistsTeam = true;
                    break;
                 }else if (team.getCreator().equals(creator)){ //проверка дали създателя вече не е създавал екип
                    System.out.printf("%s cannot create another team!", creator); //при вече създаден друг екип
-                   isTrue = false;
+                   isExistsTeam = true;
                    break;
                }
             }
-            if (isTrue){ //проверка дали горните условия не са изпълнени
-                userTeamList = new ArrayList<>();
-                userTeamList.add(creator);
+            if (!isExistsTeam){ //проверка дали горните условия не са изпълнени
+                List<String> userTeamList = new ArrayList<>();
+                userTeamList.add(creator); //добавяне на създателя към дадения екип
                 Team team = new Team(teamName, creator, userTeamList);
                 teamList.add(team);
                 System.out.printf("Team %s has been created by %s!%n", teamName, creator); //при създаване на екип
@@ -52,28 +51,47 @@ public class Main {
             }
         }
 
-        String command = scanner.nextLine();
+        String command = scanner.nextLine(); //добавяне на потребител и желан екип за присъединяване
+
+        boolean isBreak = false;
 
         while (!command.equals("end of assignment")) {
-            isTrue = true;
             String user = command.split("->")[0]; //потребител, който иска да се присъедини към екипа
             String wishTeamName = command.split("->")[1]; //желан екип за присъединяване
 
+            int counter = 0;
             for (Team team : teamList){
-                if (team.getName().equals(wishTeamName)) { //проверка дали желания екип съществува
-                    isTrue = false;
-                    team.getUserList().add(user);
-                    break;
-                }
+                counter++;
+                    if (team.getName().equals(wishTeamName)) { //проверка дали желания екип съществува
+                        isExistsTeam = true;
+                        continue;
+                    }
+                    if (counter == teamList.size()){
+                        if (!isExistsTeam){
+                            System.out.printf("Team %s does not exist!%n", wishTeamName); //при несъщестуващ екип
+                            isBreak = true;
+                        }
+                    }
             }
-            if (isTrue){
-                System.out.printf("Team %s does not exist!%n", wishTeamName); //при несъщестуващ екип
+            if (isBreak){
+                command = scanner.nextLine();
+                isExistsTeam = false;
+                continue;
             }
 
             for (Team team : teamList){
-                if (team.getUserList().contains(user)){ //проверка дали потребителя вече не съществува в някой екип
+                if (team.getUserList().contains(user)){ //проверка дали потребителя вече съществува в някой екип
                     System.out.printf("Member %s cannot join team %s!%n", user, wishTeamName); //при вече съществуващ потребител в някой екип
+                    isBreak = true;
                     break;
+                }
+            }
+
+            if (!isBreak) {
+                for (Team team : teamList) {
+                    if (team.getName().equals(wishTeamName)) { //добавяне на потребител към желаната група
+                        team.getUserList().add(user);
+                    }
                 }
             }
 
