@@ -102,30 +102,36 @@ public class Main {
             command = scanner.nextLine();
         }
         List<String> disbandList = new ArrayList<>(); //създаванен на лист с разпуснати екипи
+        List<Team> finalTeamList = new ArrayList<>(); //създаване но лист с обекти отговарящи на заданието
+
         for (Team team : teamList) {
             if (team.getUserList().size() == 1) {
-                disbandList.add(team.getName());
+                disbandList.add(team.getName()); //пълнене на листа с разпуснатите екипи
+            }else {
+                team = new Team(team.getName(), team.getCreator(), team.getUserList());
+                finalTeamList.add(team); //пълнене на листо с обекти с коректните екипи
             }
         }
 
         Collections.sort(disbandList); //сортира листа по възходящ ред
-        teamList = teamList.stream().sorted((s1, s2) -> String.CASE_INSENSITIVE_ORDER.compare(s1.getName(), s2.getName())).collect(Collectors.toList());
+        finalTeamList = finalTeamList.stream().sorted((s1, s2) -> String.CASE_INSENSITIVE_ORDER.compare(s1.getName(), s2.getName())).collect(Collectors.toList());
 
-        for (Team team : teamList) {
-            System.out.println(team.toString());
+        for (Team team : finalTeamList) {
+            System.out.println(team.toString()); //печатане на името на екипа
             int counter = 0;
             for (String user : team.getUserList()) {
                 if (counter == 0) {
-                    System.out.printf("- %s%n", user);
+                    System.out.printf("- %s%n", user); //печатане на създателя на екипа
                 } else {
-                    System.out.printf("-- %s%n", user);
+                    System.out.printf("-- %s%n", user); //печатане на другите участници в екипа
                 }
                 counter++;
             }
         }
-        System.out.println("Teams to disband:");
+        System.out.print("Teams to disband:");
 
-        if (!disbandList.isEmpty()) {
+        if (!disbandList.isEmpty()) { //проверка дали има разпуснати екипи да отпечатване
+            System.out.println();
             for (String teamName : disbandList) {
                 System.out.println(teamName);
             }
