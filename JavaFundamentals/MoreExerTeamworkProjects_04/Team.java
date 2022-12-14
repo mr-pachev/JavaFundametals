@@ -26,4 +26,7 @@ public class Team {
         return this.userList;
     }
 
+    public void setUserList(String user) {
+        this.userList.add(user);
+    }
 }

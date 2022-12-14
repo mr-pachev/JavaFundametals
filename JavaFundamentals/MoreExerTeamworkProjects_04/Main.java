@@ -14,17 +14,17 @@ public class Main {
         boolean isExistsTeam = false;
 
         for (int currentTeam = 1; currentTeam <= n; currentTeam++) {
-            String input = scanner.nextLine();
+            String input = scanner.nextLine(); //екип и неговият създател
 
             isExistsTeam = false;
             String creator = input.split("-")[0]; //създател на екипа
             String teamName = input.split("-")[1]; //създадения екип
 
             if(teamList.isEmpty()){ //първоначално запълване на листа с екипите
-                List<String> userTeamList = new ArrayList<>();
+                List<String> userTeamList = new ArrayList<>(); //лист с хората в дадения екип
                 userTeamList.add(creator); //добавяне на създателя към дадения екип
-                Team team = new Team(teamName, creator, userTeamList);
-                teamList.add(team);
+                Team team = new Team(teamName, creator, userTeamList); //създаване на обект екип
+                teamList.add(team); //добавяне на обекта към листа с обекти
                 System.out.printf("Team %s has been created by %s!%n", teamName, creator); //при вече създаден екип
                 continue;
             }
@@ -52,7 +52,6 @@ public class Main {
         }
 
         String command = scanner.nextLine(); //добавяне на потребител и желан екип за присъединяване
-
         boolean isBreak = false;
 
         while (!command.equals("end of assignment")) {
@@ -76,6 +75,7 @@ public class Main {
             if (isBreak){
                 command = scanner.nextLine();
                 isExistsTeam = false;
+                isBreak = false;
                 continue;
             }
 
@@ -90,13 +90,15 @@ public class Main {
             if (!isBreak) {
                 for (Team team : teamList) {
                     if (team.getName().equals(wishTeamName)) { //добавяне на потребител към желаната група
-                        team.getUserList().add(user);
+                        team.setUserList(user);
+                        isExistsTeam = false;
                     }
                 }
             }
 
             command = scanner.nextLine();
         }
+
         System.out.printf("");
     }
 }
