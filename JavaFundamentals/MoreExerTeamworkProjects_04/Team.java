@@ -32,6 +32,6 @@ public class Team {
 
     @Override
     public String toString(){
-      return String.format("%s", getName());
+      return String.format("%s%n" + "- %s", getName(), getCreator());
     }
 }

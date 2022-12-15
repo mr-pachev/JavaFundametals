@@ -98,9 +98,9 @@ public class Main {
                     }
                 }
             }
-
             command = scanner.nextLine();
         }
+
         List<String> disbandList = new ArrayList<>(); //създаванен на лист с разпуснати екипи
         List<Team> finalTeamList = new ArrayList<>(); //създаване но лист с обекти отговарящи на заданието
 
@@ -137,21 +137,25 @@ public class Main {
             }
         }
 
+        for (Team team : teamListSortedByName){ //сортиране на членовете на всеки екип по име-възходящ ред
+            Collections.sort(team.getUserList());
+        }
+
         for (Team team : teamListSortedByName) {
             System.out.println(team.toString()); //печатане на името на екипа
-            int counter = 0;
+
             for (String user : team.getUserList()) {
-                if (counter == 0) {
-                    System.out.printf("- %s%n", user); //печатане на създателя на екипа
+                if (user.contains(team.getCreator())) {
+                    continue;
                 } else {
                     System.out.printf("-- %s%n", user); //печатане на другите участници в екипа
                 }
-                counter++;
+
             }
         }
         System.out.print("Teams to disband:");
 
-        if (!disbandList.isEmpty()) { //проверка дали има разпуснати екипи да отпечатване
+        if (!disbandList.isEmpty()) { //проверка дали има разпуснати екипи за отпечатване
             System.out.println();
             for (String teamName : disbandList) {
                 System.out.println(teamName);
