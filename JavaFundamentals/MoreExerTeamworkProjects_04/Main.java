@@ -107,16 +107,37 @@ public class Main {
         for (Team team : teamList) {
             if (team.getUserList().size() == 1) {
                 disbandList.add(team.getName()); //пълнене на листа с разпуснатите екипи
-            }else {
+            } else {
                 team = new Team(team.getName(), team.getCreator(), team.getUserList());
                 finalTeamList.add(team); //пълнене на листо с обекти с коректните екипи
             }
         }
 
         Collections.sort(disbandList); //сортира листа по възходящ ред
-        finalTeamList = finalTeamList.stream().sorted((s1, s2) -> String.CASE_INSENSITIVE_ORDER.compare(s1.getName(), s2.getName())).collect(Collectors.toList());
 
-        for (Team team : finalTeamList) {
+        List<Team> teamListSortedByCountMembers = new ArrayList<>();
+        int maxNumMembers = 0;
+        int currentNumMembers = 0;
+        for (Team team : finalTeamList){ //сортиране на листа с обектите отговалящи на изискванията по броя членове в низходящ ред
+            currentNumMembers = team.getUserList().size();
+            if (currentNumMembers >= maxNumMembers){ //проверка дали текущия лист с членове е най-големия до момента
+                maxNumMembers = currentNumMembers;
+                team = new Team(team.getName(), team.getCreator(), team.getUserList());
+                teamListSortedByCountMembers.add(0, team);
+            }
+        }
+
+        List<Team> teamListSortedByName = new ArrayList<>();
+        for (Team team : teamListSortedByCountMembers){ //сортиране на листа с обекти отговарящи на изискванията по име на екипите по възходящ ред
+            currentNumMembers = team.getName().toCharArray()[0];
+            if (currentNumMembers >= maxNumMembers){
+                maxNumMembers = currentNumMembers;
+                team = new Team(team.getName(), team.getCreator(), team.getUserList());
+                teamListSortedByName.add(team);
+            }
+        }
+
+        for (Team team : teamListSortedByName) {
             System.out.println(team.toString()); //печатане на името на екипа
             int counter = 0;
             for (String user : team.getUserList()) {
