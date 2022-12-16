@@ -33,14 +33,13 @@ public class Main {
             }
 
             for (Team team : teamList) {
-                if (team.getName().equals(teamName)) { //проверка дали екипа вече е създаден
+                if (team.getName().equals(teamName)) { //проверка дали създателя вече не е създавал екип
                     System.out.printf("Team %s was already created!%n", teamName); //при вече създаден екип
                     isExistsTeam = true;
-                    break;
-                } else if (team.getCreator().equals(creator)) { //проверка дали създателя вече не е създавал екип
-                    System.out.printf("%s cannot create another team!", creator); //при вече създаден друг екип
+                }
+                if (team.getCreator().equals(creator)) { //проверка дали потребителя иска да стане създател на още един екип
+                    System.out.printf("%s cannot create another team!%n", creator); //вече създател на един екип
                     isExistsTeam = true;
-                    break;
                 }
             }
             if (!isExistsTeam) { //проверка дали горните условия не са изпълнени
