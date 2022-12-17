@@ -45,7 +45,6 @@ public class Main {
         }
 
         String command = scanner.nextLine(); //добавяне на потребител и желан екип за присъединяване
-        boolean isBreak = false;
 
         while (!command.equals("end of assignment")) {
 
@@ -79,11 +78,20 @@ public class Main {
         //сортиране на листа с обектите отговарящи на изискванията по броя членове в низходящ ред
         teamList = teamList.stream().sorted((s1, s2) -> Integer.compare(s2.getUserList().size(), s1.getUserList().size())).collect(Collectors.toList());
 
-        //сортиране на листа с обекти отговарящи на изискванията по име на екипите по възходящ ред
-        teamList = teamList.stream().sorted((s1, s2) -> String.CASE_INSENSITIVE_ORDER.compare(s1.getName(), s2.getName())).collect(Collectors.toList());
+//        for (Team team : teamList) { //сортиране на списъка с потребителите от всеки екип по възходящ ред
+//            Collections.sort(team.getUserList());
+//        }
 
-
-
+        for (Team team : teamList) {
+            if (team.getUserList().size() > 1) {
+                System.out.printf("%s%n" + "- %s%n", team.getName(), team.getCreator());
+                for (String user : team.getUserList()) {
+                    if (!user.equals(team.getCreator())) {
+                        System.out.printf("-- %s%n", user);
+                    }
+                }
+            }
+        }
 
         System.out.print("Teams to disband:");
         if (!disbandList.isEmpty()) { //проверка дали има разпуснати екипи за отпечатване
