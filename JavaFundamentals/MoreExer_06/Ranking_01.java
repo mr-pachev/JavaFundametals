@@ -20,7 +20,7 @@ public class Ranking_01 {
 
         inputData = scanner.nextLine();
 
-        Map<String, List<String>> coursesUsersMap = new LinkedHashMap<>(); //дневник съдържащ валидните курсове с потребителите записани в тях
+        Map<String, List<String>> usersCoursesMap = new LinkedHashMap<>(); //дневник съдържащ потребителите и курсовете, в които участват
         Map<String, Integer> usersPointsMap = new LinkedHashMap<>(); //дневник с потребители и техните точки
 
 
@@ -32,17 +32,17 @@ public class Ranking_01 {
             int currentUserPoints = Integer.parseInt(inputData.split("=>")[3]); //точки на текущия потребител
 
             if (coursePassMap.containsKey(currentCourse) && (coursePassMap.containsValue(currentCoursePass))){ //проверка дали текущия курс съществува в дневника на съществуващите курсове
-                List<String> usersInCourseList = coursesUsersMap.get(currentCourse);
-                int userPoint = usersPointsMap.get(currentUser);
+                List<String> usersInCoursesList = usersCoursesMap.get(currentUser);
+//                int userPoint = usersPointsMap.get(currentUser);
 
-                if (usersInCourseList.contains(currentUser)){ //проверка дали дадения потребител вече не е записан в курса
-                    usersPointsMap.put(currentUser, usersPointsMap.get(currentUser) + userPoint);
+                if (usersCoursesMap.containsKey(currentUser)){ //проверка дали дадения потребител вече не е записан в дневника с потребители и техните курсове
+//                    usersPointsMap.put(currentUser, usersPointsMap.get(currentUser) + userPoint);
 
                 }else {
-                    coursesUsersMap.put(currentCourse, new ArrayList<>());
-                    coursesUsersMap.get(currentCourse).add(currentUser);
+                    usersCoursesMap.put(currentUser, new ArrayList<>());
+                    usersCoursesMap.get(currentUser).add(currentCourse);
                 }
-             
+
             }
 
             inputData = scanner.nextLine();
