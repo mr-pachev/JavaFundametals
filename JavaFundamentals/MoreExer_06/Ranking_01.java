@@ -20,9 +20,7 @@ public class Ranking_01 {
 
         inputData = scanner.nextLine();
 
-        Map<String, List<String>> usersCoursesMap = new LinkedHashMap<>(); //дневник съдържащ потребителите и курсовете, в които участват
-        Map<String, Integer> usersPointsMap = new LinkedHashMap<>(); //дневник с потребители и техните точки
-
+        Map<String, List<User>> usersCoursesMap = new LinkedHashMap<>(); //дневник съдържащ потребителите и курсовете, в които участват
 
         while (!inputData.equals("end of submissions")) {
 
@@ -30,18 +28,23 @@ public class Ranking_01 {
             String currentCoursePass = inputData.split("=>")[1]; //текущ курс за обработка
             String currentUser = inputData.split("=>")[2]; //текущ потребител за обработка
             int currentUserPoints = Integer.parseInt(inputData.split("=>")[3]); //точки на текущия потребител
+            User user = new User(currentCourse, currentUserPoints);
+            List<User> userCurrentList = new ArrayList<>();
 
             if (coursePassMap.containsKey(currentCourse) && (coursePassMap.containsValue(currentCoursePass))){ //проверка дали текущия курс съществува в дневника на съществуващите курсове
-                List<String> usersInCoursesList = usersCoursesMap.get(currentUser);
-//                int userPoint = usersPointsMap.get(currentUser);
 
-                if (usersCoursesMap.containsKey(currentUser)){ //проверка дали дадения потребител вече не е записан в дневника с потребители и техните курсове
-//                    usersPointsMap.put(currentUser, usersPointsMap.get(currentUser) + userPoint);
+                if (!usersCoursesMap.containsKey(currentUser)){
 
+                    userCurrentList.add(user);
+
+                    usersCoursesMap.put(currentUser, userCurrentList);
                 }else {
-                    usersCoursesMap.put(currentUser, new ArrayList<>());
-                    usersCoursesMap.get(currentUser).add(currentCourse);
+                   if (usersCoursesMap.containsValue(currentCourse)){
+                       
+                   }
                 }
+                System.out.println();
+
 
             }
 
@@ -49,4 +52,23 @@ public class Ranking_01 {
         }
 
     }
+    public static class User {
+        String course;
+        int points;
+
+        private User (String course, int points){
+            this.course = course;
+            this.points =points;
+        }
+
+        public String getCourses() {
+            return this.course;
+        }
+
+        public int getPoints() {
+            return this.points;
+        }
+    }
 }
+
+
