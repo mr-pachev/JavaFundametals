@@ -28,7 +28,6 @@ public class Ranking_01 {
             String currentUser = inputData.split("=>")[2]; //текущ потребител за обработка
             int currentUserPoints = Integer.parseInt(inputData.split("=>")[3]); //точки на текущия потребител
 
-            userCursesList = new ArrayList<>();
             User user = new User(currentCourse, currentUserPoints); //създаване на обект с новите данни
             boolean isExistUser = false;
             boolean isExistCourse = false;
@@ -44,13 +43,14 @@ public class Ranking_01 {
                 }
 
                 for (Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()) { //обхождане на дневника
+                    userCursesList = usersCoursesMap.get(currentUser);
                     if (entry.getKey().equals(currentUser)) { //проверка дали конкретния потребител съществува в дневника
 
                         for (User user1 : usersCoursesMap.get(currentUser)) { //обхождаме листа с обектите
                             if (user1.getCourses().equals(currentCourse)) { //проверяваме конкретния курс дали съществува в обекта
+                                isExistCourse = true;
                                 if (user1.getPoints() <= currentUserPoints) { //проверяваме дали точките от конкретния обект са по-малко от текущите точки
                                     user1.setPoints(currentUserPoints); //добавяне на текущите точки към обекта
-                                    isExistCourse = true;
                                     break;
                                 }
                             }
@@ -59,49 +59,24 @@ public class Ranking_01 {
                             userCursesList.add(user);
                             usersCoursesMap.put(currentUser, userCursesList); //добавяне новия курс към потребителя
                         }
-
                         isExistUser = true;
 
                     }
-
                 }
 
-//                if (isExistUser) {
-//                    List<User> currentUserList = new ArrayList<>(); //създаваме нов списък от обекти, който ще съдържа списъка на обекти на конкретния потребител
-//                    for (User user1 : usersCoursesMap.get(currentUser)) { //обхождаме листа с обектите
-//                        currentUserList = usersCoursesMap.get(currentUser); //взимане на списъка на конкретния потребител
-//                        if (user1.getCourses().equals(currentCourse)) { //проверяваме конкретния курс дали съществува в обекта
-//                            if (user1.getPoints() <= currentUserPoints) { //проверяваме дали точките от конкретния обект са по-малко от текущите точки
-//                                user1.setPoints(currentUserPoints); //добавяне на текущите точки към обекта
-//                                isExistCourse = true;
-//                                break;
-//                            }
-//                        }
-//                    }
-//                    if (!isExistCourse) {
-//                        userCursesList.add(user);
-//                        usersCoursesMap.put(currentUser, userCursesList); //добавяне новия курс към потребителя
-//                        isExistCourse = true;
-//                    }
-//                }
-
                 if (!isExistUser) { //добавяне на новия потребител с курса и точките
+                    userCursesList = new ArrayList<>();
                     userCursesList.add(user);
                     usersCoursesMap.put(currentUser, userCursesList);
                     inputData = scanner.nextLine();
                     continue;
                 }
 
-//                if (!isExistCourse) {
-//                    userCursesList.add(user);
-//                    usersCoursesMap.put(currentUser, userCursesList); //добавяне новия курс към потребителя
-//                }
             }
-
 
             inputData = scanner.nextLine();
         }
-
+        System.out.println();
     }
 
     public static class User {
