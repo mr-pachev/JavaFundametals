@@ -9,6 +9,8 @@ public class Ranking_01 {
 
         String inputData = scanner.nextLine();
         Map<String, String> coursePassMap = new LinkedHashMap<>(); //дневник с курса и неговата парола
+        Map<String, List<User>> usersCoursesMap = new TreeMap<>(); //дневник съдържащ потребителите и курсовете, в които участват
+        List<User> userCursesList = new ArrayList<>();
 
         while (!inputData.equals("end of contests")) {
             String course = inputData.split(":")[0]; //името на курса
@@ -18,9 +20,6 @@ public class Ranking_01 {
         }
 
         inputData = scanner.nextLine();
-
-        Map<String, List<User>> usersCoursesMap = new TreeMap<>(); //дневник съдържащ потребителите и курсовете, в които участват
-        List<User> userCursesList = new ArrayList<>();
 
         while (!inputData.equals("end of submissions")) {
             String currentCourse = inputData.split("=>")[0]; //текущ курс за обработка
@@ -71,12 +70,34 @@ public class Ranking_01 {
                     inputData = scanner.nextLine();
                     continue;
                 }
-
             }
-
             inputData = scanner.nextLine();
         }
-        System.out.println();
+
+        int allUserPoints = 0;
+
+        Map<String, Integer> userPointsMap = new LinkedHashMap<>(); //дневник съдържащ потребителите и общият им брой точки
+
+        for (Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()) {
+            allUserPoints = 0;
+            for (User user1 : entry.getValue()) { //обхождаме листа с обектите
+                allUserPoints += user1.getPoints();
+            }
+            userPointsMap.put(entry.getKey(), allUserPoints);
+        }
+
+        String userMaxPoin = "";
+        int maxPoints = 0;
+        for (Map.Entry<String, Integer> entry : userPointsMap.entrySet()) {
+                if (entry.getValue() >= maxPoints){
+                    maxPoints = entry.getValue();
+                    userMaxPoin = entry.getKey();
+                }
+
+        }
+        System.out.printf("Best candidate is %s with total %d points.", userMaxPoin, maxPoints);
+        System.out.println("Ranking:");
+
     }
 
     public static class User {
