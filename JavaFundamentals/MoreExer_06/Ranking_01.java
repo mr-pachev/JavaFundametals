@@ -98,6 +98,13 @@ public class Ranking_01 {
         System.out.printf("Best candidate is %s with total %d points.", userMaxPoin, maxPoints);
         System.out.println("Ranking:");
 
+        for(Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()){
+            System.out.println(entry.getKey());
+            for (User user : entry.getValue()){
+                System.out.println("# " + user.getCourses() + " -> " + user.getPoints());
+            }
+
+        }
     }
 
     public static class User {
