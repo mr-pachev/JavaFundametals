@@ -59,7 +59,6 @@ public class Ranking_01 {
                             usersCoursesMap.put(currentUser, userCursesList); //добавяне новия курс към потребителя
                         }
                         isExistUser = true;
-
                     }
                 }
 
@@ -75,9 +74,9 @@ public class Ranking_01 {
         }
 
         int allUserPoints = 0;
-
         Map<String, Integer> userPointsMap = new LinkedHashMap<>(); //дневник съдържащ потребителите и общият им брой точки
 
+        //обхождане на дневника за сброруване на точките на всеки потребител
         for (Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()) {
             allUserPoints = 0;
             for (User user1 : entry.getValue()) { //обхождаме листа с обектите
@@ -86,25 +85,41 @@ public class Ranking_01 {
             userPointsMap.put(entry.getKey(), allUserPoints);
         }
 
+        //намиране на потребителя с най-много точки
         String userMaxPoin = "";
         int maxPoints = 0;
         for (Map.Entry<String, Integer> entry : userPointsMap.entrySet()) {
-                if (entry.getValue() >= maxPoints){
-                    maxPoints = entry.getValue();
-                    userMaxPoin = entry.getKey();
-                }
-
+            if (entry.getValue() >= maxPoints) {
+                maxPoints = entry.getValue();
+                userMaxPoin = entry.getKey();
+            }
         }
-        System.out.printf("Best candidate is %s with total %d points.", userMaxPoin, maxPoints);
-        System.out.println("Ranking:");
+        System.out.printf("Best candidate is %s with total %d points.%n", userMaxPoin, maxPoints);
+        System.out.println("Ranking: ");
 
-        for(Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()){
+        Map<String, List<User>> temporaryMap = new LinkedHashMap<>();
+
+        //намиране на курса с най-малко точки на съответния потребител
+        Map<String, List<Integer>> coursesCurrentPoints = new LinkedHashMap<>();
+        for (Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()) {
+            List<Integer> pointsList = new ArrayList<>();
+            for (User user : entry.getValue()) {
+                pointsList.add(user.points);
+            }
+            coursesCurrentPoints.put(entry.getKey(), pointsList);
+        }
+
+
+
+
+
+        for (Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()) {
             System.out.println(entry.getKey());
-            for (User user : entry.getValue()){
+            for (User user : entry.getValue()) {
                 System.out.println("# " + user.getCourses() + " -> " + user.getPoints());
             }
-
         }
+        System.out.println();
     }
 
     public static class User {
