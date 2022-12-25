@@ -97,22 +97,21 @@ public class Ranking_01 {
         System.out.printf("Best candidate is %s with total %d points.%n", userMaxPoin, maxPoints);
         System.out.println("Ranking: ");
 
-        Map<String, List<User>> temporaryMap = new LinkedHashMap<>();
+        Map<String, Map<String, Integer>> finalMap = new TreeMap<>();
+        Map<String, Integer> course_Points_map = new LinkedHashMap<>();
 
-        //намиране на курса с най-малко точки на съответния потребител
-        Map<String, List<Integer>> coursesCurrentPoints = new LinkedHashMap<>();
         for (Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()) {
-            List<Integer> pointsList = new ArrayList<>();
+            course_Points_map = new LinkedHashMap<>();
             for (User user : entry.getValue()) {
-                pointsList.add(user.points);
+                course_Points_map.put(user.course, user.getPoints());
             }
-            coursesCurrentPoints.put(entry.getKey(), pointsList);
+            finalMap.put(entry.getKey(), course_Points_map);
         }
 
+        
 
 
-
-
+        //притиране на всеки потребител
         for (Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()) {
             System.out.println(entry.getKey());
             for (User user : entry.getValue()) {
