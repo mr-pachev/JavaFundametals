@@ -108,17 +108,13 @@ public class Ranking_01 {
             finalMap.put(entry.getKey(), course_Points_map);
         }
 
-        
+        finalMap.forEach((key, value) -> {
+            System.out.printf("%s%n", key);
+            value.entrySet().stream().
+                    sorted((f, s) -> s.getValue() - f.getValue()).
+                    forEach(i -> System.out.printf("#  %s -> %d%n", i.getKey(), i.getValue()));
+        });
 
-
-        //притиране на всеки потребител
-        for (Map.Entry<String, List<User>> entry : usersCoursesMap.entrySet()) {
-            System.out.println(entry.getKey());
-            for (User user : entry.getValue()) {
-                System.out.println("# " + user.getCourses() + " -> " + user.getPoints());
-            }
-        }
-        System.out.println();
     }
 
     public static class User {
