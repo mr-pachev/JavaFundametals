@@ -108,6 +108,7 @@ public class Ranking_01 {
             finalMap.put(entry.getKey(), course_Points_map);
         }
 
+        //сортиране по низходящ ред на стойността->дневник->стойност и принтиране на основния дневник
         finalMap.forEach((key, value) -> {
             System.out.printf("%s%n", key);
             value.entrySet().stream().
