@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class Judge_02 {
     public static void main(String[] args) {
@@ -73,6 +74,17 @@ public class Judge_02 {
                 pointsUsermap.put(entry2.getKey(), pointsUsermap.get(entry2.getKey()) + entry2.getValue());
             }
         }
-        System.out.println();
+
+        //сортиране на дневника с потребителите и точките им в низходящ ред и принтирането им
+        counter[0] = 0;
+        System.out.println("Individual standings:");
+        pointsUsermap.entrySet().stream().sorted((s1,s2)->
+        {
+            if(s2.getValue()>s1.getValue()) return 1;
+            else if(s2.getValue()<s1.getValue()) return -1;
+            else return s1.getKey().compareTo(s2.getKey());
+        }).forEach(c-> {
+            System.out.printf("%d. %s -> %d%n", ++counter[0], c.getKey(), c.getValue());
+        });
     }
 }
