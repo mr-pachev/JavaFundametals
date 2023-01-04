@@ -2,6 +2,7 @@ package MoreExer_06;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.Scanner;
 
 public class Demo {
@@ -24,14 +25,11 @@ public class Demo {
                 usersMap.put(name, new User(contest, points));
             } else {
                 if (!usersMap.get(name).getConstestName().equals(contest)) { //проверка дали курса на чустаника не съществува
-                    usersMap.put(name, new User(contest, points));
+                   
                 }else {
-                    usersMap.entrySet().stream()
-                            .map()
+                    int points1 = usersMap.get(name).getPoints();
 
-                    if (maxPoints <= points){ //проверка дали новите точки са повече
-                        usersMap.get(name).setPoints(points);
-                    }
+                    System.out.println();
                 }
             }
 
