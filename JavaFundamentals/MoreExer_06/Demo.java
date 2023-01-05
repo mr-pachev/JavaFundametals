@@ -35,6 +35,7 @@ public class Demo {
                 }
                 if (!isExistUser) {
                     User user = new User(name, points);
+                    userList = usersMap.get(contest);
                     userList.add(user);
                     usersMap.put(contest, userList);
                 } else {
