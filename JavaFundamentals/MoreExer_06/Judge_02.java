@@ -1,90 +1,111 @@
 package MoreExer_06;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Judge_02 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String inputData = scanner.nextLine();
-        Map<String, Integer> userPointsMap = new LinkedHashMap<>(); //дневник с потребителя и точките за конкретния курс
-        Map<String, Map<String, Integer>> coursesMap = new LinkedHashMap<>(); //дневник с курсовете, потребителите в тях и точките им
-        Map<String, Integer> pointsUsermap = new TreeMap<>();
+        String input = scanner.nextLine();
 
-        while (!inputData.equals("no more time")) {
-            String user = inputData.split(" -> ")[0]; //участник
-            String course = inputData.split(" -> ")[1]; //конкуркс
-            int points = Integer.parseInt(inputData.split(" -> ")[2]); //точки
-            boolean isExistUser = false;
+        List<User> userList = new ArrayList<>();
+        Map<String, List<User>> usersMap = new LinkedHashMap<>();
 
-            if (!coursesMap.containsKey(course)) { //проверка дали курса не съществува
-                userPointsMap = new LinkedHashMap<>();
-                userPointsMap.put(user, points);
-                coursesMap.put(course, userPointsMap);
+
+        while (!input.equals("no more time")) {
+            String[] inputData = input.split("\\s+->\\s+");
+
+            String name = inputData[0];
+            String contest = inputData[1];
+            int points = Integer.parseInt(inputData[2]);
+
+            if (!usersMap.containsKey(contest)) { //проверка дали курса не съществува
+                User user = new User(name, points);
+                userList = new ArrayList<>();
+                userList.add(user);
+                usersMap.put(contest, userList);
             } else {
-                //обхождане на целиs дневник
-                int maxPoints = 0;
-                for (Map.Entry<String, Map<String, Integer>> entry : coursesMap.entrySet()) {
+                boolean isExistUser = false;
 
-                    if (entry.getKey().equals(course)) { //осигурява обхождане само на конкретния курс
-                        for (Map.Entry<String, Integer> entry1 : entry.getValue().entrySet()) {
-                            userPointsMap = entry.getValue(); //конкретния дневник на дадения курс
-
-                            if (entry1.getKey().equals(user)) { //проверка дали потребителя съществува за съответния курс
-                                //взимане на най-голямата стойност на дадения потребител от входните данни спрямо дадения курс
-                                if (points >= maxPoints) {
-                                    maxPoints = points;
-                                } else {
-                                    maxPoints = entry1.getValue();
-                                }
-                                isExistUser = true;
-                                break;
-                            }
-                        }
-                        if (!isExistUser) {
-                            maxPoints = points;
+                for (User user : usersMap.get(contest)) {
+                    if (user.getUser().equals(name)) { //проверка дали участника съществува
+                        isExistUser = true;
+                    }
+                }
+                if (!isExistUser) {
+                    User user = new User(name, points);
+                    userList = usersMap.get(contest);
+                    userList.add(user);
+                    usersMap.put(contest, userList);
+                } else {
+                    for (User user : usersMap.get(contest)) {
+                        if (user.getPoints() <= (points) && user.getUser().equals(name)) { //проверка дали дадените точки са повече от записаните вече
+                            user.setPoints(points);
                         }
                     }
                 }
-                //добавяне на нов потребител към съществуващия курс
-                userPointsMap.put(user, maxPoints);
-                coursesMap.put(course, userPointsMap);
             }
-            inputData = scanner.nextLine();
+            input = scanner.nextLine();
         }
 
-        int[] counter = new int[1]; //брояч от тип масив
-        //първоначален печат
-        coursesMap.forEach((key, value) -> {
-            counter[0] = 0;
-            System.out.printf("%s: %d participants%n", key, value.size());
-            value.entrySet().stream().
-                    sorted((f, s) -> s.getValue() - f.getValue()).
-                    forEach(i -> System.out.printf("%d. %s <::> %d%n", ++counter[0], i.getKey(), i.getValue()));
-        });
+        for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
+            int counter = 1;
+            System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
+            List<User> collect = entry.getValue().stream()
+                    .sorted((a, b) -> b.getPoints() - a.getPoints()).toList();
 
-        //сборуване точките на всеки потребител и записванет им в дневника за потребители и точките им
-        for (Map.Entry<String, Map<String, Integer>> entry : coursesMap.entrySet()) {
-            for (Map.Entry<String,Integer> entry2:entry.getValue().entrySet()) {
-                pointsUsermap.putIfAbsent(entry2.getKey(), 0);
-                pointsUsermap.put(entry2.getKey(), pointsUsermap.get(entry2.getKey()) + entry2.getValue());
+            for (User user : collect) {
+                System.out.printf("%d. %s <::> %d%n", counter++, user.getUser(), user.getPoints());
             }
         }
 
-        //сортиране на дневника с потребителите и точките им в низходящ ред и принтирането им
-        counter[0] = 0;
         System.out.println("Individual standings:");
-        pointsUsermap.entrySet().stream().sorted((s1,s2)->
-        {
-            if(s2.getValue()>s1.getValue()) return 1;
-            else if(s2.getValue()<s1.getValue()) return -1;
-            else return s1.getKey().compareTo(s2.getKey());
-        }).forEach(c-> {
-            System.out.printf("%d. %s -> %d%n", ++counter[0], c.getKey(), c.getValue());
-        });
+        Map<String, Integer> usersAllPointsMap = new LinkedHashMap<>();
+
+        for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
+
+            entry.getValue().forEach(entry1 -> { //обхождаме само value-то на дневника във вид на листо от обекти
+                if (!usersAllPointsMap.containsKey(entry1.getUser())) {
+                    usersAllPointsMap.put(entry1.getUser(), entry1.getPoints());
+                } else {
+                    usersAllPointsMap.put(entry1.getUser(), usersAllPointsMap.get(entry1.getUser()) + entry1.getPoints());
+                }
+            });
+        }
+
+        List<Map.Entry<String, Integer>> collectUsersPointsList = usersAllPointsMap.entrySet().stream()
+                .sorted((s1, s2) -> s2.getValue() - s1.getValue()).toList();
+
+        int counter = 1;
+        for (Map.Entry<String, Integer> entry : collectUsersPointsList) {
+            System.out.printf("%d. %s -> %d%n", counter++, entry.getKey(), entry.getValue());
+        }
+    }
+
+    static class User {
+        private String user;
+        private int points;
+
+        public User(String user, int points) {
+            this.user = user;
+            this.points = points;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public void setPoints(int points) {
+            this.points = points;
+        }
+
+        public String getUser() {
+            return this.user;
+        }
+
+        public int getPoints() {
+            return this.points;
+        }
     }
 }
