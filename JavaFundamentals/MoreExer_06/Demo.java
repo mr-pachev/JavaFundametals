@@ -48,18 +48,39 @@ public class Demo {
             input = scanner.nextLine();
         }
 
-
         for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
             int counter = 1;
             System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
             List<User> collect = entry.getValue().stream()
                     .sorted((a, b) -> b.getPoints() - a.getPoints()).toList();
 
-            for (User user : collect){
+            for (User user : collect) {
                 System.out.printf("%d. %s <::> %d%n", counter++, user.getUser(), user.getPoints());
             }
         }
 
+        System.out.println("Individual standings:");
+        Map<String, Integer> usersAllPointsMap = new LinkedHashMap<>();
+
+        for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
+
+            entry.getValue().forEach(entry1 -> { //обхождаме само value-то на дневника във вид на листо от обекти
+                if (!usersAllPointsMap.containsKey(entry1.getUser())) {
+                    usersAllPointsMap.put(entry1.getUser(), entry1.getPoints());
+                } else {
+                    usersAllPointsMap.put(entry1.getUser(), usersAllPointsMap.get(entry1.getUser()) + entry1.getPoints());
+                }
+            });
+        }
+
+        List<Map.Entry<String, Integer>> collectUsersPointsList = usersAllPointsMap.entrySet().stream()
+                .sorted((s1, s2) -> s2.getValue() - s1.getValue())
+                .collect(Collectors.toList());
+
+        int counter = 1;
+        for (Map.Entry<String, Integer> entry : collectUsersPointsList){
+            System.out.printf("%d. %s -> %d%n", counter++, entry.getKey(), entry.getValue());
+        }
     }
 
     static class User {
