@@ -1,9 +1,7 @@
 package MoreExer_06;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.OptionalInt;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Demo {
     public static void main(String[] args) {
@@ -11,7 +9,8 @@ public class Demo {
 
         String input = scanner.nextLine();
 
-        Map<String, User> usersMap = new LinkedHashMap<>();
+        List<User> userList = new ArrayList<>();
+        Map<String, List<User>> usersMap = new LinkedHashMap<>();
 
 
         while (!input.equals("no more time")) {
@@ -22,20 +21,34 @@ public class Demo {
             int points = Integer.parseInt(inputData[2]);
 
             if (!usersMap.containsKey(name)) { //проверка дали участника не съществува
-                usersMap.put(name, new User(contest, points));
+                User user = new User(contest, points);
+                userList = new ArrayList<>();
+                userList.add(user);
+                usersMap.put(name, userList);
             } else {
-                if (!usersMap.get(name).getConstestName().equals(contest)) { //проверка дали курса на чустаника не съществува
-                   
-                }else {
-                    int points1 = usersMap.get(name).getPoints();
+                boolean equalsContest = false;
+                for (User user : userList){
+                    equalsContest = user.getConstestName().equals(contest);
+                }
 
-                    System.out.println();
+                if (!equalsContest){
+                    User user = new User(contest, points);
+                    userList.add(user);
+                    usersMap.put(name, userList);
+                }else {
+                    boolean isBigger = false;
+                    for (User user : userList){
+                       isBigger = user.getPoints() <= points;
+                       }
+                    if (isBigger){
+                        usersMap.get(name).forEach(entry -> entry.setPoints(points));
+                    }
                 }
             }
 
             input = scanner.nextLine();
         }
-        System.out.println();
+        Map.Entry<K, V>
     }
 
     static class User {
