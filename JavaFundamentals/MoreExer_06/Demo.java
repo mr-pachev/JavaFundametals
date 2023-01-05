@@ -48,7 +48,11 @@ public class Demo {
 
             input = scanner.nextLine();
         }
-        Map.Entry<K, V>
+
+        for ()
+
+        userList.forEach(entry ->
+                System.out.printf("%s: %d participants", entry.getConstestName(), entry.constestName.length()));
     }
 
     static class User {
