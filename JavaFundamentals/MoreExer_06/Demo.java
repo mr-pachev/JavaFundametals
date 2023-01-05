@@ -1,6 +1,7 @@
 package MoreExer_06;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Demo {
     public static void main(String[] args) {
@@ -38,7 +39,7 @@ public class Demo {
                     usersMap.put(contest, userList);
                 } else {
                     for (User user : usersMap.get(contest)) {
-                        if (user.getPoints()<=(points) && user.getUser().equals(name)) { //проверка дали дадените точки са повече от записаните вече
+                        if (user.getPoints() <= (points) && user.getUser().equals(name)) { //проверка дали дадените точки са повече от записаните вече
                             user.setPoints(points);
                         }
                     }
@@ -47,10 +48,18 @@ public class Demo {
             input = scanner.nextLine();
         }
 
-        for(Map.Entry<String, List<User>> entry : usersMap.entrySet()){
-            System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
 
+        for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
+            int counter = 1;
+            System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
+            List<User> collect = entry.getValue().stream()
+                    .sorted((a, b) -> b.getPoints() - a.getPoints()).toList();
+
+            for (User user : collect){
+                System.out.printf("%d. %s <::> %d%n", counter++, user.getUser(), user.getPoints());
+            }
         }
+
     }
 
     static class User {
