@@ -1,7 +1,6 @@
 package MoreExer_06;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Demo {
     public static void main(String[] args) {
@@ -20,60 +19,59 @@ public class Demo {
             String contest = inputData[1];
             int points = Integer.parseInt(inputData[2]);
 
-            if (!usersMap.containsKey(name)) { //проверка дали участника не съществува
-                User user = new User(contest, points);
+            if (!usersMap.containsKey(contest)) { //проверка дали курса не съществува
+                User user = new User(name, points);
                 userList = new ArrayList<>();
                 userList.add(user);
-                usersMap.put(name, userList);
+                usersMap.put(contest, userList);
             } else {
-                boolean equalsContest = false;
-                for (User user : userList){
-                    equalsContest = user.getConstestName().equals(contest);
-                }
+                boolean isExistUser = false;
 
-                if (!equalsContest){
-                    User user = new User(contest, points);
+                for (User user : usersMap.get(contest)) {
+                    if (user.getUser().equals(name)) { //проверка дали участника съществува
+                        isExistUser = true;
+                    }
+                }
+                if (!isExistUser) {
+                    User user = new User(name, points);
                     userList.add(user);
-                    usersMap.put(name, userList);
-                }else {
-                    boolean isBigger = false;
-                    for (User user : userList){
-                       isBigger = user.getPoints() <= points;
-                       }
-                    if (isBigger){
-                        usersMap.get(name).forEach(entry -> entry.setPoints(points));
+                    usersMap.put(contest, userList);
+                } else {
+                    for (User user : usersMap.get(contest)) {
+                        if (user.getPoints()<=(points) && user.getUser().equals(name)) { //проверка дали дадените точки са повече от записаните вече
+                            user.setPoints(points);
+                        }
                     }
                 }
             }
-
             input = scanner.nextLine();
         }
 
-        for ()
+        for(Map.Entry<String, List<User>> entry : usersMap.entrySet()){
+            System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
 
-        userList.forEach(entry ->
-                System.out.printf("%s: %d participants", entry.getConstestName(), entry.constestName.length()));
+        }
     }
 
     static class User {
-        private String constestName;
+        private String user;
         private int points;
 
-        public User(String constestName, int points) {
-            this.constestName = constestName;
+        public User(String user, int points) {
+            this.user = user;
             this.points = points;
         }
 
-        public void setConstestName(String constestName) {
-            this.constestName = constestName;
+        public void setUser(String user) {
+            this.user = user;
         }
 
         public void setPoints(int points) {
             this.points = points;
         }
 
-        public String getConstestName() {
-            return this.constestName;
+        public String getUser() {
+            return this.user;
         }
 
         public int getPoints() {
