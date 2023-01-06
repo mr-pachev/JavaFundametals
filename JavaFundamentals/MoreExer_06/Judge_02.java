@@ -31,6 +31,7 @@ public class Judge_02 {
                 for (User user : usersMap.get(contest)) {
                     if (user.getUser().equals(name)) { //проверка дали участника съществува
                         isExistUser = true;
+                        break;
                     }
                 }
                 if (!isExistUser) {
@@ -78,7 +79,7 @@ public class Judge_02 {
                 .sorted((s1, s2) -> s2.getValue() - s1.getValue()).toList();
 
         int counter = 1;
-        for (Map.Entry<String, Integer> entry : collectUsersPointsList) {
+        for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
             System.out.printf("%d. %s -> %d%n", counter++, entry.getKey(), entry.getValue());
         }
     }
@@ -90,10 +91,6 @@ public class Judge_02 {
         public User(String user, int points) {
             this.user = user;
             this.points = points;
-        }
-
-        public void setUser(String user) {
-            this.user = user;
         }
 
         public void setPoints(int points) {
