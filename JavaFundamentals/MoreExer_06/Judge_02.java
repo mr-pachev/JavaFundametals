@@ -1,6 +1,7 @@
 package MoreExer_06;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Judge_02 {
     public static void main(String[] args) {
@@ -57,15 +58,13 @@ public class Judge_02 {
                     .forEach(i -> System.out.printf("%d. %s <::> %d%n", counter[0]++, i.getUserName(), i.getPoints()));
         });
 
-
-
-
         System.out.println("Individual standings:");
+
         Map<String, Integer> usersAllPointsMap = new LinkedHashMap<>();
 
         for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
 
-            entry.getValue().forEach(entry1 -> { //обхождаме само value-то на дневника във вид на листо от обекти
+            entry.getValue().forEach(entry1 -> {                    //обхождаме само value-то на дневника във вид на лист от обекти
                 if (!usersAllPointsMap.containsKey(entry1.getUserName())) {
                     usersAllPointsMap.put(entry1.getUserName(), entry1.getPoints());
                 } else {
@@ -74,13 +73,17 @@ public class Judge_02 {
             });
         }
 
-        List<Map.Entry<String, Integer>> collectUsersPointsList = usersAllPointsMap.entrySet().stream()
-                .sorted((s1, s2) -> s2.getValue() - s1.getValue()).toList();
+        Map<String, Integer> finalMap = usersAllPointsMap.entrySet().stream()  //създаванве и сортиране на дневник с потребител и общброй точки в низходящ ред
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new
+                ));
 
-        int counter = 1;
-        for (Map.Entry<String, Integer> entry : collectUsersPointsList) {
-            System.out.printf("%d. %s -> %d%n", counter++, entry.getKey(), entry.getValue());
-        }
+        finalMap.forEach((key, value) -> {
+            int[] counter = {1};
+            System.out.printf("%d. %s -> %d%n", counter[0]++, key, value);
+        });
+
     }
 
     static class User {
