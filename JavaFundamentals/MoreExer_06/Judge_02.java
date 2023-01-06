@@ -73,15 +73,17 @@ public class Judge_02 {
             });
         }
 
-        Map<String, Integer> finalMap = usersAllPointsMap.entrySet().stream()  //създаванве и сортиране на дневник с потребител и общброй точки в низходящ ред
+        Map<String, Integer> finalMap = usersAllPointsMap.entrySet().stream()  //създаване и сортиране на дневник с потребител и общброй точки в низходящ ред
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new
                 ));
 
-        finalMap.forEach((key, value) -> {
-            int[] counter = {1};
+        int[] counter = {1};
+        finalMap.forEach((key, value) -> {   //обхождаме финалинят дневник и принтираме
+
             System.out.printf("%d. %s -> %d%n", counter[0]++, key, value);
+
         });
 
     }
