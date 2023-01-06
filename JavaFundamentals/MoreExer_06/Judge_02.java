@@ -1,7 +1,6 @@
 package MoreExer_06;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Judge_02 {
     public static void main(String[] args) {
@@ -29,7 +28,7 @@ public class Judge_02 {
                 boolean isExistUser = false;
 
                 for (User user : usersMap.get(contest)) {
-                    if (user.getUser().equals(name)) { //проверка дали участника съществува
+                    if (user.getUserName().equals(name)) { //проверка дали участника съществува
                         isExistUser = true;
                         break;
                     }
@@ -41,7 +40,7 @@ public class Judge_02 {
                     usersMap.put(contest, userList);
                 } else {
                     for (User user : usersMap.get(contest)) {
-                        if (user.getPoints() <= (points) && user.getUser().equals(name)) { //проверка дали дадените точки са повече от записаните вече
+                        if (user.getPoints() <= (points) && user.getUserName().equals(name)) { //проверка дали дадените точки са повече от записаните вече
                             user.setPoints(points);
                         }
                     }
@@ -50,16 +49,16 @@ public class Judge_02 {
             input = scanner.nextLine();
         }
 
-        for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
-            int counter = 1;
-            System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
-            List<User> collect = entry.getValue().stream()
-                    .sorted((a, b) -> b.getPoints() - a.getPoints()).toList();
+        usersMap.forEach((k, v) -> {                                    //принтиране на основния дневник
+            int[] counter = {1};                                        //създваване на брояч вътре в ламбда израза
+            System.out.printf("%s: %d participants%n", k, v.size());    //принтиране на ключа и дължината на стойността
+            v.stream()                                                  //обхождане и сортиране на стойността, която е списък от обекти
+                    .sorted((s1, s2) -> s2.getPoints() - s1.getPoints())
+                    .forEach(i -> System.out.printf("%d. %s <::> %d%n", counter[0]++, i.getUserName(), i.getPoints()));
+        });
 
-            for (User user : collect) {
-                System.out.printf("%d. %s <::> %d%n", counter++, user.getUser(), user.getPoints());
-            }
-        }
+
+
 
         System.out.println("Individual standings:");
         Map<String, Integer> usersAllPointsMap = new LinkedHashMap<>();
@@ -67,10 +66,10 @@ public class Judge_02 {
         for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
 
             entry.getValue().forEach(entry1 -> { //обхождаме само value-то на дневника във вид на листо от обекти
-                if (!usersAllPointsMap.containsKey(entry1.getUser())) {
-                    usersAllPointsMap.put(entry1.getUser(), entry1.getPoints());
+                if (!usersAllPointsMap.containsKey(entry1.getUserName())) {
+                    usersAllPointsMap.put(entry1.getUserName(), entry1.getPoints());
                 } else {
-                    usersAllPointsMap.put(entry1.getUser(), usersAllPointsMap.get(entry1.getUser()) + entry1.getPoints());
+                    usersAllPointsMap.put(entry1.getUserName(), usersAllPointsMap.get(entry1.getUserName()) + entry1.getPoints());
                 }
             });
         }
@@ -79,17 +78,17 @@ public class Judge_02 {
                 .sorted((s1, s2) -> s2.getValue() - s1.getValue()).toList();
 
         int counter = 1;
-        for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry : collectUsersPointsList) {
             System.out.printf("%d. %s -> %d%n", counter++, entry.getKey(), entry.getValue());
         }
     }
 
     static class User {
-        private String user;
+        private String userName;
         private int points;
 
         public User(String user, int points) {
-            this.user = user;
+            this.userName = user;
             this.points = points;
         }
 
@@ -97,8 +96,8 @@ public class Judge_02 {
             this.points = points;
         }
 
-        public String getUser() {
-            return this.user;
+        public String getUserName() {
+            return this.userName;
         }
 
         public int getPoints() {
