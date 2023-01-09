@@ -51,13 +51,25 @@ public class Judge_02 {
             input = scanner.nextLine();
         }
 
-        usersMap.forEach((k, v) -> {                                    //принтиране на основния дневник
-            int[] counter = {1};                                        //създваване на брояч вътре в ламбда израза
-            System.out.printf("%s: %d participants%n", k, v.size());    //принтиране на ключа и дължината на стойността
-            v.stream()                                                  //обхождане и сортиране на стойността, която е списък от обекти
-                    .sorted((s1, s2) -> s2.getPoints() - s1.getPoints())
-                    .forEach(i -> System.out.printf("%d. %s <::> %d%n", counter[0]++, i.getUserName(), i.getPoints()));
-        });
+        int[] counter = {1};
+       for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
+           counter[0] = 1;
+           System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
+           entry.getValue().stream()
+                   .sorted((s1, s2) -> Integer.compare(s2.getPoints(), s1.getPoints()))
+                   .forEach(entry1 -> {
+                       System.out.printf("%d. %s <::> %d%n", counter[0]++, entry1.getUserName(), entry1.getPoints());
+                   });
+       }
+
+
+//        usersMap.forEach((k, v) -> {                                    //принтиране на основния дневник
+//            int[] counter = {1};                                        //създваване на брояч вътре в ламбда израза
+//            System.out.printf("%s: %d participants%n", k, v.size());    //принтиране на ключа и дължината на стойността
+//            v.stream()                                                  //обхождане и сортиране на стойността, която е списък от обекти
+//                    .sorted((s1, s2) ->(s2.getPoints() - s1.getPoints()))
+//                    .forEach(i -> System.out.printf("%d. %s <::> %d%n", counter[0]++, i.getUserName(), i.getPoints()));
+//        });
 
         System.out.println("Individual standings:");
 
@@ -74,13 +86,20 @@ public class Judge_02 {
             });
         }
 
-        Map<String, Integer> finalMap = usersAllPointsMap.entrySet().stream()  //създаване и сортиране на дневник с потребител и общ брой точки в низходящ ред
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new
-                ));
 
-        int[] counter = {1};
+        Map<String, Integer> finalMap = usersAllPointsMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+//        Map<String, Integer> finalMap = usersAllPointsMap.entrySet().stream()  //създаване и сортиране на дневник с потребител и общ брой точки в низходящ ред
+//                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+//                .collect(Collectors.toMap(
+//                        Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new
+//                ));
+
+        counter[0] = 1;
         finalMap.forEach((key, value) ->
 
         {   //обхождаме финалинят дневник и принтираме
