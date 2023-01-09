@@ -26,28 +26,45 @@ public class Judge_02 {
                 userList = new ArrayList<>();
                 userList.add(user);
                 usersMap.put(contest, userList);
-            } else {                                //курса съществува
+                input = scanner.nextLine();
+                continue;
+            }
+                                          //курса съществува
                 boolean isExistUser = false;
 
-                for (User user : usersMap.get(contest)) {
-                    if (user.getUserName().equals(name)) { //проверка дали участника съществува
-                        isExistUser = true;
-                        break;
-                    }
-                }
-                if (!isExistUser) {
-                    User user = new User(name, points);
-                    userList = usersMap.get(contest);
-                    userList.add(user);
-                    usersMap.put(contest, userList);
-                } else {
-                    for (User user : usersMap.get(contest)) {
-                        if (user.getPoints() <= (points) && user.getUserName().equals(name)) { //проверка дали дадените точки са повече от записаните вече
-                            user.setPoints(points);
-                        }
-                    }
-                }
+            List<User> usersData = usersMap.get(contest);
+
+            if (!usersData.get(0).getUserName().contains(name)){
+                User user = new User(name, points);
+                userList = usersMap.get(contest);
+                userList.add(user);
+                usersMap.put(contest, userList);
+            }else {
+               if (usersData.get(1).getPoints() <= points){
+                   usersData.get(1).setPoints(points);
+               }
             }
+
+
+//                for (User user : usersMap.get(contest)) {
+//                    if (user.getUserName().equals(name)) { //проверка дали участника съществува
+//                        isExistUser = true;
+//                        break;
+//                    }
+//                }
+//                if (!isExistUser) {
+//                    User user = new User(name, points);
+//                    userList = usersMap.get(contest);
+//                    userList.add(user);
+//                    usersMap.put(contest, userList);
+//                } else {
+//                    for (User user : usersMap.get(contest)) {
+//                        if (user.getPoints() <= (points) && user.getUserName().equals(name)) { //проверка дали дадените точки са повече от записаните вече
+//                            user.setPoints(points);
+//                        }
+//                    }
+//                }
+
             input = scanner.nextLine();
         }
 
