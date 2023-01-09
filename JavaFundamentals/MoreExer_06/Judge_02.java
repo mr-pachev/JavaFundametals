@@ -32,17 +32,26 @@ public class Judge_02 {
                                           //курса съществува
                 boolean isExistUser = false;
 
-            List<User> usersData = usersMap.get(contest);
+            for (Map.Entry<String, List<User>> item : usersMap.entrySet()) {
+                for (User user : usersMap.get(contest)) {
+                    if (user.getUserName().equals(name)) { //проверка дали участника съществува
+                        isExistUser = true;
+                        break;
+                    }
+                }
+                if (!isExistUser) {
+                    User user = new User(name, points);
+                    userList = usersMap.get(contest);
+                    userList.add(user);
+                    usersMap.put(contest, userList);
+                } else {
+                    for (User user : usersMap.get(contest)) {
+                        if (user.getPoints() <= (points) && user.getUserName().equals(name)) { //проверка дали дадените точки са повече от записаните вече
+                            user.setPoints(points);
+                        }
+                    }
+                }
 
-            if (!usersData.get(0).getUserName().contains(name)){
-                User user = new User(name, points);
-                userList = usersMap.get(contest);
-                userList.add(user);
-                usersMap.put(contest, userList);
-            }else {
-               if (usersData.get(1).getPoints() <= points){
-                   usersData.get(1).setPoints(points);
-               }
             }
 
 
