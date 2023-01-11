@@ -82,7 +82,13 @@ public class Judge_02 {
            counter[0] = 1;
            System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
            entry.getValue().stream()
-                   .sorted((s1, s2) -> Integer.compare(s2.getPoints(), s1.getPoints()))
+                   .sorted((s1, s2) -> {
+                       if (s2.getPoints() == s1.getPoints()) {
+                           return s1.getUserName().compareTo(s2.getUserName());
+                       }else {
+                           return s2.getPoints() - s1.getPoints();
+                       }
+                   })
                    .forEach(entry1 -> {
                        System.out.printf("%d. %s <::> %d%n", counter[0]++, entry1.getUserName(), entry1.getPoints());
                    });
@@ -112,27 +118,17 @@ public class Judge_02 {
             });
         }
 
-
-        Map<String, Integer> finalMap = usersAllPointsMap.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-
-//        Map<String, Integer> finalMap = usersAllPointsMap.entrySet().stream()  //създаване и сортиране на дневник с потребител и общ брой точки в низходящ ред
-//                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-//                .collect(Collectors.toMap(
-//                        Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new
-//                ));
-
         counter[0] = 1;
-        finalMap.forEach((key, value) ->
-
-        {   //обхождаме финалинят дневник и принтираме
-
-            System.out.printf("%d. %s -> %d%n", counter[0]++, key, value);
-
-        });
+        usersAllPointsMap.entrySet().stream()
+                .sorted((s1, s2) -> {
+                    int sort = Integer.compare(s2.getValue(), s1.getValue());
+                    if (sort == 0){
+                        sort = s1.getKey().compareTo(s2.getKey());
+                    }
+                    return sort;
+                }).forEach((entry) -> {
+                    System.out.printf("%d. %s -> %d%n", counter[0]++, entry.getKey(), entry.getValue());
+                });
 
     }
 
