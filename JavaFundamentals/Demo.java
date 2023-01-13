@@ -76,15 +76,33 @@ public class Demo {
         }
 
 
-       for (String s : teamsUsers.keySet()){        //сортиране на стойността на речника по възходящ ред
-           Collections.sort(teamsUsers.get(s));
-       }
 
-        teamsUsers = teamsUsers.entrySet().stream()   //сортиране на ключа на речника по низходящ ред
-                        .sorted(Map.Entry.<String, List<String>>comparingByKey().reversed())
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+//        teamsUsers = teamsUsers.entrySet().stream()   //сортиране на ключа на речника по низходящ ред
+//                        .sorted(Map.Entry.<String, List<String>>comparingByKey().reversed())
+//                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+//
+//        for (String s : teamsUsers.keySet()){        //сортиране на стойността на речника по възходящ ред
+//            Collections.sort(teamsUsers.get(s));
+//        }
+
+
+
+        teamsUsers = teamsUsers.entrySet().stream()
+                .sorted((s1, s2) -> {
+                    int sort = Integer.compare(s2.getValue().size(), s1.getValue().size());
+                    if (sort == 0) {
+                        sort = s1.getKey().compareTo(s2.getKey());
+                    }
+                    return sort;
+                }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+
 
         System.out.println();
+
+
+
+
+
 
 
 
