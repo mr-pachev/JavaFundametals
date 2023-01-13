@@ -25,14 +25,10 @@ public class Main {
                 teamList.add(team); //добавяне на обекта към листа с обекти
                 System.out.printf("Team %s has been created by %s!%n", teamName, creator); //при вече създаден екип
                 continue;
-            }
-
-            if (isExistCreator(teamList, creator)) {
+            }else if (isExistCreator(teamList, creator)) {
                 System.out.printf("%s cannot create another team!%n", creator); //вече създател на един екип
                 continue;
-            }
-
-            if (isExistTeam(teamList, teamName)) {
+            }else if (isExistTeam(teamList, teamName)) {
                 System.out.printf("Team %s was already created!%n", teamName); //при вече създаден екип
                 continue;
             }
@@ -45,6 +41,7 @@ public class Main {
         }
 
         String command = scanner.nextLine(); //добавяне на потребител и желан екип за присъединяване
+        boolean isBreak = false;
 
         while (!command.equals("end of assignment")) {
 
@@ -64,36 +61,68 @@ public class Main {
                 continue;
             }
 
-            //добавяне на потребител към съществуващ екип
-            teamList.stream().filter(team -> team.getName().equals(wishTeamName)).forEach(team -> team.setUserList(user));
+            for (Team team : teamList) {
+                if (team.getName().equals(wishTeamName)) { //добавяне на потребител към желаната група
+                    team.setUserList(user);
+                }
+            }
+
             command = scanner.nextLine();
         }
 
         List<String> disbandList = new ArrayList<>(); //създаванен на лист с разпуснати екипи
-
-        //добавяне на екип само с един член към лист disbandList
-        teamList.stream().filter(team -> team.getUserList().size() == 1).forEach(team -> disbandList.add(team.getName()));
-        Collections.sort(disbandList); //сортира листа по възходящ ред
-
-        //сортиране на листа с обектите отговарящи на изискванията по броя членове в низходящ ред
-        teamList = teamList.stream().sorted((s1, s2) -> Integer.compare(s2.getUserList().size(), s1.getUserList().size())).collect(Collectors.toList());
-
-//        for (Team team : teamList) { //сортиране на списъка с потребителите от всеки екип по възходящ ред
-//            Collections.sort(team.getUserList());
-//        }
+        List<Team> finalTeamList = new ArrayList<>(); //създаване но лист с обекти отговарящи на заданието
 
         for (Team team : teamList) {
-            if (team.getUserList().size() > 1) {
-                System.out.printf("%s%n" + "- %s%n", team.getName(), team.getCreator());
-                for (String user : team.getUserList()) {
-                    if (!user.equals(team.getCreator())) {
-                        System.out.printf("-- %s%n", user);
-                    }
-                }
+            if (team.getUserList().size() == 1) {
+                disbandList.add(team.getName()); //пълнене на листа с разпуснатите екипи
+            } else {
+                team = new Team(team.getName(), team.getCreator(), team.getUserList());
+                finalTeamList.add(team); //пълнене на листо с обекти с коректните екипи
             }
         }
 
+        Collections.sort(disbandList); //сортира листа по възходящ ред
+
+        List<Team> teamListSortedByCountMembers = new ArrayList<>();
+        int maxNumMembers = 0;
+        int currentNumMembers = 0;
+        for (Team team : finalTeamList) { //сортиране на листа с обектите отговалящи на изискванията по броя членове в низходящ ред
+            currentNumMembers = team.getUserList().size();
+            if (currentNumMembers >= maxNumMembers) { //проверка дали текущия лист с членове е най-големия до момента
+                maxNumMembers = currentNumMembers;
+                team = new Team(team.getName(), team.getCreator(), team.getUserList());
+                teamListSortedByCountMembers.add(0, team);
+            }
+        }
+
+        List<Team> teamListSortedByName = new ArrayList<>();
+        for (Team team : teamListSortedByCountMembers) { //сортиране на листа с обекти отговарящи на изискванията по име на екипите по възходящ ред
+            currentNumMembers = team.getName().toCharArray()[0];
+            if (currentNumMembers >= maxNumMembers) {
+                maxNumMembers = currentNumMembers;
+                team = new Team(team.getName(), team.getCreator(), team.getUserList());
+                teamListSortedByName.add(team);
+            }
+        }
+
+        for (Team team : teamListSortedByName) { //сортиране на членовете на всеки екип по име-възходящ ред
+            Collections.sort(team.getUserList());
+        }
+
+        for (Team team : teamListSortedByName) {
+            System.out.println(team.toString()); //печатане на името на екипа
+
+            for (String user : team.getUserList()) {
+                if (user.contains(team.getCreator())) {
+                    continue;
+                } else {
+                    System.out.printf("-- %s%n", user); //печатане на другите участници в екипа
+                }
+            }
+        }
         System.out.print("Teams to disband:");
+
         if (!disbandList.isEmpty()) { //проверка дали има разпуснати екипи за отпечатване
             System.out.println();
             for (String teamName : disbandList) {
@@ -123,7 +152,6 @@ public class Main {
         return false;
     }
 
-    //добавяне на патребител към даден екип
     public static boolean isExistUserinTeam(List<Team> teamList, String user) {
         for (Team team : teamList) {
             if (team.getUserList().contains(user)) { //проверка дали потребителя вече съществува в някой екип

@@ -29,8 +29,8 @@ public class Judge_02 {
                 input = scanner.nextLine();
                 continue;
             }
-                                          //курса съществува
-                boolean isExistUser = false;
+
+            boolean isExistUser = false;    //курса съществува
 
             for (Map.Entry<String, List<User>> item : usersMap.entrySet()) {
                 for (User user : usersMap.get(contest)) {
@@ -53,7 +53,6 @@ public class Judge_02 {
                 }
 
             }
-
 
 //                for (User user : usersMap.get(contest)) {
 //                    if (user.getUserName().equals(name)) { //проверка дали участника съществува
@@ -78,22 +77,21 @@ public class Judge_02 {
         }
 
         int[] counter = {1};
-       for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
-           counter[0] = 1;
-           System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
-           entry.getValue().stream()
-                   .sorted((s1, s2) -> {
-                       if (s2.getPoints() == s1.getPoints()) {
-                           return s1.getUserName().compareTo(s2.getUserName());
-                       }else {
-                           return s2.getPoints() - s1.getPoints();
-                       }
-                   })
-                   .forEach(entry1 -> {
-                       System.out.printf("%d. %s <::> %d%n", counter[0]++, entry1.getUserName(), entry1.getPoints());
-                   });
-       }
-
+        for (Map.Entry<String, List<User>> entry : usersMap.entrySet()) {
+            counter[0] = 1;
+            System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
+            entry.getValue().stream()
+                    .sorted((s1, s2) -> {
+                        if (s2.getPoints() == s1.getPoints()) {
+                            return s1.getUserName().compareTo(s2.getUserName());
+                        } else {
+                            return s2.getPoints() - s1.getPoints();
+                        }
+                    })
+                    .forEach(entry1 -> {
+                        System.out.printf("%d. %s <::> %d%n", counter[0]++, entry1.getUserName(), entry1.getPoints());
+                    });
+        }
 
 //        usersMap.forEach((k, v) -> {                                    //принтиране на основния дневник
 //            int[] counter = {1};                                        //създваване на брояч вътре в ламбда израза
@@ -122,7 +120,7 @@ public class Judge_02 {
         usersAllPointsMap.entrySet().stream()
                 .sorted((s1, s2) -> {
                     int sort = Integer.compare(s2.getValue(), s1.getValue());
-                    if (sort == 0){
+                    if (sort == 0) {
                         sort = s1.getKey().compareTo(s2.getKey());
                     }
                     return sort;
