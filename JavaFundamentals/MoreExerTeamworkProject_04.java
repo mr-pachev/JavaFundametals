@@ -1,8 +1,7 @@
 import java.util.*;
-import java.util.spi.AbstractResourceBundleProvider;
 import java.util.stream.Collectors;
 
-public class Demo {
+public class MoreExerTeamworkProject_04 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -119,7 +118,6 @@ public class Demo {
         }
 
         System.out.println("Teams to disband:");
-
 
         teamsUsers = teamsUsers.entrySet().stream()    //промяна но речника по критерий: стойността на речника да е само с един ползвател и подредбата на ключовете да е по възходящ ред
                     .filter(e -> e.getValue().size() == 1)
