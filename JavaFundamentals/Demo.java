@@ -10,7 +10,7 @@ public class Demo {
 
         Map<String, String> teamMap = new LinkedHashMap<>();            //речник със създател и екип
         List<String> membersList = new ArrayList<>();                   //списък с потребители на дадения курс
-        Map<String, List<String>> teamsUsers = new TreeMap<>();   //речник с екип и участниците й
+        Map<String, List<String>> teamsUsers = new LinkedHashMap<>();   //речник с екип и участниците й
 
         for (int i = 1; i <= n; i++) {                                  //запълване на речника със създател и екип
             String[] inputData = scanner.nextLine().split("-");
@@ -76,7 +76,6 @@ public class Demo {
         }
 
 
-
 //        teamsUsers = teamsUsers.entrySet().stream()   //сортиране на ключа на речника по низходящ ред
 //                        .sorted(Map.Entry.<String, List<String>>comparingByKey().reversed())
 //                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
@@ -84,7 +83,6 @@ public class Demo {
 //        for (String s : teamsUsers.keySet()){        //сортиране на стойността на речника по възходящ ред
 //            Collections.sort(teamsUsers.get(s));
 //        }
-
 
 
         teamsUsers = teamsUsers.entrySet().stream()
@@ -97,24 +95,24 @@ public class Demo {
                 }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
 
-        System.out.println();
-
-
-
-
-
-
+        for (String s : teamsUsers.keySet()) {        //сортиране на стойността на речника по възходящ ред
+            Collections.sort(teamsUsers.get(s));
+        }
 
 
         for (Map.Entry<String, List<String>> entry : teamsUsers.entrySet()) {
             if (entry.getValue().size() > 1) {                          //условие да се принтира екип с повече от един потребител
-                System.out.printf("%s%n", entry.getKey());              //принтиране на името на екипа по реда на възходящ ред
+                System.out.printf("%s%n", entry.getKey());
             }
 
-            for (String member : entry.getValue()){
-                if (teamMap.containsKey(member) && entry.getValue().size() > 1){    //проверка дали потребителя от списъка е създател и дали списъка има повече от един член
+
+            for (String member : entry.getValue()) {
+                if (teamMap.containsKey(member) && entry.getValue().size() > 1) {    //проверка дали потребителя от списъка е създател и дали списъка има повече от един член
                     System.out.printf("- %s%n", member);
-                }else if (entry.getValue().size() > 1){                 //условие да се принтира екип с повече от един потребител
+                }
+            }
+            for (String member : entry.getValue()) {
+                if (!teamMap.containsKey(member) && entry.getValue().size() > 1) {           //условие да се принтира екип с повече от един потребител и потребителя от списък да не е създател
                     System.out.printf("-- %s%n", member);
                 }
             }
@@ -123,7 +121,7 @@ public class Demo {
         System.out.println("Teams to disband:");
         for (Map.Entry<String, List<String>> entry : teamsUsers.entrySet()) {
 
-            if (entry.getValue().size() == 1){
+            if (entry.getValue().size() == 1) {
                 System.out.printf("%s%n", entry.getKey());
             }
         }
