@@ -119,9 +119,15 @@ public class Demo {
         }
 
         System.out.println("Teams to disband:");
-        for (Map.Entry<String, List<String>> entry : teamsUsers.entrySet()) {
 
-            if (entry.getValue().size() == 1) {
+
+        teamsUsers = teamsUsers.entrySet().stream()    //промяна но речника по критерий: стойността на речника да е само с един ползвател и подредбата на ключовете да е по възходящ ред
+                    .filter(e -> e.getValue().size() == 1)
+                    .sorted((s1, s2) -> s1.getKey().compareTo(s2.getKey())
+                    ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+
+        if (!teamsUsers.isEmpty()) {
+            for (Map.Entry<String, List<String>> entry : teamsUsers.entrySet()) {
                 System.out.printf("%s%n", entry.getKey());
             }
         }
