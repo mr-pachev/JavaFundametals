@@ -37,7 +37,7 @@ public class Demo {
                     String[] tokens = command.split(" vs ");
                     String player1 = tokens[0];
                     String player2 = tokens[1];
-                    if (players.containsKey(player1) && players.containsKey(player2)) {
+                    if (players.containsKey(player1) && players.containsKey(player2)) { //проверка дали играчите съществуват в оснвния речник
                         boolean hasCommon = false;
                         for (String s : players.get(player1).keySet()) {
                             for (String s1 : players.get(player2).keySet()) {
@@ -47,11 +47,16 @@ public class Demo {
                             }
                         }
                         if (hasCommon) {
-                            if (players.get(player1).values().stream().mapToInt(i -> i).sum() >
-                                    players.get(player2).values().stream().mapToInt(i -> i).sum()) {
+                            if (players.get(player1).values().stream()
+                                    .mapToInt(i -> i)
+                                    .sum() >
+                                    players.get(player2).values().stream()
+                                            .mapToInt(i -> i).sum()) {
                                 players.remove(player2);
-                            } else if (players.get(player1).values().stream().mapToInt(i -> i).sum() <
-                                    players.get(player2).values().stream().mapToInt(i -> i).sum()) {
+                            } else if (players.get(player1).values().stream()
+                                    .mapToInt(i -> i).sum() <
+                                    players.get(player2).values().stream()
+                                            .mapToInt(i -> i).sum()) {
                                 players.remove(player1);
                             }
                         }
