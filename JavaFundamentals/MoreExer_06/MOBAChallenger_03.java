@@ -77,14 +77,14 @@ public class MOBAChallenger_03 {
 
         playersDataMap.entrySet()
                 .stream()
-                .sorted((p1, p2) -> { //сортировка в низходящ ред на основния речник по стойност -> сумата от стойностите на речника-стойност
+                .sorted((p1, p2) -> {                                  //сортировка в низходящ ред на основния речник по стойност -> сумата от стойностите на втория речник-стойност
                     int result = Integer.compare(p2.getValue().values().stream()
                                     .mapToInt(i -> i)
                                     .sum(),
                             p1.getValue().values().stream()
                                     .mapToInt(i -> i)
                                     .sum());
-                    if (result == 0) { //при равенство на сортировка в низходящ ред на основния речник по стойност -> сумата от стойностите на речника-стойност
+                    if (result == 0) {                                 //при равенство на сортировка в низходящ ред на основния речник по стойност -> сумата от стойностите на речника-стойност
                         result = p1.getKey().compareTo(p2.getKey());   //сортира основния речник по ключ във възходящ ред
                     }
                     return result;
@@ -93,7 +93,7 @@ public class MOBAChallenger_03 {
                     System.out.printf("%s: %d skill%n", entry.getKey(), entry.getValue().values().stream()
                                                                                                 .mapToInt(i -> i)
                                                                                                 .sum());
-                    entry.getValue()                                    //обхождане на втория ребник
+                    entry.getValue()                                                        //обхождане на втория речник
                             .entrySet()
                             .stream()
                             .sorted((e1, e2) -> {
