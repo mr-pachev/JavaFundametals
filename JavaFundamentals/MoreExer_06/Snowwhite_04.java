@@ -24,19 +24,21 @@ public class Snowwhite_04 {
             if (!dwarfDataMap.containsKey(dwarfHatColor)) {                       //проверка дали НЯМА такъв цвят шапка
                 dwarfDataMap.put(dwarfHatColor, currentMap);
             } else {
-                if(dwarfDataMap.get(dwarfHatColor).containsKey(dwarfName)){        //проверка дали И името на конкретното джуджетата го има в речника
-                    if(dwarfDataMap.get(dwarfHatColor).get(dwarfName) < dwarfPhysics){
+                if (dwarfDataMap.get(dwarfHatColor).containsKey(dwarfName)) {        //проверка дали И името на конкретното джуджетата го има в речника
+                    if (dwarfDataMap.get(dwarfHatColor).get(dwarfName) < dwarfPhysics) {
                         dwarfDataMap.get(dwarfHatColor).put(dwarfName, dwarfPhysics);
                     }
-                }else {
+                } else {
                     dwarfDataMap.get(dwarfHatColor).put(dwarfName, dwarfPhysics);
                 }
             }
 
             input = scanner.nextLine();
         }
-        System.out.println();
+
 
     }
+
 }
+
 
