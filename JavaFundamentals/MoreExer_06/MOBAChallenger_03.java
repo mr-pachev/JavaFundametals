@@ -13,7 +13,8 @@ public class MOBAChallenger_03 {
 
         String input = scanner.nextLine();
 
-        Map<String, List<Player>> playersDataMap = new HashMap<>();
+        Map<String, Map<String, Integer>> playersDataMap = new HashMap<>();
+        Map<String, Integer> currentMap = new LinkedHashMap<>();
 
         while (!input.equals("Season end")) {
 
@@ -22,25 +23,15 @@ public class MOBAChallenger_03 {
                 String position = input.split(" -> ")[1];
                 int skill = Integer.parseInt(input.split(" -> ")[2]);
 
-                Player player1 = new Player(position, skill);
-                List<Player> playerDataList = new ArrayList<>();
 
                 if (!playersDataMap.containsKey(player)) {                   //проверка дали играча съществува
-                    playerDataList.add(player1);
-                    playersDataMap.put(player, playerDataList);
+                    currentMap.put(position, skill);
+                    playersDataMap.put(player, currentMap);
                 } else {
-
-                    for (Player player2 : playersDataMap.get(player)) {
-                        if (!player2.getPosition().equals(position)) {       //проверка дали коткретната позиция на дадения играч не съществува
-                            player1 = new Player(position, skill);           //създаване на нов обект с новата позиция и умения
-                            playerDataList = playersDataMap.get(player);     //взимане на текущата стойност-списък на речника
-                            playerDataList.add(player1);                     //добавяне на новата позиция и умение към конкретния играч
-                            playersDataMap.put(player, playerDataList);
-                            break;
-                        } else if (player2.getSkill() <= skill) {
-                            player2.setSkill(skill);
-                            break;
-                        }
+                    if(!playersDataMap.get(player).containsKey(position)){  //проверка дали конкретната позиция НЕ съществува
+                        playersDataMap.get(player).put(position, skill);    //взимане на конкретния играч и добавяне на новата позиция и умение
+                    }else {
+                        
                     }
                 }
             }else if (input.contains(" vs ")){
@@ -50,6 +41,7 @@ public class MOBAChallenger_03 {
                if(!playersDataMap.containsKey(playerOne) && !playersDataMap.containsKey(playerTwoo)){ //проверка дали двамата играчи съществуват в речника
                    break;
                }else {
+
 
 
                }
