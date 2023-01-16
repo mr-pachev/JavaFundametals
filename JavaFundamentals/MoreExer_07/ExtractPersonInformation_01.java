@@ -13,7 +13,14 @@ public class ExtractPersonInformation_01 {
 
         for (int row = 1; row <= n; row++) {
 
-            String[] personDataArr = scanner.nextLine().split("[@|#*]+");
+            String[] personDataArr = scanner.nextLine().split("");
+
+            for (int index = 0; index < personDataArr.length; index++) {
+
+
+            }
+
+
             String name = personDataArr[1];
             String age = personDataArr[3];
 
