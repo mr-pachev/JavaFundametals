@@ -1,5 +1,7 @@
 package MoreExer_07;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class ExtractPersonInformation_01 {
@@ -12,17 +14,13 @@ public class ExtractPersonInformation_01 {
         StringBuilder resultAge = new StringBuilder();
 
         for (int row = 1; row <= n; row++) {
+            String input = scanner.nextLine();
 
-            String[] personDataArr = scanner.nextLine().split("");
-
-            for (int index = 0; index < personDataArr.length; index++) {
-
-
-            }
-
+            String[] personDataArr = input.split("[@|]");
+            String[] personData1Arr = input.split("[#*]");
 
             String name = personDataArr[1];
-            String age = personDataArr[3];
+            String age = personData1Arr[1];
 
             resultName.append(name);
             resultAge.append(age);
