@@ -22,10 +22,11 @@ public class HTML_05 {
             input =scanner.nextLine();
         }
 
-        System.out.printf("<h1>%n   %s%n</h1>%n", articleName);
+        System.out.printf("<h1>%n    %s%n</h1>%n", articleName);
+        System.out.printf("<article>%n    %s%n</article>%n", articleContains);
 
         for (int i = 0; i < comment.size(); i++) {
-            System.out.printf("<div>%n   %s%n</div>", comment.get(i));
+            System.out.printf("<div>%n    %s%n</div>%n", comment.get(i));
         }
     }
 }
