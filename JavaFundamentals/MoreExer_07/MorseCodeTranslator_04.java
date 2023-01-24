@@ -6,7 +6,7 @@ public class MorseCodeTranslator_04 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String[] input = scanner.nextLine().split("[ \\| ]");
+        String[] input = scanner.nextLine().split("\\s+");
 
 
         Map<String, String> mourseMap = new LinkedHashMap<>();
@@ -40,10 +40,13 @@ public class MorseCodeTranslator_04 {
 
         String result = "";
         for (String symbol : input) {
-            result += mourseMap.get(symbol);
-
+            if (!symbol.equals("|")) {
+                result += mourseMap.get(symbol);
+            }else {
+                result += " ";
+            }
         }
-        System.out.println();
+        System.out.println(result);
 
     }
 }
