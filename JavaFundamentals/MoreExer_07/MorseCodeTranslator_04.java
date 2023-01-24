@@ -8,7 +8,6 @@ public class MorseCodeTranslator_04 {
 
         String[] input = scanner.nextLine().split("\\s+");
 
-
         Map<String, String> mourseMap = new LinkedHashMap<>();
         mourseMap.put(".-", "A");
         mourseMap.put("-...", "B");
@@ -37,8 +36,8 @@ public class MorseCodeTranslator_04 {
         mourseMap.put("-.--", "Y");
         mourseMap.put("--..", "Z");
 
-
         String result = "";
+        
         for (String symbol : input) {
             if (!symbol.equals("|")) {
                 result += mourseMap.get(symbol);
