@@ -24,7 +24,7 @@ public class HTML_05 {
 
         System.out.printf("<h1>%n    %s%n</h1>%n", articleName);
         System.out.printf("<article>%n    %s%n</article>%n", articleContains);
-        
+
         for (String entry : comment){
             System.out.printf("<div>%n    %s%n</div>%n", entry);
         }
