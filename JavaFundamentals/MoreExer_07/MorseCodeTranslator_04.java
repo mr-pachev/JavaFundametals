@@ -37,7 +37,7 @@ public class MorseCodeTranslator_04 {
         mourseMap.put("--..", "Z");
 
         String result = "";
-        
+
         for (String symbol : input) {
             if (!symbol.equals("|")) {
                 result += mourseMap.get(symbol);
