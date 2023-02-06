@@ -1,6 +1,5 @@
 package MoreExer_08;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class WinningTicket_01 {
@@ -15,7 +14,29 @@ public class WinningTicket_01 {
 
             if (isExistSumChar(currentWord)) {                          //проверка дали думата съдържа 20 символа
                 if (isWinSymbol(currentWord)) {                         //проверка дали съдържа печеливш символ
-                    System.out.println();
+                    int counterLeft = 0;
+                    int counterRight = 0;
+
+                    char winSymbol = isCurrentWinSymbol(currentWord);
+
+                    for (int i = 0; i < currentWord.length / 2; i++) {  //проверка колко пъти печелившия символ се повтаря вляво
+                        if (currentWord[i] == winSymbol) {
+                            counterLeft++;
+                        }
+                    }
+                    for (int i = currentWord.length - 1; i > currentWord.length / 2; i--) { //проверка колко пъти печелившия символ се повтаря вдясно
+                        if (currentWord[i] == winSymbol) {
+                            counterRight++;
+                        }
+                    }
+
+                    if (counterLeft == counterRight && counterLeft >= 6 && counterLeft < 10){
+                        System.out.printf("ticket \"%s\" - %d%c%n", wordsArr[numWords], counterLeft, winSymbol);
+                    }else if(counterLeft == 10){
+                        System.out.printf("ticket \"%s\" - %d%c Jackpot!%n", wordsArr[numWords], counterLeft, winSymbol);
+                    }else {
+                        System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
+                    }
                 } else {
                     System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
                 }
@@ -44,7 +65,7 @@ public class WinningTicket_01 {
     }
 
     //проверка кой печеливш символ съдържа думата
-    static char isWinSymbolExist(char[] currentSymbol) {
+    static char isCurrentWinSymbol(char[] currentSymbol) {
         char winSymbol = 0;
         for (char c : currentSymbol) {
             if (c == '@') {
