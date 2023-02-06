@@ -37,7 +37,7 @@ public class WinningTicket_01 {
                 boolean isExist = false;
                 for (int i = 0; i < currentWord.length / 2; i++) {
                     String currentSymbol = String.valueOf(currentWord[i]);
-                    if (symbolSumMapLeft.containsKey(currentSymbol)){
+                    if (symbolSumMapLeft.containsKey(currentSymbol)) {
                         symbolSumMapLeft.put(currentSymbol, symbolSumMapLeft.get(currentSymbol) + 1);
                         isExist = true;
                     }
@@ -45,13 +45,13 @@ public class WinningTicket_01 {
 
                 for (int i = currentWord.length - 1; i >= currentWord.length / 2; i--) {
                     String currentSymbol = String.valueOf(currentWord[i]);
-                    if (symbolSumMapRight.containsKey(currentSymbol)){
+                    if (symbolSumMapRight.containsKey(currentSymbol)) {
                         symbolSumMapRight.put(currentSymbol, symbolSumMapRight.get(currentSymbol) + 1);
                         isExist = true;
                     }
                 }
 
-                if (!isExist){
+                if (!isExist) {
                     System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
                     continue;
                 }
@@ -66,7 +66,7 @@ public class WinningTicket_01 {
 
                 String winSymbolLeft = "";
                 int repeatingSymbolLeft = 0;
-                for(Map.Entry<String, Integer> entry : symbolSumMapLeft.entrySet()) {
+                for (Map.Entry<String, Integer> entry : symbolSumMapLeft.entrySet()) {
                     winSymbolLeft = entry.getKey();
                     repeatingSymbolLeft = entry.getValue();
                     break;
@@ -74,20 +74,30 @@ public class WinningTicket_01 {
 
                 String winSymbolRight = "";
                 int repeatingSymbolRight = 0;
-                for(Map.Entry<String, Integer> entry : symbolSumMapRight.entrySet()) {
+                for (Map.Entry<String, Integer> entry : symbolSumMapRight.entrySet()) {
                     winSymbolRight = entry.getKey();
                     repeatingSymbolRight = entry.getValue();
                     break;
                 }
 
-                if (winSymbolLeft.equals(winSymbolRight) && repeatingSymbolLeft == repeatingSymbolRight){
-                    if (repeatingSymbolLeft >= 6 && repeatingSymbolLeft < 10){
-                        System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], repeatingSymbolLeft, winSymbolLeft);
-                    }else if (repeatingSymbolLeft == 10){
+                if (winSymbolLeft.equals(winSymbolRight)) {
+                    if ((repeatingSymbolLeft >= 6 && repeatingSymbolLeft < 10)
+                            && ((repeatingSymbolRight >= 6 && repeatingSymbolRight < 10))) {
+
+                        if(repeatingSymbolLeft >= repeatingSymbolRight){
+                            System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], repeatingSymbolRight, winSymbolRight);
+                        }else {
+                            System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], repeatingSymbolLeft, winSymbolLeft);
+                        }
+
+
+                    } else if (repeatingSymbolLeft == 10 && repeatingSymbolRight == 10) {
                         System.out.printf("ticket \"%s\" - %d%s Jackpot!%n", wordsArr[numWords], repeatingSymbolLeft, winSymbolLeft);
-                    }else {
+                    } else {
                         System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
                     }
+                } else {
+                    System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
                 }
 
             } else {
