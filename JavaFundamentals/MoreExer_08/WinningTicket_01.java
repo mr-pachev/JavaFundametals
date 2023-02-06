@@ -7,10 +7,16 @@ public class WinningTicket_01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String input = scanner.nextLine();
-        String[] wordsArr = input.split(",\s+");
+        String input = scanner.nextLine();                              //входни данни
+        String[] wordsArr = input.split("(\\s+)*,(\\s+)*");       //масив с думи за проверка
 
-        System.out.println();
+        for (int numWords = 0; numWords < wordsArr.length; numWords++) {
+            char[] currentWord = wordsArr[numWords].toCharArray();      //символите на конкретната дума масив
+            System.out.println();
+        }
+
+
+
         
     }
 }
