@@ -15,101 +15,67 @@ public class WinningTicket_01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String input = scanner.nextLine();                              //входни данни
-        String[] wordsArr = input.split("(\\s+)*,(\\s+)*");       //масив с думи за проверка
-
-        Map<String, Integer> symbolSumMapLeft = new LinkedHashMap<>();
-        Map<String, Integer> symbolSumMapRight = new LinkedHashMap<>();
+        String input = scanner.nextLine();                                //входни данни
+        String[] wordsArr = input.split("(\\s+)*,(\\s+)*");         //масив с думи за проверка
 
         for (int numWords = 0; numWords < wordsArr.length; numWords++) {
-            char[] currentWord = wordsArr[numWords].toCharArray();      //символите на конкретната дума масив
-            symbolSumMapLeft.put("#", 0);
-            symbolSumMapLeft.put("@", 0);
-            symbolSumMapLeft.put("$", 0);
-            symbolSumMapLeft.put("^", 0);
-            symbolSumMapRight.put("@", 0);
-            symbolSumMapRight.put("#", 0);
-            symbolSumMapRight.put("$", 0);
-            symbolSumMapRight.put("^", 0);
+            char[] currentWord = wordsArr[numWords].toCharArray();        //конкретната дума
+            boolean isMatch = false;
 
+            if (currentWord.length != 20) {
+                System.out.println("invalid ticket");
+                continue;
+            }
 
-            if (isExistSumChar(currentWord)) {                          //проверка дали думата съдържа 20 символа
-                boolean isExist = false;
-                for (int i = 0; i < currentWord.length / 2; i++) {
-                    String currentSymbol = String.valueOf(currentWord[i]);
-                    if (symbolSumMapLeft.containsKey(currentSymbol)) {
-                        symbolSumMapLeft.put(currentSymbol, symbolSumMapLeft.get(currentSymbol) + 1);
-                        isExist = true;
-                    }
+            Pattern pattern = Pattern.compile("(\\@{6,10}|\\${6,10}|\\^{6,10}|\\#{6,10})");
+
+            StringBuilder leftPart = new StringBuilder();                //за лявата част на думата
+            StringBuilder rightPart = new StringBuilder();               //за дясната част на думата
+            char symbolLeft = '0';
+            char symbolRight = '0';
+            String leftTail = "";
+            String rightTail = "";
+
+            for (int i = 0; i < 10; i++) {                                //взимане на лявата част на думата
+                leftPart.append(currentWord[i]);
+            }
+
+            Matcher matcherLeft = pattern.matcher(leftPart);              //проверка за съвпадение на лявата част на думата
+
+            while (matcherLeft.find()) {
+                leftTail = matcherLeft.group();                           //съвпадение отговарящо на regex-са
+                symbolLeft = leftTail.charAt(0);
+                isMatch = true;
+            }
+
+            for (int i = 10; i < 20; i++) {                               //взимане на дясната част на думата
+                rightPart.append(currentWord[i]);
+            }
+
+            Matcher matcherRight = pattern.matcher(rightPart);             //проверка за съвпадение на дясната част на думата
+
+            while (matcherRight.find()) {
+                rightTail = matcherRight.group();                         //съвпадение отговарящо на regex-са
+                symbolRight = rightTail.charAt(0);
+            }
+
+            if ((symbolLeft == symbolRight) && isMatch) {                  //проверка дали символите в двете части на думата са еднакви
+
+                if (leftTail.length() < rightTail.length()) {
+                    System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], leftTail.length(), symbolLeft);
                 }
-
-                for (int i = currentWord.length - 1; i >= currentWord.length / 2; i--) {
-                    String currentSymbol = String.valueOf(currentWord[i]);
-                    if (symbolSumMapRight.containsKey(currentSymbol)) {
-                        symbolSumMapRight.put(currentSymbol, symbolSumMapRight.get(currentSymbol) + 1);
-                        isExist = true;
-                    }
+                if (leftTail.length() > rightTail.length()) {
+                    System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], rightTail.length(), symbolRight);
                 }
-
-                if (!isExist) {
-                    System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
-                    continue;
-                }
-
-                symbolSumMapLeft = symbolSumMapLeft.entrySet().stream()
-                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-                symbolSumMapRight = symbolSumMapRight.entrySet().stream()
-                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-                String winSymbolLeft = "";
-                int repeatingSymbolLeft = 0;
-                for (Map.Entry<String, Integer> entry : symbolSumMapLeft.entrySet()) {
-                    winSymbolLeft = entry.getKey();
-                    repeatingSymbolLeft = entry.getValue();
-                    break;
-                }
-
-                String winSymbolRight = "";
-                int repeatingSymbolRight = 0;
-                for (Map.Entry<String, Integer> entry : symbolSumMapRight.entrySet()) {
-                    winSymbolRight = entry.getKey();
-                    repeatingSymbolRight = entry.getValue();
-                    break;
-                }
-
-                if (winSymbolLeft.equals(winSymbolRight)) {
-                    if ((repeatingSymbolLeft >= 6 && repeatingSymbolLeft < 10)
-                            && ((repeatingSymbolRight >= 6 && repeatingSymbolRight < 10))) {
-
-                        if(repeatingSymbolLeft > repeatingSymbolRight){
-                            System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], repeatingSymbolRight, winSymbolRight);
-                        }else {
-                            System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], repeatingSymbolLeft, winSymbolLeft);
-                        }
-
-
-                    } else if (repeatingSymbolLeft == 10 && repeatingSymbolRight == 10) {
-                        System.out.printf("ticket \"%s\" - %d%s Jackpot!%n", wordsArr[numWords], repeatingSymbolLeft, winSymbolLeft);
-                    } else {
-                        System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
-                    }
-                } else {
-                    System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
+                if (leftTail.length() == rightTail.length() && leftTail.length() == 10) {
+                    System.out.printf("ticket \"%s\" - %d%s Jackpot!%n", wordsArr[numWords], rightTail.length(), symbolLeft);
+                }else if (leftTail.length() == rightTail.length()){
+                    System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], rightTail.length(), symbolRight);
                 }
 
             } else {
-                System.out.println("invalid ticket");
+                System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
             }
-
         }
     }
-
-    //проверка дали думата съдържа 20 символа
-    static boolean isExistSumChar(char[] currentSymbol) {
-        return currentSymbol.length == 20;
-    }
-
 }
