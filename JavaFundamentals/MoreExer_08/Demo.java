@@ -29,30 +29,30 @@ public class Demo {
             String leftTail = "";
             String rightTail = "";
 
-            for (int i = 0; i < currentWord.length / 2; i++) {           //взимане на лявата част на думата
+            for (int i = 0; i < 10; i++) {                                //взимане на лявата част на думата
                 leftPart.append(currentWord[i]);
             }
 
             Matcher matcherLeft = pattern.matcher(leftPart);              //проверка за съвпадение на лявата част на думата
 
             while (matcherLeft.find()) {
-                leftTail = matcherLeft.group();                       //съвпадение отговарящо на regex-са
+                leftTail = matcherLeft.group();                           //съвпадение отговарящо на regex-са
                 symbolLeft = leftTail.charAt(0);
                 isMatch = true;
             }
 
-            for (int i = currentWord.length - 1; i >= currentWord.length / 2; i--) {    //взимане на дясната част на думата
+            for (int i = 10; i < 20; i++) {                               //взимане на дясната част на думата
                 rightPart.append(currentWord[i]);
             }
 
-            Matcher matcherRight = pattern.matcher(leftPart);                           //проверка за съвпадение на дясната част на думата
+            Matcher matcherRight = pattern.matcher(rightPart);             //проверка за съвпадение на дясната част на думата
 
             while (matcherRight.find()) {
-                rightTail = matcherRight.group();                                       //съвпадение отговарящо на regex-са
+                rightTail = matcherRight.group();                         //съвпадение отговарящо на regex-са
                 symbolRight = rightTail.charAt(0);
             }
 
-            if (leftTail.equals(rightTail) && isMatch) {                                            //проверка дали символите в двете басти на думата са еднакви
+            if ((symbolLeft == symbolRight) && isMatch) {                  //проверка дали символите в двете части на думата са еднакви
 
                 if (leftTail.length() < rightTail.length()) {
                     System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], leftTail.length(), symbolLeft);
