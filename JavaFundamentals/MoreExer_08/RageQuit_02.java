@@ -12,19 +12,20 @@ public class RageQuit_02 {
 
         Pattern patter = Pattern.compile("(?<symbol>[\\D]+)(?<count>[\\d]+)");
         Matcher matcher = patter.matcher(input);
-        StringBuilder word = new StringBuilder();
+        StringBuilder wordReplay = new StringBuilder();
+        StringBuilder words = new StringBuilder();
         int counterMatch = 0;
 
         while (matcher.find()) {
 
             String currentSymbol = matcher.group("symbol");
-            int count = Integer.parseInt(matcher.group("count"));
-            word.append(repeat(currentSymbol, count));
-
+            int counter = Integer.parseInt(matcher.group("count"));
+            words.append(currentSymbol);
+            wordReplay.append(repeat(currentSymbol, counter));
+            counterMatch = (symbolCount(words.toString(), currentSymbol));
         }
-
         System.out.printf("Unique symbols used: %d%n", counterMatch);
-        System.out.println(word);
+        System.out.println(wordReplay);
 
     }
     static String repeat(String s, int repeatCount) {
@@ -35,4 +36,14 @@ public class RageQuit_02 {
         return String.join("", repeatArr);
     }
 
+    static Integer symbolCount(String word, String checkSymbol){
+        int counter = 0;
+        for (int i = 0; i < word.length(); i++) {
+
+            if (!word.contains(checkSymbol)){
+                counter++;
+            }
+        }
+        return counter;
+    }
 }
