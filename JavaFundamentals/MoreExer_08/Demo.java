@@ -56,9 +56,11 @@ public class Demo {
 
                 if (leftTail.length() < rightTail.length()) {
                     System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], leftTail.length(), symbolLeft);
-                } else if (leftTail.length() > rightTail.length()) {
+                }
+                if (leftTail.length() > rightTail.length()) {
                     System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], rightTail.length(), symbolRight);
-                } else if (leftTail.length() == rightTail.length() && rightTail.length() == 10) {
+                }
+                if (leftTail.length() == rightTail.length() && leftTail.length() == 10) {
                     System.out.printf("ticket \"%s\" - %d%s Jackpot!%n", wordsArr[numWords], rightTail.length(), symbolLeft);
                 }else if (leftTail.length() == rightTail.length()){
                     System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], rightTail.length(), symbolRight);
