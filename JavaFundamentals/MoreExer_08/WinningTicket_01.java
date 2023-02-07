@@ -84,7 +84,7 @@ public class WinningTicket_01 {
                     if ((repeatingSymbolLeft >= 6 && repeatingSymbolLeft < 10)
                             && ((repeatingSymbolRight >= 6 && repeatingSymbolRight < 10))) {
 
-                        if(repeatingSymbolLeft >= repeatingSymbolRight){
+                        if(repeatingSymbolLeft > repeatingSymbolRight){
                             System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], repeatingSymbolRight, winSymbolRight);
                         }else {
                             System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], repeatingSymbolLeft, winSymbolLeft);
