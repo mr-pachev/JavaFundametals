@@ -1,8 +1,9 @@
 package MoreExer_08;
 
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
 
 public class RageQuit_02 {
     public static void main(String[] args) {
@@ -13,18 +14,22 @@ public class RageQuit_02 {
         Pattern patter = Pattern.compile("(?<symbol>[\\D]+)(?<count>[\\d]+)");
         Matcher matcher = patter.matcher(input);
         StringBuilder wordReplay = new StringBuilder();
-        StringBuilder words = new StringBuilder();
-        int counterMatch = 0;
+        String uniqueSymbol = "";
 
         while (matcher.find()) {
 
             String currentSymbol = matcher.group("symbol");
             int counter = Integer.parseInt(matcher.group("count"));
-            words.append(currentSymbol);
+            uniqueSymbol += (currentSymbol.toUpperCase());
             wordReplay.append(repeat(currentSymbol, counter));
-            counterMatch = (symbolCount(words.toString(), currentSymbol));
         }
-        System.out.printf("Unique symbols used: %d%n", counterMatch);
+
+        String[] finalWord = wordReplay.toString().split("");
+
+        Set<String> uniqueStrings = new LinkedHashSet<>();
+        uniqueStrings.addAll(Arrays.asList(finalWord));
+
+        System.out.printf("Unique symbols used: %d%n", uniqueStrings.size());
         System.out.println(wordReplay);
 
     }
@@ -34,16 +39,8 @@ public class RageQuit_02 {
             repeatArr[i] = s.toUpperCase();
         }
         return String.join("", repeatArr);
+
+
     }
 
-    static Integer symbolCount(String word, String checkSymbol){
-        int counter = 0;
-        for (int i = 0; i < word.length(); i++) {
-
-            if (!word.contains(checkSymbol)){
-                counter++;
-            }
-        }
-        return counter;
-    }
 }
