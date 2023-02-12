@@ -14,13 +14,12 @@ public class RageQuit_02 {
         Pattern patter = Pattern.compile("(?<symbol>[\\D]+)(?<count>[\\d]+)");
         Matcher matcher = patter.matcher(input);
         StringBuilder wordReplay = new StringBuilder();
-        String uniqueSymbol = "";
+        StringBuilder uniqueSymbol = new StringBuilder();
 
         while (matcher.find()) {
-
             String currentSymbol = matcher.group("symbol");
             int counter = Integer.parseInt(matcher.group("count"));
-            uniqueSymbol += (currentSymbol.toUpperCase());
+            uniqueSymbol.append(currentSymbol.toUpperCase());
             wordReplay.append(repeat(currentSymbol, counter));
         }
 
@@ -39,8 +38,6 @@ public class RageQuit_02 {
             repeatArr[i] = s.toUpperCase();
         }
         return String.join("", repeatArr);
-
-
     }
 
 }
