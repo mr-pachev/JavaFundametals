@@ -3,7 +3,8 @@ package MoreExer_08;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
+
+import static jdk.internal.joptsimple.internal.Strings.repeat;
 
 public class RageQuit_02 {
     public static void main(String[] args) {
@@ -13,25 +14,37 @@ public class RageQuit_02 {
 
         Pattern patter = Pattern.compile("(?<symbol>[\\D]+)(?<count>[\\d]+)");
         Matcher matcher = patter.matcher(input);
-        StringBuilder wordReplay = new StringBuilder();
-        StringBuilder uniqueSymbol = new StringBuilder();
+
+        StringBuilder repeatWord = new StringBuilder();
+        StringBuilder noRepeatWord = new StringBuilder();
+
 
         while (matcher.find()) {
             String currentSymbol = matcher.group("symbol");
             int counter = Integer.parseInt(matcher.group("count"));
-            uniqueSymbol.append(currentSymbol.toUpperCase());
-            wordReplay.append(repeat(currentSymbol, counter));
+            repeatWord.append(repeat(currentSymbol, counter));
+            noRepeatWord.append(currentSymbol.toUpperCase());
         }
 
-        String[] finalWord = wordReplay.toString().split("");
+        noRepeatWord = new StringBuilder(removeDuplicateChar(noRepeatWord.toString()));
 
-        Set<String> uniqueStrings = new LinkedHashSet<>();
-        uniqueStrings.addAll(Arrays.asList(finalWord));
-
-        System.out.printf("Unique symbols used: %d%n", uniqueStrings.size());
-        System.out.println(wordReplay);
-
+        System.out.printf("Unique symbols used: %d%n", noRepeatWord.length());
+        System.out.println(String.join("", repeatWord));
     }
+
+    public static String removeDuplicateChar(String str){
+        char charArray[] = str.toCharArray();
+        StringBuilder stringBuilder= new StringBuilder();
+        for(int i=0; i<charArray.length; i++){
+            int index = stringBuilder.toString().indexOf(charArray[i]);
+            if(index <= -1){
+                stringBuilder.append(charArray[i]);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    //повтаряне на дадената дума според зададения брояч
     static String repeat(String s, int repeatCount) {
         String[] repeatArr = new String[repeatCount];
         for (int i = 0; i < repeatCount; i++) {
