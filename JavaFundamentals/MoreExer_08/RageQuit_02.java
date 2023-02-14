@@ -32,8 +32,9 @@ public class RageQuit_02 {
         System.out.println(String.join("", repeatWord));
     }
 
+    //премахване на дублиращите се символи
     public static String removeDuplicateChar(String str){
-        char charArray[] = str.toCharArray();
+        char[] charArray = str.toCharArray();
         StringBuilder stringBuilder= new StringBuilder();
         for(int i=0; i<charArray.length; i++){
             int index = stringBuilder.toString().indexOf(charArray[i]);
