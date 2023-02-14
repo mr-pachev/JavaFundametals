@@ -4,8 +4,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static jdk.internal.joptsimple.internal.Strings.repeat;
-
 public class RageQuit_02 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -17,7 +15,6 @@ public class RageQuit_02 {
 
         StringBuilder repeatWord = new StringBuilder();
         StringBuilder noRepeatWord = new StringBuilder();
-
 
         while (matcher.find()) {
             String currentSymbol = matcher.group("symbol");
@@ -36,10 +33,10 @@ public class RageQuit_02 {
     public static String removeDuplicateChar(String str){
         char[] charArray = str.toCharArray();
         StringBuilder stringBuilder= new StringBuilder();
-        for(int i=0; i<charArray.length; i++){
-            int index = stringBuilder.toString().indexOf(charArray[i]);
-            if(index <= -1){
-                stringBuilder.append(charArray[i]);
+        for (char c : charArray) {
+            int index = stringBuilder.toString().indexOf(c);
+            if (index <= -1) {
+                stringBuilder.append(c);
             }
         }
         return stringBuilder.toString();
