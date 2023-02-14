@@ -20,7 +20,9 @@ public class RageQuit_02 {
             String currentSymbol = matcher.group("symbol");
             int counter = Integer.parseInt(matcher.group("count"));
             repeatWord.append(repeat(currentSymbol, counter));
-            noRepeatWord.append(currentSymbol.toUpperCase());
+            if (counter > 0) {
+                noRepeatWord.append(currentSymbol.toUpperCase());
+            }
         }
 
         noRepeatWord = new StringBuilder(removeDuplicateChar(noRepeatWord.toString()));
