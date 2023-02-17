@@ -29,8 +29,9 @@ public class PostOffice_03 {
         while (symbolPattern.find()){
             char letter = (char) Integer.parseInt(symbolPattern.group("symbolCode"));
             int wordLength = Integer.parseInt(symbolPattern.group("length"));
-            firstLetterWordLengthMap.put(letter, wordLength);
-
+            if (wordLength + 1 > 0 && wordLength + 1 <= 20) {
+                firstLetterWordLengthMap.put(letter, wordLength);
+            }
         }
 
         Pattern wordsPattern = Pattern.compile("\\b([A-Z][a-z]+[#\\$%\\*&\\-][A-Z][a-z]+)|[A-Z][a-z]+\\b");
@@ -39,7 +40,7 @@ public class PostOffice_03 {
         while (wordsMatcher.find()){
             String currentWord = wordsMatcher.group();
             if (firstLetterWordLengthMap.containsKey(currentWord.toCharArray()[0])
-                && (firstLetterWordLengthMap.get(currentWord.toCharArray()[0]) == currentWord.length()-1)){
+                && (firstLetterWordLengthMap.get(currentWord.toCharArray()[0]) == currentWord.length() - 1)){
                 System.out.println(currentWord);
             }
         }
