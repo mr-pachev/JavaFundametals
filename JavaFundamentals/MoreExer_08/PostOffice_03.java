@@ -1,8 +1,6 @@
 package MoreExer_08;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,19 +30,22 @@ public class PostOffice_03 {
             char letter = (char) Integer.parseInt(symbolPattern.group("symbolCode"));
             int wordLength = Integer.parseInt(symbolPattern.group("length"));
             firstLetterWordLengthMap.put(letter, wordLength);
+
         }
 
-        Pattern wordsPattern = Pattern.compile("\\b([A-Z][a-z]+\\-[A-Z][a-z]+)|[A-Z][a-z]+\\b");
+        Pattern wordsPattern = Pattern.compile("\\b([A-Z][a-z]+[#\\$%\\*&\\-][A-Z][a-z]+)|[A-Z][a-z]+\\b");
         Matcher wordsMatcher = wordsPattern.matcher(input[2]);
 
+        List<String> finalWords = new ArrayList<>();
         while (wordsMatcher.find()){
             String currentWord = wordsMatcher.group();
             if (firstLetterWordLengthMap.containsKey(currentWord.toCharArray()[0])
                 && (firstLetterWordLengthMap.get(currentWord.toCharArray()[0]) == currentWord.length()-1)){
-                System.out.println(currentWord);
+                finalWords.add(currentWord);
             }
         }
 
+        
 
     }
 }
