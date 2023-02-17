@@ -34,14 +34,17 @@ public class PostOffice_03 {
             firstLetterWordLengthMap.put(letter, wordLength);
         }
 
-        Pattern wordsPattern = Pattern.compile("\\b[A-Z][a-z]+\\b");
+        Pattern wordsPattern = Pattern.compile("\\b([A-Z][a-z]+\\-[A-Z][a-z]+)|[A-Z][a-z]+\\b");
         Matcher wordsMatcher = wordsPattern.matcher(input[2]);
 
         while (wordsMatcher.find()){
             String currentWord = wordsMatcher.group();
-            System.out.println();
+            if (firstLetterWordLengthMap.containsKey(currentWord.toCharArray()[0])
+                && (firstLetterWordLengthMap.get(currentWord.toCharArray()[0]) == currentWord.length()-1)){
+                System.out.println(currentWord);
+            }
         }
 
-        System.out.println();
+
     }
 }
