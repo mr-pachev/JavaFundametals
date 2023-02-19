@@ -3,6 +3,7 @@ package MoreExer_08;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class PostOffice_03 {
     public static void main(String[] args) {
@@ -34,16 +35,28 @@ public class PostOffice_03 {
             }
         }
 
-        Pattern wordsPattern = Pattern.compile("\\b([A-Z][a-z]+[#\\$%\\*&\\-][A-Z][a-z]+)|[A-Z][a-z]+\\b");
+        Pattern wordsPattern = Pattern.compile("\\b([A-Z][a-z]+[#\\$%\\*&\\-][A-Z][a-z]+)|[A-Z][a-z]+\\b"); //regex за думи започващи с главна дуква и интервал между тях
         Matcher wordsMatcher = wordsPattern.matcher(input[2]);
+
+        List<String> partTreeWordsList = new ArrayList<>(); //списък съдържащ всички коретни думи от третата част
 
         while (wordsMatcher.find()){
             String currentWord = wordsMatcher.group();
             if (firstLetterWordLengthMap.containsKey(currentWord.toCharArray()[0])
                 && (firstLetterWordLengthMap.get(currentWord.toCharArray()[0]) == currentWord.length() - 1)){
-                System.out.println(currentWord);
+                partTreeWordsList.add(currentWord);
             }
         }
 
+        for (int i = 0; i < upperCaseArr.length; i++) { //обхождаме масива с главните букви от първата част и спрямо него принтираме
+
+            for (int j = 0; j < partTreeWordsList.size(); j++) { //обхождаме списъка с коректните думи от третата част и проверяваме коя дума е наред за принтиране спрямо първоначалния масив с главни букви
+                char current = partTreeWordsList.get(j).charAt(0);
+                int currentLength = partTreeWordsList.get(j).length() - 1;
+                if (upperCaseArr[i] == current && currentLength == firstLetterWordLengthMap.get(current)){
+                    System.out.println(partTreeWordsList.get(j));
+                }
+            }
+        }
     }
 }
