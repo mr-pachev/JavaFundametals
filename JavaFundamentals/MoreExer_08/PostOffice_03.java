@@ -11,16 +11,15 @@ public class PostOffice_03 {
 
         String[] input = scanner.nextLine().split("\\|"); //входни данни
 
-        Pattern lettersPattern = Pattern.compile("([#\\$%\\*&])(?<letters>[A-Z]+)(?:\\1)"); //regex за главните букви
-        String upperCaseLetters = "";
-
+        Pattern lettersPattern = Pattern.compile("([#\\$%\\*&])(?<letters>[A-Z]+)(?:\\1)"); //regex за главните букв
         Matcher matcherLettersCase = lettersPattern.matcher(input[0]);
+
+        String upperCaseLetters = "";
 
         while (matcherLettersCase.find()){
             upperCaseLetters = matcherLettersCase.group("letters");
         }
         char[] upperCaseArr = upperCaseLetters.toCharArray(); //масив с първата буква-главна от спредстоящите думи
-
 
         Pattern symbolCodePattern = Pattern.compile("(?<symbolCode>[0-9]{2}):(?<length>[0-9]{2})"); //regex за номера на първата буква от думата и последващата дължина
         Matcher symbolPattern = symbolCodePattern.matcher(input[1]);
@@ -30,20 +29,26 @@ public class PostOffice_03 {
         while (symbolPattern.find()){
             char letter = (char) Integer.parseInt(symbolPattern.group("symbolCode"));
             int wordLength = Integer.parseInt(symbolPattern.group("length"));
-            if (wordLength + 1 > 0 && wordLength + 1 <= 20) {
-                firstLetterWordLengthMap.put(letter, wordLength);
+
+            if (letter >= 65 && letter <= 90
+                    && wordLength > 0 && wordLength <= 20 ) {  //проверка дали буквата е главна и дали думата е с определената дължина
+
+                for (char s : upperCaseArr) {
+                    if (s == letter)
+                        firstLetterWordLengthMap.put(letter, wordLength + 1);
+                }
             }
         }
 
         Pattern wordsPattern = Pattern.compile("\\b([A-Z][a-z]+[#\\$%\\*&\\-][A-Z][a-z]+)|[A-Z][a-z]+\\b"); //regex за думи започващи с главна дуква и интервал между тях
         Matcher wordsMatcher = wordsPattern.matcher(input[2]);
 
-        List<String> partTreeWordsList = new ArrayList<>(); //списък съдържащ всички коретни думи от третата част
+        List<String> partTreeWordsList = new ArrayList<>(); //списък съдържащ всички коректни думи от третата част
 
         while (wordsMatcher.find()){
             String currentWord = wordsMatcher.group();
             if (firstLetterWordLengthMap.containsKey(currentWord.toCharArray()[0])
-                && (firstLetterWordLengthMap.get(currentWord.toCharArray()[0]) == currentWord.length() - 1)){
+                && (firstLetterWordLengthMap.get(currentWord.toCharArray()[0]) == currentWord.length())){
                 partTreeWordsList.add(currentWord);
             }
         }
@@ -52,8 +57,8 @@ public class PostOffice_03 {
 
             for (int j = 0; j < partTreeWordsList.size(); j++) { //обхождаме списъка с коректните думи от третата част и проверяваме коя дума е наред за принтиране спрямо първоначалния масив с главни букви
                 char current = partTreeWordsList.get(j).charAt(0);
-                int currentLength = partTreeWordsList.get(j).length() - 1;
-                if (upperCaseArr[i] == current && currentLength == firstLetterWordLengthMap.get(current)){
+                int currentLength = partTreeWordsList.get(j).length();
+                if (upperCaseArr[i] == current && currentLength == firstLetterWordLengthMap.get(current)){ //проверка дали поредната главна буква от масива сътветства на дума от листа
                     System.out.println(partTreeWordsList.get(j));
                 }
             }
