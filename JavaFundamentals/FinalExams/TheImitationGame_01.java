@@ -11,12 +11,7 @@ public class TheImitationGame_01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String coded = scanner.nextLine();
-        List<Character> codedMessageList = new ArrayList<>(); //списък от кодираната дума
-
-        for (Character s : coded.toCharArray()){
-            codedMessageList.add(s);
-        }
+        List<String> codedMessageList = new ArrayList<>(List.of(scanner.nextLine().split(""))); //списък от кодираната дума
 
         String input = scanner.nextLine();
 
@@ -27,8 +22,8 @@ public class TheImitationGame_01 {
             if (commands.length == 2){                              //преместване на елементи от началото вкрая
                 int num = Integer.parseInt(commands[1]);
                 for (int i = 0; i < num; i++) {
-                    char current = codedMessageList.get(0);
-                    codedMessageList.remove(0);
+                    String current = codedMessageList.get(0);
+                    codedMessageList.remove(codedMessageList.get(0));
                     codedMessageList.add(current);
                 }
 
@@ -36,14 +31,20 @@ public class TheImitationGame_01 {
 
                 if (isNumeric(commands[1])) {                           //вмъкване на елемент
                     int index = Integer.parseInt(commands[1]);
-                    char current = commands[2].toCharArray()[0];
-                    codedMessageList.add(index, current);
+                    String current = commands[2];
+
+                    for (int i = 0; i < current.length() ; i++) {
+                        String symbol = current.split("")[i];
+                        codedMessageList.add(index, symbol);
+                        index++;
+                    }
+
                 }else {                                                 //заместване на символ
-                    char oldLetter = commands[1].toCharArray()[0];
-                    char newLetter = commands[2].toCharArray()[0];
+                    String oldLetter = commands[1];
+                    String newLetter = commands[2];
 
                     for(int i = 0; i < codedMessageList.size(); i++){
-                        if (oldLetter == codedMessageList.get(i)){
+                        if (oldLetter.equals(codedMessageList.get(i))){
                             codedMessageList.set(i, newLetter);
                         }
                     }
@@ -54,7 +55,8 @@ public class TheImitationGame_01 {
             input = scanner.next();
         }
 
-        for (Character s : codedMessageList){
+        System.out.print("The decrypted message is: ");
+        for (String s : codedMessageList){
             System.out.print(s);
         }
 
