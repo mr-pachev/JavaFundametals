@@ -16,7 +16,6 @@ public class TheImitationGame_01 {
         List<String> codedMessageList = Arrays.stream(incoming.split("")).collect(Collectors.toList());
 
         String input = scanner.nextLine();
-        StringBuilder decodeWord = new StringBuilder();
 
         while (!input.equals("Decode")) {
 
@@ -24,11 +23,7 @@ public class TheImitationGame_01 {
 
             if (commands.length == 2) {                              //преместване на елементи от началото вкрая
                 int num = Integer.parseInt(commands[1]);
-                for (int i = 0; i < num; i++) {
-                    String current = codedMessageList.get(0);
-                    codedMessageList.remove(codedMessageList.get(0));
-                    codedMessageList.add(current);
-                }
+                edithList(num, codedMessageList);
 
             } else if (commands.length == 3) {
 
@@ -36,34 +31,51 @@ public class TheImitationGame_01 {
                     int index = Integer.parseInt(commands[1]);
                     String current = commands[2];
 
-                    for (int i = 0; i < current.length(); i++) {
-                        String symbol = current.split("")[i];
-                        codedMessageList.add(index, symbol);
-                        index++;
-                    }
+                    insertIntoList(codedMessageList, index, current);
 
                 } else {                                                 //заместване на символ
                     String oldLetter = commands[1];
                     String newLetter = commands[2];
 
-                    for (int i = 0; i < codedMessageList.size(); i++) {
-                        if (oldLetter.equals(codedMessageList.get(i))) {
-                            codedMessageList.set(i, newLetter);
-                        }
-                    }
+                    codedMessageList.toString();
+                    replaceElements(codedMessageList, oldLetter, newLetter);
                 }
             }
 
             input = scanner.next();
         }
 
-        for (String s : codedMessageList) {
-            decodeWord.append(s);
-        }
         System.out.print("The decrypted message is: ");
-        System.out.print(decodeWord);
+        for (String s : codedMessageList) {
+            System.out.print(s);
+        }
     }
 
+    public static List<String> edithList(int num, List<String> currentList){
+        for (int i = 0; i < num; i++) {
+            String current = currentList.get(0);
+            currentList.remove(currentList.get(0));
+            currentList.add(current);
+        }
+        return currentList;
+    }
+
+    public static List<String> insertIntoList(List<String> list, int index, String symbol){
+        for (int i = 0; i < symbol.length(); i++) {
+            String letter = symbol.split("")[i];
+            list.add(index, symbol);
+            index++;
+        }
+        return list;
+    }
+    public  static List<String> replaceElements(List<String> list, String oldLetter, String newLetter){
+        for (int i = 0; i < list.size(); i++) {
+            if (oldLetter.equals(list.get(i))) {
+                list.set(i, newLetter);
+            }
+        }
+        return list;
+    }
     //метод за проверка дали String-a е число
     public static boolean isNumeric(String str) {
         try {
@@ -73,5 +85,7 @@ public class TheImitationGame_01 {
             return false;
         }
     }
+
+
 
 }
