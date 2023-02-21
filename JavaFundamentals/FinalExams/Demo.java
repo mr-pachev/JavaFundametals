@@ -13,42 +13,39 @@ public class Demo {
         while (!input.equals("Decode")) {
             String[] commands = input.split("\\|");             //масив с командите
 
-            if (commands.length == 2) {                              //преместване на елементи от началото вкрая
-                int num = Integer.parseInt(commands[1]);
+            switch (commands[0]) {
+
+                case "Move": {
+                    //преместване на елементи от началото вкрая
+                    int num = Integer.parseInt(commands[1]);
                     String current = codedWord.substring(0, num);
-                  codedWord = codedWord.substring(num);
-                  codedWord = codedWord.concat(current);
-
-            } else if (commands.length == 3) {
-
-                if (isNumeric(commands[1])) {                           //вмъкване на елемент
+                    codedWord = codedWord.substring(num);
+                    codedWord = codedWord.concat(current);
+                    break;
+                }
+                case "Insert": {
+                    //вмъкване на елемент
                     int index = Integer.parseInt(commands[1]);
-                    String current = commands[2];
+                    String letter = commands[2];
                     String firstPart = codedWord.substring(0, index);
                     String lastPart = codedWord.substring(index);
-                    codedWord = firstPart.concat(current).concat(lastPart);
-                    System.out.println();
+                    codedWord = firstPart.concat(letter).concat(lastPart);
+                    break;
+                }
 
-                } else {                                                 //заместване на символ
+                case "ChangeAll": {
+                    //заместване на символ
                     String oldLetter = commands[1];
                     String newLetter = commands[2];
 
-                   codedWord = codedWord.replaceAll(oldLetter, newLetter);
+                    codedWord = codedWord.replaceAll(oldLetter, newLetter);
                     System.out.println();
+                    break;
                 }
             }
             input = scanner.next();
         }
 
         System.out.printf("The decrypted message is: %s", codedWord);
-    }
-    //метод за проверка дали String-a е число
-    public static boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }
