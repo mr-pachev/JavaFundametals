@@ -1,53 +1,48 @@
 package FinalExams;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class TheImitationGame_01 {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        String message = scan.nextLine();
+        String codedWord = scanner.nextLine();
 
-        String input = scan.nextLine();
+        String input = scanner.nextLine();
 
         while (!input.equals("Decode")) {
-            String[] tokens = input.split("\\|");
-            String action = tokens[0];
+            String[] data = input.split("\\|");
+            String commands = data[0];
 
-            switch (action) {
+            switch (commands) {
+
                 case "Move": {
-                    int numLetters = Integer.parseInt(tokens[1]);
-
-                    String firstPart = message.substring(0, numLetters);
-                    String secondPart = message.substring(numLetters);
-                    message = secondPart.concat(firstPart);
+                    int num = Integer.parseInt(data[1]);
+                    String firstPart = codedWord.substring(0, num);
+                    String lastPart = codedWord.substring(num);
+                    codedWord = lastPart.concat(firstPart);
                     break;
                 }
                 case "Insert": {
-                    int index = Integer.parseInt(tokens[1]);
-                    String element = tokens[2];
+                    int index = Integer.parseInt(data[1]);
+                    String letter = data[2];
 
-                    String firstPart = message.substring(0, index);
-                    String secondPart = message.substring(index);
-                    message = firstPart.concat(element).concat(secondPart);
+                    String firstPart = codedWord.substring(0, index);
+                    String lastPart = codedWord.substring(index);
+                    codedWord = firstPart.concat(letter).concat(lastPart);
                     break;
                 }
                 case "ChangeAll": {
-                    String substring = tokens[1];
-                    String replacement = tokens[2];
+                    String oldLetter = data[1];
+                    String newLetter = data[2];
 
-                    message = message.replace(substring, replacement);
+                    codedWord = codedWord.replace(oldLetter, newLetter);
                     break;
                 }
             }
 
-            input = scan.nextLine();
+            input = scanner.nextLine();
         }
 
-        System.out.printf("The decrypted message is: %s%n", message);
+        System.out.printf("The decrypted message is: %s%n", codedWord);
     }
 }
