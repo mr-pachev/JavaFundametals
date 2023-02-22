@@ -15,7 +15,7 @@ public class AdAstra_02 {
         List<String> resultList = new ArrayList<>();
         int sumCal = 0;
 
-        Pattern pattern = Pattern.compile("([#\\|])(?<name>[A-Z][a-z]+[ ]*)(?:\\1)(?<date>[0-9]{2}\\/[0-9]{2}\\/[0-9]{2})(?:\\1)(?<cal>[0-9]{0,5})(?:\\1)");
+        Pattern pattern = Pattern.compile("([#\\|])(?<name>[\\w ]+)(?:\\1)(?<date>[0-9]{2}\\/[0-9]{2}\\/[0-9]{2})(?:\\1)(?<cal>[0-9]{0,5})(?:\\1)");
         Matcher matcher = pattern.matcher(input);
 
         while(matcher.find()){
@@ -28,6 +28,24 @@ public class AdAstra_02 {
             sumCal += Integer.parseInt(calString);
         }
 
-        
+        int count = 0;
+        System.out.printf("You have food to last you for: %d days!%n", sumCal / 2000);
+        for (int i = 0; i < resultList.size(); i++) {
+
+            if (count == 0){
+                System.out.printf("Item: %s, ", resultList.get(i));
+                count++;
+                continue;
+            }
+            if (count == 1){
+                System.out.printf("Best before: %s, ", resultList.get(i));
+                count++;
+                continue;
+            }
+            if (count == 2) {
+                System.out.printf("Nutrition: %s%n", resultList.get(i));
+                count = 0;
+            }
+        }
     }
 }
