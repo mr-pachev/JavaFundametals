@@ -15,7 +15,7 @@ public class AdAstra_02 {
         List<String> resultList = new ArrayList<>();
         int sumCal = 0;
 
-        Pattern pattern = Pattern.compile("([#\\|])(?<name>[\\w ]+)(?:\\1)(?<date>[0-9]{2}\\/[0-9]{2}\\/[0-9]{2})(?:\\1)(?<cal>[0-9]{0,5})(?:\\1)");
+        Pattern pattern = Pattern.compile("([#\\|])(?<name>[a-zA-Z\\s]+)(?:\\1)(?<date>[0-9]{2}\\/[0-9]{2}\\/[0-9]{2})(?:\\1)(?<cal>[0-9]{1,5})(?:\\1)");
         Matcher matcher = pattern.matcher(input);
 
         while(matcher.find()){
