@@ -31,50 +31,58 @@ public class ThePianist_03 {
 
             String command = input.split("\\|")[0];   //команда
 
-            if (command.contains("Add")) {
-                String piecesAdd = input.split("\\|")[1];
-                String composerAdd = input.split("\\|")[2];
-                String gammaAdd = input.split("\\|")[3];
+            switch (command) {
+                case "Add": {
+                    String piecesAdd = input.split("\\|")[1];
+                    String composerAdd = input.split("\\|")[2];
+                    String gammaAdd = input.split("\\|")[3];
 
-                if (!isExist(resultMap, piecesAdd)) {
-                    List<String> dataList = new ArrayList<>();
+                    if (!isExist(resultMap, piecesAdd)) {
+                        List<String> dataList = new ArrayList<>();
 
-                    dataList.add(composerAdd);
-                    dataList.add(gammaAdd);
-                    resultMap.put(piecesAdd, dataList);
+                        dataList.add(composerAdd);
+                        dataList.add(gammaAdd);
+                        resultMap.put(piecesAdd, dataList);
 
-                    System.out.printf("%s by %s in %s added to the collection!%n", piecesAdd, composerAdd, gammaAdd);
-                } else {
-                    System.out.printf("%s is already in the collection!%n", piecesAdd);
+                        System.out.printf("%s by %s in %s added to the collection!%n", piecesAdd, composerAdd, gammaAdd);
+                    } else {
+                        System.out.printf("%s is already in the collection!%n", piecesAdd);
+                    }
+                    break;
                 }
-            } else if (command.contains("Remove")) {
-                String piecesRemoved = input.split("\\|")[1];
+                case "Remove": {
+                    String piecesRemoved = input.split("\\|")[1];
 
-                if (isExist(resultMap, piecesRemoved)) {
+                    if (isExist(resultMap, piecesRemoved)) {
 
-                    resultMap.remove(piecesRemoved);
-                    System.out.printf("Successfully removed %s!%n", piecesRemoved);
-                } else {
-                    System.out.printf("Invalid operation! %s does not exist in the collection.%n", piecesRemoved);
+                        resultMap.remove(piecesRemoved);
+
+                        System.out.printf("Successfully removed %s!%n", piecesRemoved);
+                    } else {
+                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", piecesRemoved);
+                    }
+                    break;
                 }
-            } else if (command.contains("ChangeKey")) {
 
-                String piecesChange = input.split("\\|")[1];
-                String gammaChange = input.split("\\|")[2];
+                case "ChangeKey": {
+                    String piecesChange = input.split("\\|")[1];
+                    String gammaChange = input.split("\\|")[2];
 
-                if (isExist(resultMap, piecesChange)) {
+                    if (isExist(resultMap, piecesChange)) {
 
-                    List<String> dataList = resultMap.get(piecesChange);
+                        List<String> dataList = resultMap.get(piecesChange);
 
-                    dataList.remove(1);
-                    dataList.add(1, gammaChange);
-                    resultMap.put(piecesChange, dataList);
-                    System.out.printf("Changed the key of %s to %s!%n", piecesChange, gammaChange);
-                } else {
-                    System.out.printf("Invalid operation! %s does not exist in the collection.%n", gammaChange);
+                        dataList.remove(1);
+                        dataList.add(1, gammaChange);
+                        resultMap.put(piecesChange, dataList);
+
+                        System.out.printf("Changed the key of %s to %s!%n", piecesChange, gammaChange);
+                    } else {
+                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", gammaChange);
+                    }
+                    break;
                 }
             }
-
             input = scanner.nextLine();
         }
 
