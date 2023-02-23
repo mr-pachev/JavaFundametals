@@ -90,7 +90,7 @@ public class ThePianist_03 {
                         dataList.add(gammaChange);
                         resultMap.put(piecesChange, dataList);
 
-                        System.out.printf("Changed the key of %s to %s!%n", oldGamma, gammaChange);
+                        System.out.printf("Changed the key of %s to %s!%n", piecesChange, gammaChange);
                     } else {
                         System.out.printf("Invalid operation! %s does not exist in the collection.%n", gammaChange);
                     }
