@@ -12,22 +12,17 @@ public class ThePianist_03 {
         Map<String, List<String>> resultMap = new LinkedHashMap<>(); //речник с резултатите
 
         for (int i = 1; i <= n; i++) {                        //пълнене на речника
-            String input = scanner.nextLine();                //вход на произведението|композитора|гамата
+            String input = scanner.nextLine();                //вход -> произведението|композитора|гамата
+
+            List<String> dataList = new ArrayList<>();
 
             String piece = input.split("\\|")[0];       //пройзведение
             String composer = input.split("\\|")[1];    //композитор
             String gamma = input.split("\\|")[2];       //гама
 
-            List<String> dataList = resultMap.get(piece);
-
-            if (dataList == null) {
-                dataList = new ArrayList<>();
-            }
-
             dataList.add(composer);
             dataList.add(gamma);
             resultMap.put(piece, dataList);
-
         }
 
         String input = scanner.nextLine();
@@ -36,66 +31,50 @@ public class ThePianist_03 {
 
             String command = input.split("\\|")[0];   //команда
 
-            switch (command) {
-                case "Add": {
-                    String piecesAdd = input.split("\\|")[1];
-                    String composerAdd = input.split("\\|")[2];
-                    String gammaAdd = input.split("\\|")[3];
+            if (command.contains("Add")) {
+                String piecesAdd = input.split("\\|")[1];
+                String composerAdd = input.split("\\|")[2];
+                String gammaAdd = input.split("\\|")[3];
 
-                    List<String> dataList = resultMap.get(piecesAdd);
+                if (!isExist(resultMap, piecesAdd)) {
+                    List<String> dataList = new ArrayList<>();
 
-                    if (!isExist(resultMap, piecesAdd)) {
+                    dataList.add(composerAdd);
+                    dataList.add(gammaAdd);
+                    resultMap.put(piecesAdd, dataList);
 
-                        dataList = new ArrayList<>();
-
-                        dataList.add(composerAdd);
-                        dataList.add(gammaAdd);
-                        resultMap.put(piecesAdd, dataList);
-
-                        System.out.printf("%s by %s in %s added to the collection!%n", piecesAdd, composerAdd, gammaAdd);
-                    } else {
-                        System.out.printf("%s is already in the collection!%n", piecesAdd);
-                    }
-
-                    break;
+                    System.out.printf("%s by %s in %s added to the collection!%n", piecesAdd, composerAdd, gammaAdd);
+                } else {
+                    System.out.printf("%s is already in the collection!%n", piecesAdd);
                 }
-                case "Remove": {
-                    String piecesRemoved = input.split("\\|")[1];
+            } else if (command.contains("Remove")) {
+                String piecesRemoved = input.split("\\|")[1];
 
-                    List<String> dataList = resultMap.get(piecesRemoved);
+                if (isExist(resultMap, piecesRemoved)) {
 
-                    if (isExist(resultMap, piecesRemoved)) {
-
-                        resultMap.remove(piecesRemoved);
-
-                        System.out.printf("Successfully removed %s!%n", piecesRemoved);
-                    } else {
-                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", piecesRemoved);
-                    }
-                    break;
+                    resultMap.remove(piecesRemoved);
+                    System.out.printf("Successfully removed %s!%n", piecesRemoved);
+                } else {
+                    System.out.printf("Invalid operation! %s does not exist in the collection.%n", piecesRemoved);
                 }
+            } else if (command.contains("ChangeKey")) {
 
-                case "ChangeKey": {
-                    String piecesChange = input.split("\\|")[1];
-                    String gammaChange = input.split("\\|")[2];
+                String piecesChange = input.split("\\|")[1];
+                String gammaChange = input.split("\\|")[2];
+
+                if (isExist(resultMap, piecesChange)) {
 
                     List<String> dataList = resultMap.get(piecesChange);
 
-                    if (isExist(resultMap, piecesChange)) {
-                        String oldGamma = resultMap.get(piecesChange).get(1);
-                        String oldComposer = resultMap.get(piecesChange).get(0);
-
-                        dataList.remove(1);
-                        dataList.add(gammaChange);
-                        resultMap.put(piecesChange, dataList);
-
-                        System.out.printf("Changed the key of %s to %s!%n", piecesChange, gammaChange);
-                    } else {
-                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", gammaChange);
-                    }
-                    break;
+                    dataList.remove(1);
+                    dataList.add(1, gammaChange);
+                    resultMap.put(piecesChange, dataList);
+                    System.out.printf("Changed the key of %s to %s!%n", piecesChange, gammaChange);
+                } else {
+                    System.out.printf("Invalid operation! %s does not exist in the collection.%n", gammaChange);
                 }
             }
+
             input = scanner.nextLine();
         }
 
