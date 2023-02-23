@@ -44,7 +44,7 @@ public class ThePianist_03 {
 
                     List<String> dataList = resultMap.get(piecesAdd);
 
-                    if (!resultMap.containsKey(piecesAdd)) {
+                    if (!isExist(resultMap, piecesAdd)) {
 
                         dataList = new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class ThePianist_03 {
 
                     List<String> dataList = resultMap.get(piecesRemoved);
 
-                    if (resultMap.containsKey(piecesRemoved)) {
+                    if (isExist(resultMap, piecesRemoved)) {
 
                         resultMap.remove(piecesRemoved);
 
@@ -81,12 +81,11 @@ public class ThePianist_03 {
 
                     List<String> dataList = resultMap.get(piecesChange);
 
-                    if (resultMap.containsKey(piecesChange)) {
+                    if (isExist(resultMap, piecesChange)) {
                         String oldGamma = resultMap.get(piecesChange).get(1);
                         String oldComposer = resultMap.get(piecesChange).get(0);
 
-                        dataList = new ArrayList<>();
-                        dataList.add(oldComposer);
+                        dataList.remove(1);
                         dataList.add(gammaChange);
                         resultMap.put(piecesChange, dataList);
 
@@ -113,5 +112,8 @@ public class ThePianist_03 {
             }
         }
 
+    }
+    public static boolean isExist (Map<String, List<String>> mapCheck, String key){
+        return mapCheck.containsKey(key);
     }
 }
