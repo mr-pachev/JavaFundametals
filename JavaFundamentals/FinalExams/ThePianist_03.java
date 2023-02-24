@@ -8,13 +8,13 @@ public class ThePianist_03 {
 
 
         int n = Integer.parseInt(scanner.nextLine());
-        Map<String, List<String>> resultMap = new LinkedHashMap<>(); //речник с резултатите
+        Map<String, List<String>> resultMap = new LinkedHashMap<>();    //речник с резултатите
 
-        for (int i = 1; i <= n; i++) {                        //пълнене на речника
-            String input = scanner.nextLine();                //вход -> произведението|композитора|гамата
+        for (int i = 1; i <= n; i++) {                                  //пълнене на речника
+            String input = scanner.nextLine();                          //вход -> произведението|композитора|гамата
             String[] piecesParts = input.split("\\|");
-
             List<String> dataList = new ArrayList<>();
+
             String piece = piecesParts[0];       //пройзведение
             String composer = piecesParts[1];    //композитор
             String gamma = piecesParts[2];       //гама
@@ -25,27 +25,24 @@ public class ThePianist_03 {
         }
 
         String input = scanner.nextLine();
-
         while (!input.equals("Stop")) {
 
             String command = input.split("\\|")[0];   //команда
 
-            switch (command) {
+            switch (input.split("\\|")[0]) {
                 case "Add": {
                     String piecesAdd = input.split("\\|")[1];
                     String composerAdd = input.split("\\|")[2];
                     String gammaAdd = input.split("\\|")[3];
+                    List<String> addList = new ArrayList<>();
+                    addList.add(composerAdd);
+                    addList.add(gammaAdd);
 
-                    List<String> dataList = new ArrayList<>();
-                    dataList.add(composerAdd);
-                    dataList.add(gammaAdd);
-
-                    if (!isExist(resultMap, piecesAdd)) {
-                        resultMap.put(piecesAdd, dataList);
-
-                        System.out.printf("%s by %s in %s added to the collection!%n", piecesAdd, composerAdd, gammaAdd);
-                    } else {
+                    if (isExist(resultMap, piecesAdd)) {
                         System.out.printf("%s is already in the collection!%n", piecesAdd);
+                    } else {
+                        resultMap.put(piecesAdd, addList);
+                        System.out.printf("%s by %s in %s added to the collection!%n", piecesAdd, composerAdd, gammaAdd);
                     }
                     break;
                 }
@@ -55,14 +52,12 @@ public class ThePianist_03 {
                     if (isExist(resultMap, piecesRemoved)) {
 
                         resultMap.remove(piecesRemoved);
-
                         System.out.printf("Successfully removed %s!%n", piecesRemoved);
                     } else {
                         System.out.printf("Invalid operation! %s does not exist in the collection.%n", piecesRemoved);
                     }
                     break;
                 }
-
                 case "ChangeKey": {
                     String piecesChange = input.split("\\|")[1];
                     String gammaChange = input.split("\\|")[2];
@@ -70,12 +65,12 @@ public class ThePianist_03 {
 
                     if (isExist(resultMap, piecesChange)) {
                         dataList.remove(1);
-                        dataList.add(1, gammaChange);
+                        dataList.add(gammaChange);
                         resultMap.put(piecesChange, dataList);
 
                         System.out.printf("Changed the key of %s to %s!%n", piecesChange, gammaChange);
                     } else {
-                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", gammaChange);
+                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", piecesChange);
                     }
                     break;
                 }
@@ -92,7 +87,6 @@ public class ThePianist_03 {
                 } else if (i == 1) {
                     System.out.println(entry.getValue().get(1));
                 }
-
             }
         }
 
