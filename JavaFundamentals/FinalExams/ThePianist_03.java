@@ -12,12 +12,12 @@ public class ThePianist_03 {
 
         for (int i = 1; i <= n; i++) {                        //пълнене на речника
             String input = scanner.nextLine();                //вход -> произведението|композитора|гамата
+            String[] piecesParts = input.split("\\|");
 
             List<String> dataList = new ArrayList<>();
-
-            String piece = input.split("\\|")[0];       //пройзведение
-            String composer = input.split("\\|")[1];    //композитор
-            String gamma = input.split("\\|")[2];       //гама
+            String piece = piecesParts[0];       //пройзведение
+            String composer = piecesParts[1];    //композитор
+            String gamma = piecesParts[2];       //гама
 
             dataList.add(composer);
             dataList.add(gamma);
@@ -83,22 +83,18 @@ public class ThePianist_03 {
             input = scanner.nextLine();
         }
 
-        resultMap.entrySet().stream()
-                .forEach(kvp -> System.out.printf("%s -> Composer: %s, Key: %s%n",
-                        kvp.getKey(), kvp.getValue().get(0), kvp.getValue().get(1)));
+        for (Map.Entry<String, List<String>> entry : resultMap.entrySet()) {
+            System.out.printf("%s -> Composer: ", entry.getKey());
 
-//        for (Map.Entry<String, List<String>> entry : resultMap.entrySet()) {
-//            System.out.printf("%s -> Composer: ", entry.getKey());
-//
-//            for (int i = 0; i < entry.getValue().size(); i++) {
-//                if (i == 0) {
-//                    System.out.printf("%s, Key: ", entry.getValue().get(0));
-//                } else if (i == 1) {
-//                    System.out.println(entry.getValue().get(1));
-//                }
-//
-//            }
-//        }
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                if (i == 0) {
+                    System.out.printf("%s, Key: ", entry.getValue().get(0));
+                } else if (i == 1) {
+                    System.out.println(entry.getValue().get(1));
+                }
+
+            }
+        }
 
     }
 
