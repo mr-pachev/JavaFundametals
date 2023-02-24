@@ -16,7 +16,7 @@ public class DestinationMapper_02 {
 
         int points = 0;
 
-        Pattern pattern = Pattern.compile("([=]|[\\/])(?<place>[A-Z][A-Z]{2,}|[A-Z][a-z]{2,})(?:\\1)");
+        Pattern pattern = Pattern.compile("([\\=]|[\\/])(?<place>[A-Z][A-Za-z]{2,})(?:\\1)");
         Matcher matcher = pattern.matcher(input);
 
         while (matcher.find()){
