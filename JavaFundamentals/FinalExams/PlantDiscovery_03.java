@@ -32,13 +32,8 @@ public class PlantDiscovery_03 {
 
                     if (isExist(currentPlant, plantsInfo)) {
                         List<Integer> plantsList = plantsInfo.get(currentPlant);
-                        if (plantsList.size() == 2) {
-                            int currentRate = plantsList.get(1);
-                            currentRate += rating;
-                            plantsList.set(1, currentRate);
-                        } else {
-                            plantsList.add(rating);
-                        }
+
+                        plantsList.add(rating);
                         plantsInfo.put(currentPlant, plantsList);
                     } else {
                         System.out.println("error");
@@ -72,11 +67,37 @@ public class PlantDiscovery_03 {
             }
             command = scanner.nextLine();
         }
+        System.out.println("Plants for the exhibition:");
+
+        for (Map.Entry<String, List<Integer>> entry : plantsInfo.entrySet()) {
+            System.out.printf("- %s; ", entry.getKey());
+
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                if (entry.getValue().size() == 1) {
+                    System.out.printf("Rarity: %d; Rating: 0.00%n", entry.getValue().get(0));
+                } else {
+                    List<Integer> average = entry.getValue();
+                    int rarity = entry.getValue().get(0);
+                    average.remove(0);
+                    double avr = getAverage(average);
+                    System.out.printf("Rarity: %d; Rating: %.2f%n", rarity, avr);
+                    break;
+                }
+            }
+        }
 
 
     }
 
     public static boolean isExist(String plant, Map<String, List<Integer>> plantsMap) {
         return plantsMap.containsKey(plant);
+    }
+
+    //метод за намиране на средна стойност на елевентите от List<Integer>
+    private static double getAverage(List<Integer> list) {
+        IntSummaryStatistics stats = list.stream()
+                .mapToInt(Integer::intValue)
+                .summaryStatistics();
+        return stats.getAverage();
     }
 }
