@@ -8,7 +8,6 @@ public class ThePianist_03 {
 
 
         int n = Integer.parseInt(scanner.nextLine());
-
         Map<String, List<String>> resultMap = new LinkedHashMap<>(); //речник с резултатите
 
         for (int i = 1; i <= n; i++) {                        //пълнене на речника
@@ -37,11 +36,11 @@ public class ThePianist_03 {
                     String composerAdd = input.split("\\|")[2];
                     String gammaAdd = input.split("\\|")[3];
 
-                    if (!isExist(resultMap, piecesAdd)) {
-                        List<String> dataList = new ArrayList<>();
+                    List<String> dataList = new ArrayList<>();
+                    dataList.add(composerAdd);
+                    dataList.add(gammaAdd);
 
-                        dataList.add(composerAdd);
-                        dataList.add(gammaAdd);
+                    if (!isExist(resultMap, piecesAdd)) {
                         resultMap.put(piecesAdd, dataList);
 
                         System.out.printf("%s by %s in %s added to the collection!%n", piecesAdd, composerAdd, gammaAdd);
@@ -67,11 +66,9 @@ public class ThePianist_03 {
                 case "ChangeKey": {
                     String piecesChange = input.split("\\|")[1];
                     String gammaChange = input.split("\\|")[2];
+                    List<String> dataList = resultMap.get(piecesChange);
 
                     if (isExist(resultMap, piecesChange)) {
-
-                        List<String> dataList = resultMap.get(piecesChange);
-
                         dataList.remove(1);
                         dataList.add(1, gammaChange);
                         resultMap.put(piecesChange, dataList);
@@ -86,21 +83,26 @@ public class ThePianist_03 {
             input = scanner.nextLine();
         }
 
-        for (Map.Entry<String, List<String>> entry : resultMap.entrySet()) {
-            System.out.printf("%s -> Composer: ", entry.getKey());
+        resultMap.entrySet().stream()
+                .forEach(kvp -> System.out.printf("%s -> Composer: %s, Key: %s%n",
+                        kvp.getKey(), kvp.getValue().get(0), kvp.getValue().get(1)));
 
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                if (i == 0) {
-                    System.out.printf("%s, Key: ", entry.getValue().get(0));
-                } else if (i == 1) {
-                    System.out.println(entry.getValue().get(1));
-                }
-
-            }
-        }
+//        for (Map.Entry<String, List<String>> entry : resultMap.entrySet()) {
+//            System.out.printf("%s -> Composer: ", entry.getKey());
+//
+//            for (int i = 0; i < entry.getValue().size(); i++) {
+//                if (i == 0) {
+//                    System.out.printf("%s, Key: ", entry.getValue().get(0));
+//                } else if (i == 1) {
+//                    System.out.println(entry.getValue().get(1));
+//                }
+//
+//            }
+//        }
 
     }
-    public static boolean isExist (Map<String, List<String>> mapCheck, String key){
+
+    public static boolean isExist(Map<String, List<String>> mapCheck, String key) {
         return mapCheck.containsKey(key);
     }
 }
