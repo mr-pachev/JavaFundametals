@@ -26,9 +26,7 @@ public class DestinationMapper_02 {
         }
 
         System.out.print("Destinations: ");
-
-        for (String s : destinations){
-            System.out.print(s + ", ");
-        }
+        System.out.println(destinations.toString().replaceAll("[\\[\\],]", "").replaceAll(" ", ", "));
+        System.out.printf("Travel Points: %d", points);
     }
 }
