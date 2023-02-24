@@ -23,12 +23,12 @@ public class PlantDiscovery_03 {
 
         while (!command.contains("Exhibition")) {
 
-            String info = command.split(": ")[1];
-            switch (command.split(": ")[0]) {
+            String info = command.split(":\\s+")[1];
+            switch (command.split(":\\s+")[0]) {
 
                 case "Rate": {
-                    String currentPlant = info.split(" - ")[0];
-                    double rating = Double.parseDouble(info.split(" - ")[1]);
+                    String currentPlant = info.split("\\s+\\-\\s+")[0];
+                    double rating = Double.parseDouble(info.split("\\s+\\-\\s+")[1]);
 
                     if (isExist(currentPlant, plantsInfo)) {
                         List<Double> plantsList = plantsInfo.get(currentPlant);
@@ -41,8 +41,8 @@ public class PlantDiscovery_03 {
                     break;
                 }
                 case "Update": {
-                    String currentPlant = info.split(" - ")[0];
-                    double rarity = Integer.parseInt(info.split(" - ")[1]);
+                    String currentPlant = info.split("\\s+\\-\\s+")[0];
+                    double rarity = Integer.parseInt(info.split("\\s+\\-\\s+")[1]);
 
                     if (isExist(currentPlant, plantsInfo)) {
                         List<Double> plantsList = plantsInfo.get(currentPlant);
@@ -67,7 +67,6 @@ public class PlantDiscovery_03 {
             }
             command = scanner.nextLine();
         }
-        System.out.println("Plants for the exhibition:");
 
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
 
@@ -82,7 +81,7 @@ public class PlantDiscovery_03 {
                     newList.add(avr);
                     plantsInfo.put(entry.getKey(), newList);
                     break;
-                }else {
+                } else {
                     List<Double> newList = new ArrayList<>();
                     double rarity = entry.getValue().get(0);
                     newList.add(rarity);
@@ -92,6 +91,7 @@ public class PlantDiscovery_03 {
             }
         }
 
+        System.out.println("Plants for the exhibition:");
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
             System.out.printf("- %s; ", entry.getKey());
 
