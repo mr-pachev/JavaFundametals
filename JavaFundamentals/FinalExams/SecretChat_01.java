@@ -27,7 +27,12 @@ public class SecretChat_01 {
                     String foReverse = input.split("\\:\\|\\:")[1];
                     if (codedText.contains(foReverse)){
                        String reverse = isReverse(foReverse);
-                        codedText = codedText.replace(foReverse, reverse);
+                        int firstIndex = codedText.indexOf(foReverse);
+                        int lastIndex = firstIndex + foReverse.length();
+                        String startPart = codedText.substring(0, firstIndex);
+                        String endPart = codedText.substring(lastIndex);
+                        codedText = startPart.concat(endPart).concat(reverse);
+                        System.out.println(codedText);
                     }else {
                         System.out.println("error");
                     }
