@@ -46,13 +46,14 @@ public class MirrorWords_02 {
                         System.out.printf("%s <=> ", wordList.get(i));
                     }else if (counter == 1){
                         counter = 0;
-                        System.out.printf("%s,", wordList.get(i));
+                        System.out.printf("%s, ", wordList.get(i));
                     }
                 }
             }
 
         }else {
             System.out.println("No word pairs found!");
+            System.out.println("No mirror words!");
         }
 
     }
