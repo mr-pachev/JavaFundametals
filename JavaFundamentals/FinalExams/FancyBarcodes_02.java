@@ -12,30 +12,34 @@ public class FancyBarcodes_02 {
 
         for (int input = 0; input < n; input++) {
             String text = scanner.nextLine();
+            boolean isMatch = false;
 
-            Pattern pattern = Pattern.compile("([@][#]+)(?<word>[A-Za-z0-9A-Z]{6,})\\1");
+            Pattern pattern = Pattern.compile("@[#]+(?<word>[A-Z][a-z0-9A-Z]{5,})@[#]+");
             Matcher matcher = pattern.matcher(text);
 
             while (matcher.find()){
+                isMatch = true;
                 char[] textArr = matcher.group("word").toCharArray();
                 String productGroup = isDigit(textArr);
 
                 if(productGroup.isEmpty()){
-                    System.out.println("Invalid barcode");
+                    System.out.println("Product group: 00");
                 }else {
                     System.out.printf("Product group: %s%n", productGroup);
                 }
 
              }
 
+            if(!isMatch){
+                System.out.println("Invalid barcode");
+            }
         }
-
     }
 
     public static String isDigit(char[] arr){
         StringBuilder digit = new StringBuilder();
         for (int index = 0; index < arr.length ; index++) {
-            if (Character.isLetterOrDigit(arr[index])){
+            if (Character.isDigit(arr[index])){
                 digit.append(arr[index]);
             }
         }
