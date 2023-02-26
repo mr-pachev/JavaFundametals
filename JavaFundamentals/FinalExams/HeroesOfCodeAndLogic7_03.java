@@ -110,9 +110,9 @@ public class HeroesOfCodeAndLogic7_03 {
 
             for (int i = 0; i < entry.getValue().size(); i++) {
                 if (i == 0) {
-                    System.out.printf(" HP : %d%n", entry.getValue().get(0));
+                    System.out.printf(" HP: %d%n", entry.getValue().get(0));
                 } else if (i == 1) {
-                    System.out.printf(" HM : %d%n", entry.getValue().get(1));
+                    System.out.printf(" MP: %d%n", entry.getValue().get(1));
                 }
             }
         }
