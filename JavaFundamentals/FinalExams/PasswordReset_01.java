@@ -25,6 +25,7 @@ public class PasswordReset_01 {
                         }
                     }
                     text = currentWord.toString();
+                    System.out.println(text);
                     break;
                 }
                 case "Cut": {
@@ -33,7 +34,7 @@ public class PasswordReset_01 {
                     String firstPart = text.substring(0, startIndex);
                     String secondPart = text.substring(startIndex + length);
                     text = firstPart.concat(secondPart);
-
+                    System.out.println(text);
                     break;
                 }
                 case "Substitute": {
@@ -42,13 +43,14 @@ public class PasswordReset_01 {
 
                     if (text.contains(oldSymbol)){
                         text = text.replaceAll(oldSymbol, newSymbol);
+                        System.out.println(text);
                     }else {
                         System.out.println("Nothing to replace!");
                     }
                     break;
                 }
             }
-            System.out.println(text);
+
             input = scanner.nextLine();
         }
 
