@@ -14,7 +14,7 @@ public class FancyBarcodes_02 {
             String text = scanner.nextLine();
             boolean isMatch = false;
 
-            Pattern pattern = Pattern.compile("@[#]+(?<word>[A-Z][a-z0-9A-Z]{5,})@[#]+");
+            Pattern pattern = Pattern.compile("[@][#]+(?<word>[A-Z][a-zA-Z0-9]{4,}[A-Z])[@][#]+");
             Matcher matcher = pattern.matcher(text);
 
             while (matcher.find()){
