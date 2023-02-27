@@ -42,6 +42,12 @@ public class EmojiDetector_02 {
             }
         }
 
+        System.out.printf("Cool threshold: %d%n", threshold);
+        System.out.printf("%d emojis found in the text. The cool ones are:%n", onlyEmojiList.size());
+
+        for (String s : emojiList){
+            System.out.println(s);
+        }
     }
 
     public static Integer charCount(char[] arr) {
