@@ -22,7 +22,7 @@ public class EmojiDetector_02 {
             threshold *= currentDigit;
         }
 
-        Pattern pattern = Pattern.compile("([:]{2}|[*]{2})(?<emoji>[A-Z][a-z]{2,})\\1");
+        Pattern pattern = Pattern.compile("(:{2}|[*]{2})(?<emoji>[A-Z][a-z]{2,})\\1");
         Matcher matcher = pattern.matcher(text);
 
         List<String> emojiList = new ArrayList<>();
@@ -30,9 +30,9 @@ public class EmojiDetector_02 {
 
         while (matcher.find()) {
             String match = matcher.group();
+            emojiList.add(match);
             String emojiClean = matcher.group("emoji");
             onlyEmojiList.add(emojiClean);
-            emojiList.add(match);
         }
 
         for (int i = 0; i < onlyEmojiList.size(); i++) {
