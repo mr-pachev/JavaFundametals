@@ -44,14 +44,14 @@ public class Pirates_03 {
                     int currentPopulation = cityDataList.get(0);
                     int currentGold = cityDataList.get(1);
 
+                    cityDataList.set(0, currentPopulation - populationPlunder);
+                    cityDataList.set(1, currentGold - goldPlunder);
+                    citiesMap.put(cityName, cityDataList);
+                    System.out.printf("%s plundered! %d gold stolen, %d citizens killed.%n", cityName, goldPlunder, populationPlunder);
+
                     if (currentPopulation - populationPlunder <= 0 || currentGold - goldPlunder <= 0) {
                         citiesMap.remove(cityName);
                         System.out.printf("%s has been wiped off the map!%n", cityName);
-                    } else {
-                        cityDataList.set(0, currentPopulation - populationPlunder);
-                        cityDataList.set(1, currentGold - goldPlunder);
-                        citiesMap.put(cityName, cityDataList);
-                        System.out.printf("%s plundered! %d gold stolen, %d citizens killed.%n", cityName, goldPlunder, populationPlunder);
                     }
                     break;
                 }
@@ -62,7 +62,7 @@ public class Pirates_03 {
                     List<Integer> cityDataList = citiesMap.get(cityName);
                     int currentGold = cityDataList.get(1);
 
-                    if (goldProsper <= 0) {
+                    if (goldProsper < 0) {
                         System.out.println("Gold added cannot be a negative number!");
                     } else {
                         cityDataList.set(1, currentGold + goldProsper);
@@ -73,6 +73,23 @@ public class Pirates_03 {
                 }
             }
             input = scanner.nextLine();
+        }
+
+        if(citiesMap.isEmpty()) {
+            System.out.println("Ahoy, Captain! All targets have been plundered and destroyed!");
+        }else {
+            System.out.printf("Ahoy, Captain! There are %d wealthy settlements to go to:%n", citiesMap.size());
+            for (Map.Entry<String, List<Integer>> entry : citiesMap.entrySet()) {
+                System.out.printf("%s -> ", entry.getKey());
+
+                for (int i = 0; i < entry.getValue().size(); i++) {
+                    if (i == 0) {
+                        System.out.printf("Population: %d citizens, ", entry.getValue().get(0));
+                    } else if (i == 1) {
+                        System.out.printf("Gold: %d kg%n", entry.getValue().get(1));
+                    }
+                }
+            }
         }
     }
 }
