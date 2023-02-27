@@ -1,5 +1,6 @@
 package FinalExams;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -21,7 +22,7 @@ public class EmojiDetector_02 {
             threshold *= currentDigit;
         }
 
-        Pattern pattern = Pattern.compile("([\\::|\\**]{2})(?<emoji>[A-Z][a-z]{2,})\\1");
+        Pattern pattern = Pattern.compile("([:]{2}|[*]{2})(?<emoji>[A-Z][a-z]{2,})\\1");
         Matcher matcher = pattern.matcher(text);
 
         List<String> emojiList = new ArrayList<>();
@@ -38,14 +39,14 @@ public class EmojiDetector_02 {
             char[] word = onlyEmojiList.get(i).toCharArray();
 
             if (charCount(word) < threshold) {
-                emojiList.remove(i);
+                emojiList.remove(emojiList.get(i));
             }
         }
 
         System.out.printf("Cool threshold: %d%n", threshold);
         System.out.printf("%d emojis found in the text. The cool ones are:%n", onlyEmojiList.size());
 
-        for (String s : emojiList){
+        for (String s : emojiList) {
             System.out.println(s);
         }
     }
