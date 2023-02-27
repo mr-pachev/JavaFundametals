@@ -13,50 +13,45 @@ public class EmojiDetector_02 {
 
         String text = scanner.nextLine();
 
-        Pattern digitPattern = Pattern.compile("[0-9]");
+        Pattern digitPattern = Pattern.compile("[0-9]");  //изваждане само на цифрите от текста
         Matcher digitMatcher = digitPattern.matcher(text);
-        int threshold = 1;
+
+        long threshold = 1;                                     //сбора на извадените цифри от текста
+        int counter = 0;                                        //брояч на намерените емоджита
 
         while (digitMatcher.find()) {
-            int currentDigit = Integer.parseInt(digitMatcher.group());
-            threshold *= currentDigit;
+            long currentDigit = Long.parseLong(digitMatcher.group());
+            threshold *= currentDigit;                                                        //сбора на всички цифри от текста-threshold
         }
 
-        Pattern pattern = Pattern.compile("(:{2}|[*]{2})(?<emoji>[A-Z][a-z]{2,})\\1");
+        Pattern pattern = Pattern.compile("(:{2}|[*]{2})(?<emoji>[A-Z][a-z]{2,})\\1");  //изваждане на чистото емоджи
         Matcher matcher = pattern.matcher(text);
 
-        List<String> emojiList = new ArrayList<>();
-        List<String> onlyEmojiList = new ArrayList<>();
+        List<String> emojiList = new ArrayList<>();     //съдържа емоджитата с cool>threshold
 
         while (matcher.find()) {
-            String match = matcher.group();
-            emojiList.add(match);
-            String emojiClean = matcher.group("emoji");
-            onlyEmojiList.add(emojiClean);
-        }
+            String match = matcher.group();             //цялата дума
+            long cool = 0;                              //сбора от ASCII-стойностите на символите на даденото емоджи
+            counter++;
 
-        for (int i = 0; i < onlyEmojiList.size(); i++) {
-            char[] word = onlyEmojiList.get(i).toCharArray();
+            String emojiClean = matcher.group("emoji");     //само емоджито
 
-            if (charCount(word) < threshold) {
-                emojiList.remove(emojiList.get(i));
+            for (int i = 0; i < emojiClean.length(); i++) {       //сборува стойностите на всеки символ от даденото еможи
+                char symbol = emojiClean.charAt(i);
+                cool += (int) symbol;
+            }
+
+            if (cool > threshold) {          //ако сбора на символите на даденото емоджи е по-голямо от threshold влиза в списъка с емоджитата
+                emojiList.add(match);
             }
         }
 
         System.out.printf("Cool threshold: %d%n", threshold);
-        System.out.printf("%d emojis found in the text. The cool ones are:%n", onlyEmojiList.size());
+        System.out.printf("%d emojis found in the text. The cool ones are:%n", counter);
 
         for (String s : emojiList) {
             System.out.println(s);
         }
-    }
-
-    public static Integer charCount(char[] arr) {
-        int count = 0;
-        for (int i = 0; i < arr.length; i++) {
-            count += arr[i];
-        }
-        return count;
     }
 }
 
