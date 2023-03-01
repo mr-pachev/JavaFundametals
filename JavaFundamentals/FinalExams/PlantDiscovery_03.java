@@ -71,11 +71,12 @@ public class PlantDiscovery_03 {
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
 
             List<Double> plantsList = plantsInfo.get(entry.getKey());
-            plantsList = averageList(plantsList);
-            plantsInfo.put(entry.getKey(), plantsList);
+            List<Double> newList = new ArrayList<>();
+            newList.add(plantsList.get(0));
+            double avr = averageSum(plantsList);
+            newList.add(avr);
+            plantsInfo.put(entry.getKey(), newList);
         }
-
-
 
 
         System.out.println("Plants for the exhibition:");
@@ -104,8 +105,7 @@ public class PlantDiscovery_03 {
     }
 
     //метод за намиране на средна стойност на елевентите от List<Integer>
-    public static List<Double> averageList(List<Double> currentList) {
-        List<Double> avrList = new ArrayList<>(currentList);
+    public static Double averageSum(List<Double> currentList) {
         double counter = 0;
         double sum = 0;
 
@@ -114,11 +114,14 @@ public class PlantDiscovery_03 {
             sum += currentList.get(i);
         }
 
-        if (counter == 0) {
-            avrList.add(counter);
-        } else {
-            avrList.set(1, sum / counter);
-        }
-        return avrList;
+        return sum / counter;
+    }
+
+    //метод за намиране на средна стойност на елевентите от List<Integer>
+    private static double getAverage(List<Double> list) {
+        DoubleSummaryStatistics stats = list.stream()
+                .mapToDouble(Double::intValue)
+                .summaryStatistics();
+        return stats.getAverage();
     }
 }
