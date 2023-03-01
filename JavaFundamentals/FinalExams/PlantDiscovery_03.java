@@ -11,11 +11,15 @@ public class PlantDiscovery_03 {
 
         for (int i = 0; i < n; i++) {
             String input = scanner.nextLine();
+            double counter = 0;
+            double rating = 0.00;
 
             List<Double> plantsList = new ArrayList<>();
             String name = input.split("<->")[0];
             double rarity = Double.parseDouble(input.split("<->")[1]);
             plantsList.add(rarity);
+            plantsList.add(rating);
+            plantsList.add(counter);
             plantsInfo.put(name, plantsList);
         }
 
@@ -24,65 +28,51 @@ public class PlantDiscovery_03 {
         while (!command.contains("Exhibition")) {
 
             String info = command.split(":\\s+")[1];
+            String currentPlant = info.split("\\s+\\-\\s+")[0];
+
+            if (!plantsInfo.containsKey(currentPlant)) {
+                System.out.println("error");
+                command = scanner.nextLine();
+                continue;
+            }
+
             switch (command.split(":\\s+")[0]) {
 
+
                 case "Rate": {
-                    String currentPlant = info.split("\\s+\\-\\s+")[0];
                     double rating = Double.parseDouble(info.split("\\s+\\-\\s+")[1]);
 
-                    if (isExist(currentPlant, plantsInfo)) {
-                        List<Double> plantsList = plantsInfo.get(currentPlant);
+                    List<Double> plantsList = plantsInfo.get(currentPlant);
+                    double counter = plantsList.get(2);
+                    counter++;
 
-                        plantsList.add(rating);
-                        plantsInfo.put(currentPlant, plantsList);
-                    } else {
-                        System.out.println("error");
-                    }
+                    plantsList.set(1, plantsList.get(1) + rating);
+                    plantsList.set(2, counter);
+                    plantsInfo.put(currentPlant, plantsList);
                     break;
                 }
                 case "Update": {
-                    String currentPlant = info.split("\\s+\\-\\s+")[0];
                     double rarity = Double.parseDouble(info.split("\\s+\\-\\s+")[1]);
 
-                    if (isExist(currentPlant, plantsInfo)) {
-                        List<Double> plantsList = plantsInfo.get(currentPlant);
-                        plantsList.set(0, rarity);
-                        plantsInfo.put(currentPlant, plantsList);
-                    } else {
-                        System.out.println("error");
-                    }
+                    List<Double> plantsList = plantsInfo.get(currentPlant);
+                    plantsList.set(0, rarity);
+                    plantsInfo.put(currentPlant, plantsList);
                     break;
                 }
                 case "Reset": {
-
-                    if (isExist(info, plantsInfo)) {
-                        List<Double> plantsList = plantsInfo.get(info);
-                        plantsList.set(1, 0.00);
-                        plantsInfo.put(info, plantsList);
-                    } else {
-                        System.out.println("error");
-                    }
+                    List<Double> plantsList = plantsInfo.get(info);
+                    plantsList.set(1, 0.00);
+                    plantsInfo.put(info, plantsList);
                     break;
                 }
             }
             command = scanner.nextLine();
         }
 
-        for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
-
-            List<Double> plantsList = plantsInfo.get(entry.getKey());
-            List<Double> newList = new ArrayList<>();
-            newList.add(plantsList.get(0));
-            double avr = averageSum(plantsList);
-            newList.add(avr);
-            plantsInfo.put(entry.getKey(), newList);
-        }
-
-
         System.out.println("Plants for the exhibition:");
 
         plantsInfo.forEach((key, value) ->
-                System.out.printf("- %s; Rarity: %.0f; Rating: %.2f%n", key, value.get(0), value.get(1)));
+                System.out.printf("- %s; Rarity: %.0f; Rating: %.2f%n", key, value.get(0), value.get(1) / value.get(2)));
 
 
 //        System.out.println("Plants for the exhibition:");
@@ -98,30 +88,5 @@ public class PlantDiscovery_03 {
 //            }
 //        }
 
-    }
-
-    public static boolean isExist(String plant, Map<String, List<Double>> plantsMap) {
-        return plantsMap.containsKey(plant);
-    }
-
-    //метод за намиране на средна стойност на елевентите от List<Integer>
-    public static Double averageSum(List<Double> currentList) {
-        double counter = 0;
-        double sum = 0;
-
-        for (int i = 1; i < currentList.size(); i++) {
-            counter++;
-            sum += currentList.get(i);
-        }
-
-        return sum / counter;
-    }
-
-    //метод за намиране на средна стойност на елевентите от List<Integer>
-    private static double getAverage(List<Double> list) {
-        DoubleSummaryStatistics stats = list.stream()
-                .mapToDouble(Double::intValue)
-                .summaryStatistics();
-        return stats.getAverage();
     }
 }
