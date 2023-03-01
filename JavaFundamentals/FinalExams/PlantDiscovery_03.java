@@ -42,7 +42,7 @@ public class PlantDiscovery_03 {
                 }
                 case "Update": {
                     String currentPlant = info.split("\\s+\\-\\s+")[0];
-                    double rarity = Integer.parseInt(info.split("\\s+\\-\\s+")[1]);
+                    double rarity = Double.parseDouble(info.split("\\s+\\-\\s+")[1]);
 
                     if (isExist(currentPlant, plantsInfo)) {
                         List<Double> plantsList = plantsInfo.get(currentPlant);
@@ -57,7 +57,7 @@ public class PlantDiscovery_03 {
 
                     if (isExist(info, plantsInfo)) {
                         List<Double> plantsList = plantsInfo.get(info);
-                        plantsList.remove(1);
+                        plantsList.set(1, 0.00);
                         plantsInfo.put(info, plantsList);
                     } else {
                         System.out.println("error");
@@ -71,41 +71,31 @@ public class PlantDiscovery_03 {
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
 
             List<Double> plantsList = plantsInfo.get(entry.getKey());
-           plantsList = averageList(plantsList);
+            plantsList = averageList(plantsList);
             plantsInfo.put(entry.getKey(), plantsList);
-//            for (Double s : entry.getValue()) {
-//                if (entry.getValue().size() > 1) {
-//                    List<Double> average = entry.getValue();
-//                    double rarity = entry.getValue().get(0);
-//                    average.remove(0);
-//                    double avr = getAverage(average);
-//                    List<Double> newList = new ArrayList<>();
-//                    newList.add(rarity);
-//                    newList.add(avr);
-//                    break;
-//                } else {
-//                    plantsInfo.put(entry.getKey(), newList);
-//                    List<Double> newList = new ArrayList<>();
-//                    double rarity = entry.getValue().get(0);
-//                    newList.add(rarity);
-//                    newList.add(0.00);
-//                    plantsInfo.put(entry.getKey(), newList);
-//                }
-//            }
         }
+
+
+
 
         System.out.println("Plants for the exhibition:");
-        for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
-            System.out.printf("- %s; ", entry.getKey());
 
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                if (i == 0) {
-                    System.out.printf("Rarity: %.0f; ", entry.getValue().get(0));
-                } else if (i == 1) {
-                    System.out.printf("Rating: %.2f%n", entry.getValue().get(1));
-                }
-            }
-        }
+        plantsInfo.forEach((key, value) ->
+                System.out.printf("- %s; Rarity: %.0f; Rating: %.2f%n", key, value.get(0), value.get(1)));
+
+
+//        System.out.println("Plants for the exhibition:");
+//        for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
+//            System.out.printf("- %s; ", entry.getKey());
+//
+//            for (int i = 0; i < entry.getValue().size(); i++) {
+//                if (i == 0) {
+//                    System.out.printf("Rarity: %.0f; ", entry.getValue().get(0));
+//                } else if (i == 1) {
+//                    System.out.printf("Rating: %.2f%n", entry.getValue().get(1));
+//                }
+//            }
+//        }
 
     }
 
@@ -114,14 +104,7 @@ public class PlantDiscovery_03 {
     }
 
     //метод за намиране на средна стойност на елевентите от List<Integer>
-    private static double getAverage(List<Double> list) {
-        DoubleSummaryStatistics stats = list.stream()
-                .mapToDouble(Double::intValue)
-                .summaryStatistics();
-        return stats.getAverage();
-    }
-
-    public static List<Double> averageList(List<Double> currentList){
+    public static List<Double> averageList(List<Double> currentList) {
         List<Double> avrList = new ArrayList<>(currentList);
         double counter = 0;
         double sum = 0;
@@ -131,9 +114,9 @@ public class PlantDiscovery_03 {
             sum += currentList.get(i);
         }
 
-        if(counter == 0) {
+        if (counter == 0) {
             avrList.add(counter);
-        }else {
+        } else {
             avrList.set(1, sum / counter);
         }
         return avrList;
