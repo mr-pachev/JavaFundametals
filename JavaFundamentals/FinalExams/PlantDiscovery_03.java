@@ -71,7 +71,8 @@ public class PlantDiscovery_03 {
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
 
             List<Double> plantsList = plantsInfo.get(entry.getKey());
-            averageList(plantsList);
+           plantsList = averageList(plantsList);
+            plantsInfo.put(entry.getKey(), plantsList);
 //            for (Double s : entry.getValue()) {
 //                if (entry.getValue().size() > 1) {
 //                    List<Double> average = entry.getValue();
@@ -122,14 +123,19 @@ public class PlantDiscovery_03 {
 
     public static List<Double> averageList(List<Double> currentList){
         List<Double> avrList = new ArrayList<>(currentList);
-        int counter = 0;
+        double counter = 0;
         double sum = 0;
 
         for (int i = 1; i < currentList.size(); i++) {
             counter++;
             sum += currentList.get(i);
         }
-        avrList.set(1, sum / counter);
+
+        if(counter == 0) {
+            avrList.add(counter);
+        }else {
+            avrList.set(1, sum / counter);
+        }
         return avrList;
     }
 }
