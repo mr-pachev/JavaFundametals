@@ -70,25 +70,27 @@ public class PlantDiscovery_03 {
 
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
 
-            for (Double s : entry.getValue()) {
-                if (entry.getValue().size() > 1) {
-                    List<Double> average = entry.getValue();
-                    double rarity = entry.getValue().get(0);
-                    average.remove(0);
-                    double avr = getAverage(average);
-                    List<Double> newList = new ArrayList<>();
-                    newList.add(rarity);
-                    newList.add(avr);
-                    plantsInfo.put(entry.getKey(), newList);
-                    break;
-                } else {
-                    List<Double> newList = new ArrayList<>();
-                    double rarity = entry.getValue().get(0);
-                    newList.add(rarity);
-                    newList.add(0.00);
-                    plantsInfo.put(entry.getKey(), newList);
-                }
-            }
+            List<Double> plantsList = plantsInfo.get(entry.getKey());
+            averageList(plantsList);
+//            for (Double s : entry.getValue()) {
+//                if (entry.getValue().size() > 1) {
+//                    List<Double> average = entry.getValue();
+//                    double rarity = entry.getValue().get(0);
+//                    average.remove(0);
+//                    double avr = getAverage(average);
+//                    List<Double> newList = new ArrayList<>();
+//                    newList.add(rarity);
+//                    newList.add(avr);
+//                    break;
+//                } else {
+//                    plantsInfo.put(entry.getKey(), newList);
+//                    List<Double> newList = new ArrayList<>();
+//                    double rarity = entry.getValue().get(0);
+//                    newList.add(rarity);
+//                    newList.add(0.00);
+//                    plantsInfo.put(entry.getKey(), newList);
+//                }
+//            }
         }
 
         System.out.println("Plants for the exhibition:");
@@ -116,5 +118,18 @@ public class PlantDiscovery_03 {
                 .mapToDouble(Double::intValue)
                 .summaryStatistics();
         return stats.getAverage();
+    }
+
+    public static List<Double> averageList(List<Double> currentList){
+        List<Double> avrList = new ArrayList<>(currentList);
+        int counter = 0;
+        double sum = 0;
+
+        for (int i = 1; i < currentList.size(); i++) {
+            counter++;
+            sum += currentList.get(i);
+        }
+        avrList.set(1, sum / counter);
+        return avrList;
     }
 }
