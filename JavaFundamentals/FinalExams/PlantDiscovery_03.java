@@ -11,7 +11,7 @@ public class PlantDiscovery_03 {
 
         for (int i = 0; i < n; i++) {
             String input = scanner.nextLine();
-            double counter = 0;
+            double counter = 0.00;
             double rating = 0.00;
 
             List<Double> plantsList = new ArrayList<>();
@@ -27,42 +27,53 @@ public class PlantDiscovery_03 {
 
         while (!command.contains("Exhibition")) {
 
-            String info = command.split(":\\s+")[1];
-            String currentPlant = info.split("\\s+\\-\\s+")[0];
+            String info = command.split(": ")[1];
 
-            if (!plantsInfo.containsKey(currentPlant)) {
-                System.out.println("error");
-                command = scanner.nextLine();
-                continue;
-            }
-
-            switch (command.split(":\\s+")[0]) {
+            switch (command.split(": ")[0]) {
 
 
                 case "Rate": {
-                    double rating = Double.parseDouble(info.split("\\s+\\-\\s+")[1]);
+                    String currentPlant = info.split(" - ")[0];
+                    double rating = Double.parseDouble(info.split(" - ")[1]);
 
-                    List<Double> plantsList = plantsInfo.get(currentPlant);
-                    double counter = plantsList.get(2);
-                    counter++;
+                    if (plantsInfo.containsKey(currentPlant)) {
+                        List<Double> plantsList = plantsInfo.get(currentPlant);
+                        double counter = plantsList.get(2);
+                        double currentRating = plantsList.get(1);
+                        currentRating += rating;
+                        counter++;
 
-                    plantsList.set(1, plantsList.get(1) + rating);
-                    plantsList.set(2, counter);
-                    plantsInfo.put(currentPlant, plantsList);
-                    break;
+                        plantsList.set(1, currentRating);
+                        plantsList.set(2, counter);
+                        plantsInfo.put(currentPlant, plantsList);
+                        break;
+                    }else {
+                        System.out.println("error");
+                    }
                 }
                 case "Update": {
-                    double rarity = Double.parseDouble(info.split("\\s+\\-\\s+")[1]);
+                    double rarity = Double.parseDouble(info.split(" - ")[1]);
+                    String currentPlant = info.split(" - ")[0];
 
+                    if (plantsInfo.containsKey(currentPlant)) {
                     List<Double> plantsList = plantsInfo.get(currentPlant);
                     plantsList.set(0, rarity);
                     plantsInfo.put(currentPlant, plantsList);
+                }else {
+                    System.out.println("error");
+                }
                     break;
                 }
                 case "Reset": {
+                    String currentPlant = info.split("\\s+\\-\\s+")[0];
+
+                    if (plantsInfo.containsKey(currentPlant)) {
                     List<Double> plantsList = plantsInfo.get(info);
                     plantsList.set(1, 0.00);
                     plantsInfo.put(info, plantsList);
+                }else {
+                    System.out.println("error");
+                }
                     break;
                 }
             }
