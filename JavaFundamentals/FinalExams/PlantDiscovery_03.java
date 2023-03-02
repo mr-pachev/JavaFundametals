@@ -11,21 +11,26 @@ public class PlantDiscovery_03 {
 
         for (int i = 0; i < n; i++) {
             String input = scanner.nextLine();
-            double counter = 0.00;
+            double counter = 0;
             double rating = 0.00;
 
             List<Double> plantsList = new ArrayList<>();
             String name = input.split("<->")[0];
             double rarity = Double.parseDouble(input.split("<->")[1]);
-            plantsList.add(rarity);
-            plantsList.add(rating);
-            plantsList.add(counter);
+            if (plantsInfo.containsKey(name)){
+                plantsList = plantsInfo.get(name);
+                plantsList.set(0, rarity);
+            }else {
+                plantsList.add(rarity);
+                plantsList.add(rating);
+                plantsList.add(counter);
+            }
             plantsInfo.put(name, plantsList);
         }
 
         String command = scanner.nextLine();
 
-        while (!command.contains("Exhibition")) {
+        while (!command.equals("Exhibition")) {
 
             String info = command.split(": ")[1];
 
@@ -46,10 +51,10 @@ public class PlantDiscovery_03 {
                         plantsList.set(1, currentRating);
                         plantsList.set(2, counter);
                         plantsInfo.put(currentPlant, plantsList);
-                        break;
                     }else {
                         System.out.println("error");
                     }
+                    break;
                 }
                 case "Update": {
                     double rarity = Double.parseDouble(info.split(" - ")[1]);
@@ -79,11 +84,16 @@ public class PlantDiscovery_03 {
             }
             command = scanner.nextLine();
         }
+        for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
+            if (entry.getValue().get(2) > 1) {
+                plantsInfo.get(entry.getKey()).set(1, entry.getValue().get(1) / entry.getValue().get(2));
+            }
+        }
 
         System.out.println("Plants for the exhibition:");
 
         plantsInfo.forEach((key, value) ->
-                System.out.printf("- %s; Rarity: %.0f; Rating: %.2f%n", key, value.get(0), value.get(1) / value.get(2)));
+                System.out.printf("- %s; Rarity: %.0f; Rating: %.2f%n", key, value.get(0), value.get(1)));
 
 
 //        System.out.println("Plants for the exhibition:");
