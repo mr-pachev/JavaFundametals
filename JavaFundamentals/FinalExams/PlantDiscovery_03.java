@@ -1,6 +1,7 @@
 package FinalExams;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PlantDiscovery_03 {
     public static void main(String[] args) {
@@ -37,52 +38,60 @@ public class PlantDiscovery_03 {
             String info = command.split(": ")[1];
             String currentPlant = info.split(" - ")[0];
 
-            if(!plantsInfo.containsKey(currentPlant)){
+            if (!plantsInfo.containsKey(currentPlant)) {
                 System.out.println("error");
-                continue;
-            }
+            } else {
+                switch (command.split(": ")[0]) {
 
-            switch (command.split(": ")[0]) {
+                    case "Rate": {
 
-                case "Rate": {
-
-                    double rating = Double.parseDouble(info.split(" - ")[1]);
+                        double rating = Double.parseDouble(info.split(" - ")[1]);
 
                         List<Double> plantsList = plantsInfo.get(currentPlant);
-                        double counter = plantsList.get(2);
-                        double currentRating = plantsList.get(1);
-                        currentRating += rating;
-                        counter++;
+                        if (plantsInfo.containsKey(currentPlant)) {
+                            double counter = plantsList.get(2);
+                            double currentRating = plantsList.get(1);
+                            currentRating += rating;
+                            counter++;
 
-                        plantsList.set(1, currentRating);
-                        plantsList.set(2, counter);
-                        plantsInfo.put(currentPlant, plantsList);
-
-                    break;
-                }
-                case "Update": {
-                    double rarity = Double.parseDouble(info.split(" - ")[1]);
+                            plantsList.set(1, currentRating);
+                            plantsList.set(2, counter);
+                            plantsInfo.put(currentPlant, plantsList);
+                        }
+                        break;
+                    }
+                    case "Update": {
+                        double rarity = Double.parseDouble(info.split(" - ")[1]);
 
                         List<Double> plantsList = plantsInfo.get(currentPlant);
-                        plantsList.set(0, rarity);
-                        plantsInfo.put(currentPlant, plantsList);
-
-                    break;
-                }
-                case "Reset": {
+                        if (plantsInfo.containsKey(currentPlant)) {
+                            plantsList.set(0, rarity);
+                            plantsInfo.put(currentPlant, plantsList);
+                        }
+                        break;
+                    }
+                    case "Reset": {
                         List<Double> plantsList = plantsInfo.get(info);
-                        plantsList.set(1, 0.00);
-                        plantsInfo.put(info, plantsList);
-
-                    break;
+                        if (plantsInfo.containsKey(currentPlant)) {
+                            plantsList.set(1, 0.00);
+                            plantsInfo.put(info, plantsList);
+                        }
+                        break;
+                    }
+                    default:
+                        System.out.println("error");
+                        break;
                 }
             }
+
             command = scanner.nextLine();
         }
+
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
-            if (entry.getValue().get(2) > 1) {
-                plantsInfo.get(entry.getKey()).set(1, entry.getValue().get(1) / entry.getValue().get(2));
-            }
+            List<Double> currentList = plantsInfo.get(entry.getKey());
+            double avrRate = currentList.get(1) / currentList.get(2);
+            currentList.remove(2);
+            currentList.set(1, avrRate);
         }
 
         System.out.println("Plants for the exhibition:");
