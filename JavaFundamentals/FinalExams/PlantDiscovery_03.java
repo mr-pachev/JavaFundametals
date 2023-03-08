@@ -88,12 +88,10 @@ public class PlantDiscovery_03 {
         }
 
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
-            List<Double> currentList = plantsInfo.get(entry.getKey());
-            double avrRate = currentList.get(1) / currentList.get(2);
-            currentList.remove(2);
-            currentList.set(1, avrRate);
+            if (entry.getValue().get(2) > 1) {
+                plantsInfo.get(entry.getKey()).set(1, entry.getValue().get(1) / entry.getValue().get(2));
+            }
         }
-
         System.out.println("Plants for the exhibition:");
 
         plantsInfo.forEach((key, value) ->
