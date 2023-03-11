@@ -10,13 +10,13 @@ public class Demo {
 
         int n = Integer.parseInt(scanner.nextLine());
 
-        Map<String, Integer> plantRarityMap = new HashMap<>();
-        Map<String, Double> rateMap = new HashMap<>();
+        Map<String, Integer> plantRarityMap = new HashMap<>(); //речник с разстението и рядкостта му
+        Map<String, Double> rateMap = new HashMap<>();         //речник с разстението и оценката му
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {                          //пълнене на речниците
             String[] tokens = scanner.nextLine().split("<->");
-            String plant = tokens[0];
-            int rarity = Integer.parseInt(tokens[1]);
+            String plant = tokens[0];                          //име на разстението
+            int rarity = Integer.parseInt(tokens[1]);          //рядкост на разстението
 
             plantRarityMap.putIfAbsent(plant, 0);
             rateMap.putIfAbsent(plant, 0.0);
@@ -29,7 +29,8 @@ public class Demo {
 //            plantRarityMap.put(plant, rarity);
         }
 
-        String inputLine = scanner.nextLine();
+        String inputLine = scanner.nextLine();         //входни данни
+
         while (!inputLine.equals("Exhibition")) {
             String[] tokens = inputLine.split("[: -]+");
             String command = tokens[0];
@@ -67,18 +68,6 @@ public class Demo {
         System.out.println("Plants for the exhibition:");
         plantRarityMap.entrySet()
                 .stream()
-                .sorted((p1, p2) -> {
-                    int result = p2.getValue() - p1.getValue();
-
-                    //asd -> 10 -> rate 70
-                    //veronika -> 10 -> rate 100
-                    if (result == 0) {
-                        //70 - 100
-                        double res = (rateMap.get(p2.getKey()) - rateMap.get(p1.getKey()));
-                        return (int)res;
-                    }
-                    return result;
-                })
                 .forEach(entry -> {
                     System.out.printf("- %s; Rarity: %d; Rating: %.2f%n",
                             entry.getKey(), entry.getValue(), rateMap.get(entry.getKey()));

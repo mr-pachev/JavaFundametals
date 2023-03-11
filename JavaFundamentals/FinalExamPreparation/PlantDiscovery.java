@@ -8,63 +8,66 @@ public class PlantDiscovery {
 
         int n = Integer.parseInt(scanner.nextLine());
 
-        Map<String, List<Double>> plantsMap = new LinkedHashMap<>();
-        List<Double> valueList = new ArrayList<>();
+        Map<String, Integer> plantRarityMap = new HashMap<>();
+        Map<String, Double> rateMap = new HashMap<>();
 
-        for (int i = 1; i <= n; i++) {
-            valueList = new ArrayList<>();
-            String incoming = scanner.nextLine();
-            String plant = incoming.split("<->")[0]; //растение
-            double rarity = Double.parseDouble(incoming.split("<->")[1]); //рядкост
-            double rating = 0.0;
-            double counter = 0.0;
-            valueList.add(rarity);
-            valueList.add(rating);
-            valueList.add(counter);
+        for (int i = 0; i < n; i++) {
+            String[] tokens = scanner.nextLine().split("<->");
+            String plant = tokens[0];
+            int rarity = Integer.parseInt(tokens[1]);
 
-            plantsMap.put(plant, valueList);
+            plantRarityMap.putIfAbsent(plant, 0);
+            rateMap.putIfAbsent(plant, 0.0);
+
+            //K -> plant  ------   V -> rarity
+            plantRarityMap.put(plant, rarity);
+//            if (plantRarityMap.get(plant) < rarity) {
+//            }
+
+//            plantRarityMap.put(plant, rarity);
         }
-        String command = scanner.nextLine();
 
-        while (!command.equals("Exhibition")) {
-            String commandName = command.split(": ")[0]; //команда
-            String current = command.split(": ")[1];
-            String plantName = current.split(" - ")[0]; //растение
+        String inputLine = scanner.nextLine();
+        while (!inputLine.equals("Exhibition")) {
+            String[] tokens = inputLine.split("[: -]+");
+            String command = tokens[0];
+            String plant = tokens[1];
 
-            if (!plantsMap.containsKey(plantName)) { //проверка дали растението се съдържа в мапа
+            if (!rateMap.containsKey(plant)) {
                 System.out.println("error");
+            } else {
+                switch (command) {
+                    case "Rate":
+                        double currentRate = Double.parseDouble(tokens[2]);
+                        if (rateMap.get(plant) == 0) {
+                            rateMap.put(plant, currentRate);
+                        } else {
+                            double newRate = (rateMap.get(plant) + currentRate) / 2;
+                            rateMap.put(plant, newRate);
+                        }
+                        break;
+                    case "Update":
+                        int newRarity = Integer.parseInt(tokens[2]);
+
+                        plantRarityMap.put(plant, newRarity);
+                        break;
+                    case "Reset":
+                        rateMap.put(plant, 0.0);
+                        break;
+                    default:
+                        System.out.println("error");
+                }
             }
 
-            if (commandName.contains("Rate")) {
-                valueList = plantsMap.get(plantName); //взимане на листа за текущия key на мапа
-                double counter = valueList.get(2);
-                counter++;
-                double rating = Double.parseDouble(current.split(" - ")[1]);
-                double currentRating = valueList.get(1); //взимане на индекса, на които се намира рейтинга в списъка
-                currentRating += rating;
-                plantsMap.get(plantName).set(2, counter);
-                plantsMap.get(plantName).set(1, currentRating);
-
-            } else if (commandName.contains("Update")) {
-                double rarityPlant = Double.parseDouble(current.split(" - ")[1]); //рядкост
-                plantsMap.get(plantName).set(0, rarityPlant);
-
-
-            } else if (commandName.contains("Reset")) {
-                plantsMap.get(plantName).set(1, 0.0);
-            }
-
-            command = scanner.nextLine();
+            inputLine = scanner.nextLine();
         }
+
         System.out.println("Plants for the exhibition:");
-
-        for (Map.Entry<String, List<Double>> entry : plantsMap.entrySet()) {
-            if (entry.getValue().get(2) > 1) {
-                plantsMap.get(entry.getKey()).set(1, entry.getValue().get(1) / entry.getValue().get(2));
-            }
-        }
-        plantsMap.forEach((key, value) ->
-                System.out.printf("- %s; Rarity: %.0f; Rating: %.2f%n", key, value.get(0), value.get(1)));
-
+        plantRarityMap.entrySet()
+                .stream()
+                .forEach(entry -> {
+                    System.out.printf("- %s; Rarity: %d; Rating: %.2f%n",
+                            entry.getKey(), entry.getValue(), rateMap.get(entry.getKey()));
+                });
     }
 }
