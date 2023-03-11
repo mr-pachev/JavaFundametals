@@ -65,7 +65,6 @@ public class PlantDiscovery_03 {
                         break;
 
                     case "Reset":
-
                         plantsList.set(1, 0.00);
                         plantsInfo.put(currentPlant, plantsList);
                         break;
@@ -83,7 +82,9 @@ public class PlantDiscovery_03 {
             double rating = entry.getValue().get(1);
             double avrRating = entry.getValue().get(1) / entry.getValue().get(2);
             if (counter > 0) {
-                plantsInfo.get(entry.getKey()).set(1, avrRating);
+                List<Double> plantsList = plantsInfo.get(entry.getKey());
+                plantsList.set(1, avrRating);
+                plantsInfo.put(entry.getKey(), plantsList);
             }
         }
         System.out.println("Plants for the exhibition:");
