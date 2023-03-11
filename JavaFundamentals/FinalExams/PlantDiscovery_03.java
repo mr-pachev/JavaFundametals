@@ -47,56 +47,52 @@ public class PlantDiscovery_03 {
                         double rating = Double.parseDouble(info[2]);
 
                         List<Double> plantsList = plantsInfo.get(currentPlant);
-                        if (plantsInfo.containsKey(currentPlant)) {
-                            double counter = plantsList.get(2);
-                            double currentRating = plantsList.get(1);
-                            currentRating += rating;
-                            counter++;
+                        double counter = plantsList.get(2);
+                        double currentRating = plantsList.get(1);
 
-                            plantsList.set(1, currentRating);
-                            plantsList.set(2, counter);
-                            plantsInfo.put(currentPlant, plantsList);
-                        }
+                        currentRating += rating;
+                        counter++;
+
+                        plantsList.set(1, currentRating);
+                        plantsList.set(2, counter);
+                        plantsInfo.put(currentPlant, plantsList);
                         break;
                     }
                     case "Update": {
                         double rarity = Double.parseDouble(info[2]);
 
                         List<Double> plantsList = plantsInfo.get(currentPlant);
-                        if (plantsInfo.containsKey(currentPlant)) {
-                            plantsList.set(0, rarity);
-                            plantsInfo.put(currentPlant, plantsList);
-                        }
+                        plantsList.set(0, rarity);
+                        plantsInfo.put(currentPlant, plantsList);
                         break;
                     }
                     case "Reset": {
-                        List<Double> plantsList = plantsInfo.get(info[1]);
-                        if (plantsInfo.containsKey(currentPlant)) {
-                            plantsList.set(1, 0.00);
-                            plantsInfo.put(info[1], plantsList);
-                        }
+
+                        List<Double> plantsList = plantsInfo.get(currentPlant);
+                        plantsList.set(1, 0.00);
+                        plantsInfo.put(currentPlant, plantsList);
                         break;
                     }
                     default: {
                         System.out.println("error");
-                        break;
                     }
                 }
             }
-
             command = scanner.nextLine();
         }
 
         for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
-            if (entry.getValue().get(2) > 1) {
-                plantsInfo.get(entry.getKey()).set(1, entry.getValue().get(1) / entry.getValue().get(2));
-            }
+            double counter = entry.getValue().get(2);
+            double rating = entry.getValue().get(1);
+            double avrRating = entry.getValue().get(1) / entry.getValue().get(2);
+            if (counter > 1) {
+                plantsInfo.get(entry.getKey()).set(1, avrRating);
+
         }
         System.out.println("Plants for the exhibition:");
 
         plantsInfo.forEach((key, value) ->
                 System.out.printf("- %s; Rarity: %.0f; Rating: %.2f%n", key, value.get(0), value.get(1)));
-
 
 //        System.out.println("Plants for the exhibition:");
 //        for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
