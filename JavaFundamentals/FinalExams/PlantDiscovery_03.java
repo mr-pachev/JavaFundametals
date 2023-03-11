@@ -12,7 +12,7 @@ public class PlantDiscovery_03 {
 
         for (int i = 0; i < n; i++) {
             String input = scanner.nextLine();
-            double counter = 0;
+            double counter = 0.00;
             double rating = 0.00;
 
             String name = input.split("<->")[0];
@@ -96,8 +96,7 @@ public class PlantDiscovery_03 {
 
         plantsInfo.forEach((key, value) ->
                 System.out.printf("- %s; Rarity: %.0f; Rating: %.2f%n", key, value.get(0), value.get(1)));
-
-
+        
 //        System.out.println("Plants for the exhibition:");
 //        for (Map.Entry<String, List<Double>> entry : plantsInfo.entrySet()) {
 //            System.out.printf("- %s; ", entry.getKey());
