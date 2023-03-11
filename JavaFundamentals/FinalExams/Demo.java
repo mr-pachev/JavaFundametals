@@ -21,12 +21,7 @@ public class Demo {
             plantRarityMap.putIfAbsent(plant, 0);
             rateMap.putIfAbsent(plant, 0.0);
 
-            //K -> plant  ------   V -> rarity
             plantRarityMap.put(plant, rarity);
-//            if (plantRarityMap.get(plant) < rarity) {
-//            }
-
-//            plantRarityMap.put(plant, rarity);
         }
 
         String inputLine = scanner.nextLine();                   //входни данни
@@ -61,16 +56,11 @@ public class Demo {
                         System.out.println("error");
                 }
             }
-
             inputLine = scanner.nextLine();
         }
 
         System.out.println("Plants for the exhibition:");
-        plantRarityMap.entrySet()
-                .stream()
-                .forEach(entry -> {
-                    System.out.printf("- %s; Rarity: %d; Rating: %.2f%n",
-                            entry.getKey(), entry.getValue(), rateMap.get(entry.getKey()));
-                });
+        plantRarityMap.forEach((key, value) -> System.out.printf("- %s; Rarity: %d; Rating: %.2f%n",
+                key, value, rateMap.get(key)));
     }
 }

@@ -37,16 +37,15 @@ public class PlantDiscovery_03 {
 
             String[] info = command.split("[: -]+");
             String currentPlant = info[1];
+            List<Double> plantsList = plantsInfo.get(currentPlant);
 
             if (!plantsInfo.containsKey(currentPlant)) {
                 System.out.println("error");
             } else {
                 switch (info[0]) {
 
-                    case "Rate": {
+                    case "Rate":
                         double rating = Double.parseDouble(info[2]);
-
-                        List<Double> plantsList = plantsInfo.get(currentPlant);
                         double counter = plantsList.get(2);
                         double currentRating = plantsList.get(1);
 
@@ -57,25 +56,23 @@ public class PlantDiscovery_03 {
                         plantsList.set(2, counter);
                         plantsInfo.put(currentPlant, plantsList);
                         break;
-                    }
-                    case "Update": {
+
+                    case "Update":
                         double rarity = Double.parseDouble(info[2]);
 
-                        List<Double> plantsList = plantsInfo.get(currentPlant);
                         plantsList.set(0, rarity);
                         plantsInfo.put(currentPlant, plantsList);
                         break;
-                    }
-                    case "Reset": {
 
-                        List<Double> plantsList = plantsInfo.get(currentPlant);
+                    case "Reset":
+
                         plantsList.set(1, 0.00);
                         plantsInfo.put(currentPlant, plantsList);
                         break;
-                    }
-                    default: {
+
+                    default:
                         System.out.println("error");
-                    }
+
                 }
             }
             command = scanner.nextLine();
@@ -85,9 +82,9 @@ public class PlantDiscovery_03 {
             double counter = entry.getValue().get(2);
             double rating = entry.getValue().get(1);
             double avrRating = entry.getValue().get(1) / entry.getValue().get(2);
-            if (counter > 1) {
+            if (counter > 0) {
                 plantsInfo.get(entry.getKey()).set(1, avrRating);
-
+            }
         }
         System.out.println("Plants for the exhibition:");
 
