@@ -46,7 +46,7 @@ public class Demo {
                     double currentRating = plantMap.get(plantName).get(1);  //текуща оценка на разстението
 
                     if (currentRating > 0){
-                        plantInfoList.set(1, currentRating + rating / 2);       //добявяне и намиране на средната оценка на разстението
+                        plantInfoList.set(1, (currentRating + rating) / 2);       //добявяне и намиране на средната оценка на разстението
                     }else {
                         plantInfoList.set(1, currentRating + rating);
                     }
