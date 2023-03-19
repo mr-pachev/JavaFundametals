@@ -1,8 +1,6 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Demo {
     public static void main(String[] args) {
@@ -23,55 +21,21 @@ public class Demo {
         int line1 = lineLength(x1, x2);
         int line2 = lineLength(x11, x21);
 
+        List<Integer> pointsList = new ArrayList<>(4);
+
         if (line1 >= line2) {
-            int[] pointsArr = {Math.abs(x1), y1, Math.abs(x2), y2, Math.abs(x11), y11, Math.abs(x21), y21};
-            int[] realArr = {x1, y1, x2, y2, x11, y11, x21, y21};
-            int min = Integer.MAX_VALUE;
-            int index = 0;
-
-            for (int i = 0; i < (pointsArr.length / 2) - 1; i += 2) {
-                if (pointsArr[i] <= min) {
-                    min = pointsArr[i];
-                    index = i;
-                }
-            }
-
-            for (int i = 0; i < (pointsArr.length / 2) - 1; i+=2) {
-                if (i == index) {
-                    System.out.printf("(%d, %d)", realArr[i], realArr[i + 1]);
-                }
-            }
-            for (int i = 0; i < (pointsArr.length / 2) - 1; i+=2) {
-                if (i != index) {
-                    System.out.printf("(%d, %d)", realArr[i], realArr[i + 1]);
-                }
-            }
-
+            pointsList.add(x1);
+            pointsList.add(y1);
+            pointsList.add(x2);
+            pointsList.add(y2);
         } else {
-            int[] pointsArr = {Math.abs(x1), y1, Math.abs(x2), y2, Math.abs(x11), y11, Math.abs(x21), y21};
-            int[] realArr = {x1, y1, x2, y2, x11, y11, x21, y21};
-            int min = Integer.MAX_VALUE;
-            int index = 0;
-
-            for (int i = 4; i < pointsArr.length; i += 2) {
-                if (pointsArr[i] <= min) {
-                    min = pointsArr[i];
-                    index = i;
-                }
-            }
-
-            for (int i = 4; i < realArr.length; i+=2) {
-                if (i == index) {
-                    System.out.printf("(%d, %d)", realArr[i], realArr[i + 1]);
-                                    }
-            }
-            for (int i = 4; i < realArr.length; i+=2) {
-                if (i != index) {
-                    System.out.printf("(%d, %d)", realArr[i], realArr[i + 1]);
-                }
-            }
+            pointsList.add(x11);
+            pointsList.add(y11);
+            pointsList.add(x21);
+            pointsList.add(y21);
         }
 
+        System.out.println();
     }
     private  static Integer lineLength(int a, int b){
         int line = 0;
@@ -84,7 +48,11 @@ public class Demo {
             line = Math.abs(a - b);
         } else if (a <= 0 && b > 0) {
             line = Math.abs(a) + Math.abs(b);
+        }else if (a < 0 && b >= 0) {
+            line = Math.abs(a) + Math.abs(b);
         } else if (a >= 0 && b < 0) {
+            line = Math.abs(a) + Math.abs(b);
+        }else if (a > 0 && b <= 0) {
             line = Math.abs(a) + Math.abs(b);
         }
         return line;
