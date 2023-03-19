@@ -2,63 +2,50 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<String> inputList = Arrays.stream(scanner.nextLine().split(", "))
-                .collect(Collectors.toList());
-        ;
+        int x1 = Integer.parseInt(scanner.nextLine());
+        int y1 = Integer.parseInt(scanner.nextLine());
 
-        String input = scanner.nextLine();
+        int x2 = Integer.parseInt(scanner.nextLine());
+        int y2 = Integer.parseInt(scanner.nextLine());
 
-        while (!input.equals("Craft!")) {
-            String command = input.split(" - ")[0];
-            String element = input.split(" - ")[1];
+        int x11 = Integer.parseInt(scanner.nextLine());
+        int y11 = Integer.parseInt(scanner.nextLine());
 
-            switch (command) {
-                case "Collect":
-                    if (!inputList.contains(element)) {
-                        inputList.add(element);
-                    }
-                    break;
-                case "Drop":
-                    for (int i = 0; i < inputList.size(); i++) {
-                        String current = inputList.get(i);
+        int x21 = Integer.parseInt(scanner.nextLine());
+        int y21 = Integer.parseInt(scanner.nextLine());
 
-                        if (element.equals(current)) {
-                            inputList.remove(i);
-                            break;
-                        }
-                    }
-                    break;
-                case "Combine Items":
-                    String oldElement = element.split("\\:")[0];
-                    String newElement = element.split("\\:")[1];
-                    if (inputList.contains(oldElement)) {
-                        int startIndex = inputList.lastIndexOf(oldElement);
-                        inputList.add(startIndex + 1, newElement);
-                    }
-                    break;
-                case "Renew":
-                    if (inputList.contains(element)) {
-                        for (int i = 0; i < inputList.size(); i++) {
-                            String current = inputList.get(i);
+        int line1 = 0;
+        int line2 = 0;
 
-                            if (element.equals(current)) {
-                                inputList.remove(i);
-                                inputList.add(element);
-                                break;
-                            }
-                        }
-                    }
-                    break;
-            }
-
-            input = scanner.nextLine();
+        if (x1 >= 0 && x2 >= 0){
+            line1 = Math.abs(x1 + x2);
+        }else if (x1 < 0 && x2 < 0){
+            line1 = Math.abs(x1 - x2);
+        }else if (x1 < 0 && x2 > 0){
+            line1 = Math.abs(x1) + Math.abs(x2);
+        }else if (x1 > 0 && x2 < 0){
+            line1 = Math.abs(x1) + Math.abs(x2);
         }
 
-        System.out.println(inputList.toString().replaceAll("[\\[\\]]", ""));
+        if (x11 >= 0 && x21 >= 0){
+            line2 = Math.abs(x1 + x2);
+        }else if (x1 < 0 && x21 < 0){
+            line2 = Math.abs(x11 - x21);
+        }else if (x11 < 0 && x21 > 0){
+            line2 = Math.abs(x11) + Math.abs(x21);
+        }else if (x11 > 0 && x21 < 0){
+            line2 = Math.abs(x11) + Math.abs(x21);
+        }
+
+        int[] pointsArr = { Math.abs(x1),  Math.abs(x2),  Math.abs(x11),  Math.abs(x21)};
+
+
+        System.out.println();
     }
 }
