@@ -27,7 +27,7 @@ public class Demo {
                     for (int i = 0; i < inputList.size(); i++) {
                         String current = inputList.get(i);
 
-                        if (element.equals(current)){
+                        if (element.equals(current)) {
                             inputList.remove(i);
                             break;
                         }
@@ -38,16 +38,27 @@ public class Demo {
                     String newElement = element.split("\\:")[1];
                     if (inputList.contains(oldElement)) {
                         int startIndex = inputList.lastIndexOf(oldElement);
-                        inputList.add(startIndex, newElement);
+                        inputList.add(startIndex + 1, newElement);
                     }
                     break;
                 case "Renew":
+                    if (inputList.contains(element)) {
+                        for (int i = 0; i < inputList.size(); i++) {
+                            String current = inputList.get(i);
+
+                            if (element.equals(current)) {
+                                inputList.remove(i);
+                                inputList.add(element);
+                                break;
+                            }
+                        }
+                    }
                     break;
             }
-
 
             input = scanner.nextLine();
         }
 
+        System.out.println(inputList.toString().replaceAll("[\\[\\]]", ""));
     }
 }
