@@ -49,27 +49,23 @@ public class Demo {
             int min = Integer.MAX_VALUE;
             int index = 0;
 
-            for (int i = 0; i < pointsArr.length / 2; i+=2) {
-
+            for (int i = 0; i < (pointsArr.length / 2) - 1; i += 2) {
                 if (pointsArr[i] <= min) {
                     min = pointsArr[i];
                     index = i;
                 }
             }
 
-            for (int i = 0; i < realArr.length / 2; i++) {
+            for (int i = 0; i < (pointsArr.length / 2) - 1; i+=2) {
                 if (i == index) {
                     System.out.printf("(%d, %d)", realArr[i], realArr[i + 1]);
-                    i++;
                 }
             }
-            for (int i = 0; i < realArr.length / 2; i++) {
+            for (int i = 0; i < (pointsArr.length / 2) - 1; i+=2) {
                 if (i != index) {
                     System.out.printf("(%d, %d)", realArr[i], realArr[i + 1]);
-                    i++;
                 }
             }
-
 
         } else {
             int[] pointsArr = {Math.abs(x1), y1, Math.abs(x2), y2, Math.abs(x11), y11, Math.abs(x21), y21};
@@ -77,24 +73,21 @@ public class Demo {
             int min = Integer.MAX_VALUE;
             int index = 0;
 
-            for (int i = 4; i < pointsArr.length; i+=2) {
-
+            for (int i = 4; i < pointsArr.length; i += 2) {
                 if (pointsArr[i] <= min) {
                     min = pointsArr[i];
                     index = i;
                 }
             }
 
-            for (int i = 4; i < realArr.length; i++) {
+            for (int i = 4; i < realArr.length; i+=2) {
                 if (i == index) {
                     System.out.printf("(%d, %d)", realArr[i], realArr[i + 1]);
-                    i++;
-                }
+                                    }
             }
-            for (int i = 4; i < realArr.length; i++) {
+            for (int i = 4; i < realArr.length; i+=2) {
                 if (i != index) {
                     System.out.printf("(%d, %d)", realArr[i], realArr[i + 1]);
-                    i++;
                 }
             }
         }
