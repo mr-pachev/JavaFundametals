@@ -5,26 +5,48 @@ public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int sumStudents = Integer.parseInt(scanner.nextLine());   //брой студенти
-        int sumCourses = Integer.parseInt(scanner.nextLine());    //общ брой лекций
-        int coursesBonus = Integer.parseInt(scanner.nextLine());  //допълнителен бонус
+        int health = 100;
+        int bitcoins = 0;
+        String[] roomArr = scanner.nextLine().split("\\|");
+        int roomCounter = 0;
+        int bestRoom = 0;
 
-        double maxBonus = Double.MIN_VALUE;
-        double visitsStudent = 0.0;
+        while (health > 0){
+            roomCounter++;
 
-        for (int currentStudent = 0; currentStudent < sumStudents; currentStudent++) {
-            int sumVisitsStudent = Integer.parseInt(scanner.nextLine()); //брой посещения на дадения студент
+            for (int i = 0; i < roomArr.length; i++) {
+                String command = roomArr[i].split(" ")[0];
+                int number = Integer.parseInt(roomArr[i].split(" ")[1]);
 
-            double bonus = sumVisitsStudent * 1.0 / sumCourses;
-            bonus = Math.round(bonus * (5 + coursesBonus));
+                if (command.equals("potion")){
+                    if (health + number > 100){
+                        System.out.printf("You healed for %d hp.%n", 100 - health);
+                        System.out.println("Current health: 100 hp.");
+                        health = 100;
+                    }else {
+                        health += number;
+                        System.out.printf("You healed for %d hp.%n", number);
+                        System.out.printf("Current health: %d hp.", health);
+                    }
 
-            if (maxBonus <= bonus){
-                maxBonus = bonus;
-                visitsStudent = sumVisitsStudent;
+                }else if (command.equals("chest")){
+                    bitcoins += number;
+                    System.out.printf("You found %d bitcoins.%n", number);
+                }else {
+                    health -= number;
+                    if(health > 0){
+                        System.out.printf("You slayed %s.%n", command);
+                    }else {
+                        System.out.printf("You died! Killed by %s.%n", command);
+                        System.out.printf("Best room: %d%n", roomCounter);
+                    }
+                }
             }
+
+
+
         }
 
-        System.out.printf("Max Bonus: %.0f.%n", maxBonus);
-        System.out.printf("The student has attended %.0f lectures.", visitsStudent);
+
     }
 }
