@@ -20,28 +20,8 @@ public class Demo {
         int x21 = Integer.parseInt(scanner.nextLine());
         int y21 = Integer.parseInt(scanner.nextLine());
 
-        int line1 = 0;
-        int line2 = 0;
-
-        if (x1 >= 0 && x2 >= 0) {
-            line1 = Math.abs(x1 + x2);
-        } else if (x1 < 0 && x2 < 0) {
-            line1 = Math.abs(x1 - x2);
-        } else if (x1 < 0 && x2 > 0) {
-            line1 = Math.abs(x1) + Math.abs(x2);
-        } else if (x1 > 0 && x2 < 0) {
-            line1 = Math.abs(x1) + Math.abs(x2);
-        }
-
-        if (x11 >= 0 && x21 >= 0) {
-            line2 = Math.abs(x1 + x2);
-        } else if (x1 < 0 && x21 < 0) {
-            line2 = Math.abs(x11 - x21);
-        } else if (x11 < 0 && x21 > 0) {
-            line2 = Math.abs(x11) + Math.abs(x21);
-        } else if (x11 > 0 && x21 < 0) {
-            line2 = Math.abs(x11) + Math.abs(x21);
-        }
+        int line1 = lineLength(x1, x2);
+        int line2 = lineLength(x11, x21);
 
         if (line1 >= line2) {
             int[] pointsArr = {Math.abs(x1), y1, Math.abs(x2), y2, Math.abs(x11), y11, Math.abs(x21), y21};
@@ -92,5 +72,21 @@ public class Demo {
             }
         }
 
+    }
+    private  static Integer lineLength(int a, int b){
+        int line = 0;
+
+        if (a >= 0 && b >= 0) {
+            line = Math.abs(a - b);
+        } else if (a <= 0 && b < 0) {
+            line = Math.abs(a - b);
+        }else if (a < 0 && b <= 0) {
+            line = Math.abs(a - b);
+        } else if (a <= 0 && b > 0) {
+            line = Math.abs(a) + Math.abs(b);
+        } else if (a >= 0 && b < 0) {
+            line = Math.abs(a) + Math.abs(b);
+        }
+        return line;
     }
 }
