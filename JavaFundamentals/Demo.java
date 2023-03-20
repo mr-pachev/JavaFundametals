@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,71 +19,65 @@ public class Demo {
         int x21 = Integer.parseInt(scanner.nextLine());
         int y21 = Integer.parseInt(scanner.nextLine());
 
-        int line1 = lineLength(x1, x2);
-        int line2 = lineLength(x11, x21);
+        double length1 = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+        double length2 = Math.sqrt(((x21 - x11) * (x21 - x11)) + ((y21 - y11) * (y21 - y11)));
 
-        List<Integer> pointsList = new ArrayList<>(4);
-
-        if (line1 >= line2) {
-            pointsList.add(x1);
-            pointsList.add(y1);
-            pointsList.add(x2);
-            pointsList.add(y2);
-        } else {
-            pointsList.add(x11);
-            pointsList.add(y11);
-            pointsList.add(x21);
-            pointsList.add(y21);
-        }
-
-        int index = indexSmall(pointsList);
-        int indexAnother = anotherPoint(pointsList, index);
-        System.out.printf("(%d, %d)(%d, %d)", pointsList.get(index), pointsList.get(index +1), pointsList.get(indexAnother), pointsList.get(indexAnother+1));
-    }
-    private  static Integer lineLength(int a, int b){
-        int line = 0;
-
-        if (a >= 0 && b >= 0) {
-            line = Math.abs(a - b);
-        } else if (a <= 0 && b < 0) {
-            line = Math.abs(a - b);
-        }else if (a < 0 && b <= 0) {
-            line = Math.abs(a - b);
-        } else if (a <= 0 && b > 0) {
-            line = Math.abs(a) + Math.abs(b);
-        }else if (a < 0 && b >= 0) {
-            line = Math.abs(a) + Math.abs(b);
-        } else if (a >= 0 && b < 0) {
-            line = Math.abs(a) + Math.abs(b);
-        }else if (a > 0 && b <= 0) {
-            line = Math.abs(a) + Math.abs(b);
-        }
-        return line;
-    }
-    public static Integer indexSmall(List<Integer> list){
-        int min = Integer.MAX_VALUE;
-        int current = 0;
         int index = 0;
 
-        for (int i = 0; i < list.size(); i+=2) {
-            current = Math.abs(list.get(i));
+        if (length1 >= length2) {
+            int[] arr = {x1, x2};
+            int[] realAtt = {x1, y1, x2, y2};
+            index = findClosestNumber(arr);
+            for (int i = 0; i < realAtt.length; i++) {
+                if (realAtt[i] == index) {
+                    System.out.printf("(%d, %d)", realAtt[i], realAtt[i + 1]);
+                    break;
+                }
+            }
+            for (int i = 0; i < realAtt.length; i++) {
+                if (realAtt[i] != index) {
+                    System.out.printf("(%d, %d)", realAtt[i], realAtt[i + 1]);
+                    break;
+                }
+            }
 
-            if(current <= min){
-                min = current;
-                index = i;
+        } else {
+            int[] arr = {x11, x21};
+            int[] realAtt = {x11, y11, x21, y21};
+            index = findClosestNumber(arr);
+            for (int i = 0; i < realAtt.length; i++) {
+                if (realAtt[i] == index) {
+                    System.out.printf("(%d, %d)", realAtt[i], realAtt[i + 1]);
+                    break;
+                }
+            }
+            for (int i = 0; i < realAtt.length; i++) {
+                if (realAtt[i] != index) {
+                    System.out.printf("(%d, %d)", realAtt[i], realAtt[i + 1]);
+                    break;
+                }
             }
         }
-        return index;
+
+
+        System.out.println();
     }
 
-    public static Integer anotherPoint(List<Integer> list, int index){
-        int anotherIndex = 0;
-        for (int i = 0; i < list.size(); i++) {
-            if (i != index){
-                anotherIndex = i;
+    //метод за намиране на най-близкото число до нула от подаден масив
+    public static Integer findClosestNumber(int[] nums) {
+        Arrays.sort(nums);
+        int ans = 0;
+        int val = nums[0];
+        for (int i : nums) {
+            if (i == 0) return 0;
+            if (i > 0) {
+                ans = i;
                 break;
             }
+            val = i;
         }
-        return anotherIndex;
+        if (ans == 0) return nums[nums.length - 1];
+        if (Math.abs(val) < ans) return val;
+        return ans;
     }
 }
