@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Demo {
     public static void main(String[] args) {
@@ -35,7 +37,9 @@ public class Demo {
             pointsList.add(y21);
         }
 
-        System.out.println();
+        int indexSmall = index(pointsList);
+        int indexAnother = anotherPoint(pointsList, indexSmall);
+        System.out.printf("(%d, %d)(%d, %d)", pointsList.get(indexSmall), pointsList.get(indexSmall+1), pointsList.get(indexAnother), pointsList.get(indexAnother+1));
     }
     private  static Integer lineLength(int a, int b){
         int line = 0;
@@ -56,5 +60,31 @@ public class Demo {
             line = Math.abs(a) + Math.abs(b);
         }
         return line;
+    }
+    public static Integer index(List<Integer> list){
+        int min = Integer.MAX_VALUE;
+        int current = 0;
+        int index = 0;
+
+        for (int i = 0; i < list.size(); i++) {
+            current = list.get(i);
+
+            if(current <= min){
+                min = current;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public static Integer anotherPoint(List<Integer> list, int index){
+        int anotherIndex = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (i != index){
+                anotherIndex = i;
+                break;
+            }
+        }
+        return anotherIndex;
     }
 }
