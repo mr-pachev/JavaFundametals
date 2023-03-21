@@ -6,44 +6,43 @@ public class LongerLine_03 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        //координати на точка А
-        int firstPointX = Integer.parseInt(scanner.nextLine());
-        int firstPointY = Integer.parseInt(scanner.nextLine());
-        //координати на точка В
-        int secondPointX = Integer.parseInt(scanner.nextLine());
-        int secondPointY = Integer.parseInt(scanner.nextLine());
+        int x1 = Integer.parseInt(scanner.nextLine());
+        int y1 = Integer.parseInt(scanner.nextLine());
+        int x2 = Integer.parseInt(scanner.nextLine());
+        int y2 = Integer.parseInt(scanner.nextLine());
 
-        //координати на точка С
-        int thirdPointX = Integer.parseInt(scanner.nextLine());
-        int thirdPointY = Integer.parseInt(scanner.nextLine());
-        //координати на точка D
-        int fourthPointX = Integer.parseInt(scanner.nextLine());
-        int fourthPointY = Integer.parseInt(scanner.nextLine());
+        int x11 = Integer.parseInt(scanner.nextLine());
+        int y11 = Integer.parseInt(scanner.nextLine());
+        int x12 = Integer.parseInt(scanner.nextLine());
+        int y12 = Integer.parseInt(scanner.nextLine());
 
-        //формула за намиране дължина на отсечка в правоъгълна координатна система
-        double firstLineAB = Math.sqrt(((secondPointX - firstPointX)*(secondPointX - firstPointX))
-                                       + ((secondPointY - fourthPointY)*(secondPointY - fourthPointY)));
-        double secondLineCD = Math.sqrt(((fourthPointX - thirdPointX)*(fourthPointX - thirdPointX))
-                                       + ((fourthPointY - thirdPointY)));
+        printSmallerLine(x1, y1, x2, y2, x11, y11, x12, y12);
+    }
 
-        if (firstLineAB >= secondLineCD){
-            if (average(firstPointX, firstPointY) <= average(secondPointX, secondPointY)){
-                System.out.printf("(%d, %d)(%d, %d)", firstPointX, firstPointY, secondPointX, secondPointY);
-            }else {
-                System.out.printf("(%d, %d)(%d, %d)", secondPointX, secondPointY, firstPointX, firstPointY);
-            }
+    //метод определящ дължина на права
+    public static Double length (int x1, int y1, int x2, int y2){
+        return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+    }
+    //метод за намиране на най-близкото число до нула от подаден масив
+    public static Double findClosestNumber(double x, double y) {
+        return Math.sqrt(Math.pow((0 - x), 2) + Math.pow((0 - y), 2));
+    }
+
+
+    //метод принтиране първо на нан-близката точка от права
+    public static void printCloserPoints(int x1, int y1, int x2, int y2){
+        if (findClosestNumber(x1, y1) <= findClosestNumber(x2, y2)){
+            System.out.printf("(%d, %d)(%d, %d)", x1, y1, x2, y2);
         }else {
-            if (average(thirdPointX, thirdPointY) <= average(fourthPointX, fourthPointY)){
-                System.out.printf("(%d, %d)(%d, %d)", thirdPointX, thirdPointY, fourthPointX, fourthPointY);
-            }else {
-                System.out.printf("(%d, %d)(%d, %d)", fourthPointX, fourthPointY, thirdPointX, thirdPointY);
-            }
+            System.out.printf("(%d, %d)(%d, %d)", x2, y2, x1, y1);
         }
-
-    }
-    public static Integer average (int pointX, int pointY){
-        return Math.abs(pointX + pointY);
     }
 
-
+    public static void printSmallerLine (int x1, int y1, int x2, int y2, int x11, int y11, int x12, int y12){
+        if(length(x1, y1, x2, y2) >= length(x11, y11, x12, y12)){
+            printCloserPoints(x1, y1, x2, y2);
+        }else {
+            printCloserPoints(x11, y11, x12, y12);
+        }
+    }
 }

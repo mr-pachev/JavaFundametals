@@ -25,23 +25,10 @@ public class Demo {
         return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
     }
     //метод за намиране на най-близкото число до нула от подаден масив
-    public static Integer findClosestNumber(int x1, int y1) {
-        int[] nums = {x1, y1};
-        Arrays.sort(nums);
-        int ans = 0;
-        int val = nums[0];
-        for (int i : nums) {
-            if (i == 0) return 0;
-            if (i > 0) {
-                ans = i;
-                break;
-            }
-            val = i;
-        }
-        if (ans == 0) return nums[nums.length - 1];
-        if (Math.abs(val) < ans) return val;
-        return ans;
+    public static Double findClosestNumber(double x, double y) {
+       return Math.sqrt(Math.pow((0 - x), 2) + Math.pow((0 - y), 2));
     }
+
 
     //метод принтиране първо на нан-близката точка от права
     public static void printCloserPoints(int x1, int y1, int x2, int y2){
