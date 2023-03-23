@@ -1,49 +1,75 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int x1 = Integer.parseInt(scanner.nextLine());
-        int y1 = Integer.parseInt(scanner.nextLine());
-        int x2 = Integer.parseInt(scanner.nextLine());
-        int y2 = Integer.parseInt(scanner.nextLine());
+        List<String> treasureList = new ArrayList<>(Arrays.stream(scanner.nextLine().split("\\|")).toList());
 
-        int x11 = Integer.parseInt(scanner.nextLine());
-        int y11 = Integer.parseInt(scanner.nextLine());
-        int x12 = Integer.parseInt(scanner.nextLine());
-        int y12 = Integer.parseInt(scanner.nextLine());
+        String input = scanner.nextLine();
 
-        printSmallerLine(x1, y1, x2, y2, x11, y11, x12, y12);
-    }
+        while (!input.equals("Yohoho!")) {
+            String[] commandData = input.split("\\s+");
+            String command = commandData[0];
 
-    //метод определящ дължина на права
-    public static Double length (int x1, int y1, int x2, int y2){
-        return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
-    }
-    //метод за намиране на най-близкото число до нула от подаден масив
-    public static Double findClosestNumber(double x, double y) {
-       return Math.sqrt(Math.pow((0 - x), 2) + Math.pow((0 - y), 2));
-    }
+            switch (command) {
+                case "Loot":
+                    List<String> lootList = lootList(commandData);
+                    for (int i = 0; i < lootList.size(); i++) {
+                        if (!treasureList.contains(lootList.get(i))) {
+                            treasureList.add(0, lootList.get(i));
+                        }
+                    }
+                    break;
+                case "Drop":
+                    int indexDrop = Integer.parseInt(commandData[1]);
 
+                    if (indexDrop >= 0 && indexDrop < treasureList.size()) {
+                        String current = treasureList.get(indexDrop);
+                        treasureList.remove(indexDrop);
+                        treasureList.add(current);
+                    }
+                    break;
+                case "Steal":
+                    List<String> stealList = new ArrayList<>();
+                    int stealSum = Integer.parseInt(commandData[1]);
 
-    //метод принтиране първо на нан-близката точка от права
-    public static void printCloserPoints(int x1, int y1, int x2, int y2){
-        if (findClosestNumber(x1, y1) <= findClosestNumber(x2, y2)){
-            System.out.printf("(%d, %d)(%d, %d)", x1, y1, x2, y2);
+                    if (treasureList.size() <= stealSum) {
+                        System.out.println(treasureList.toString().replaceAll("[\\[\\]]", ""));
+                        treasureList.clear();
+                    } else {
+                        for (int i = 1; i <= stealSum; i++) {
+                            stealList.add(0, treasureList.get(treasureList.size() - 1));
+                            treasureList.remove(treasureList.size() - 1);
+                        }
+                        System.out.println(stealList.toString().replaceAll("[\\[\\]]", ""));
+                    }
+                    break;
+            }
+
+            input = scanner.nextLine();
+        }
+
+        if (treasureList.isEmpty()) {
+            System.out.println("Failed treasure hunt.");
         }else {
-            System.out.printf("(%d, %d)(%d, %d)", x2, y2, x1, y1);
+            System.out.printf("Average treasure gain: %.2f pirate credits.",  avr(treasureList));
         }
     }
 
-    public static void printSmallerLine (int x1, int y1, int x2, int y2, int x11, int y11, int x12, int y12){
-        if(length(x1, y1, x2, y2) >= length(x11, y11, x12, y12)){
-            printCloserPoints(x1, y1, x2, y2);
-        }else {
-            printCloserPoints(x11, y11, x12, y12);
+    public static List<String> lootList(String[] arr) {
+        List<String> current = new ArrayList<>();
+        for (int i = 1; i < arr.length; i++) {
+            current.add(arr[i]);
         }
+        return current;
+    }
+    public static Double avr (List<String> list){
+        int counterSum = 0;
+
+        for (int i = 0; i < list.size(); i++) {
+            counterSum += list.get(i).length();
+        }
+        return  counterSum * 1.0 / list.size();
     }
 }
