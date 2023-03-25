@@ -28,12 +28,13 @@ public class Demo {
                     int startIndex = Integer.parseInt(input.split(">>>")[2]);
                     int endIndex = Integer.parseInt(input.split(">>>")[3]);
 
-                    String firstPart = rawActivationKey.substring(0, endIndex - 1);
+                    String firstPart = rawActivationKey.substring(0, startIndex);
                     String secondPart = rawActivationKey.substring(endIndex);
 
                     String flipString = rawActivationKey.substring(startIndex, endIndex);
                     flipString = typeLetters(flipString, typeLetter);
 
+                    rawActivationKey = "";
                     rawActivationKey = firstPart.concat(flipString).concat(secondPart);
                     System.out.println(rawActivationKey);
                     break;
@@ -42,9 +43,10 @@ public class Demo {
                     int firstIndex = Integer.parseInt(input.split(">>>")[1]);
                     int lastIndex = Integer.parseInt(input.split(">>>")[2]);
 
-                    String startPart = rawActivationKey.substring(0, firstIndex - 1);
+                    String startPart = rawActivationKey.substring(0, firstIndex);
                     String endPart = rawActivationKey.substring(lastIndex);
 
+                    rawActivationKey = "";
                     rawActivationKey = startPart.concat(endPart);
                     System.out.println(rawActivationKey);
                     break;
@@ -53,12 +55,13 @@ public class Demo {
         }
         System.out.printf("Your activation key is: %s", rawActivationKey);
     }
-    public static String typeLetters (String key, String type){
+
+    public static String typeLetters(String key, String type) {
         String letters = "";
 
-        if (type.equals("Upper")){
+        if (type.equals("Upper")) {
             letters = key.toUpperCase();
-        }else if (type.equals("Lower")){
+        } else if (type.equals("Lower")) {
             letters = key.toLowerCase();
         }
         return letters;
