@@ -5,33 +5,65 @@ public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int days = Integer.parseInt(scanner.nextLine());
-        int dailyPlunder = Integer.parseInt(scanner.nextLine());
-        double expectedPlunder = Double.parseDouble(scanner.nextLine());
+        List<Integer> pirateShip = Arrays.stream(scanner.nextLine().split("\\>"))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
 
-        double plunder = 0;
 
-        for (int day = 1; day <= days; day++) {
-            plunder += dailyPlunder;
+        List<Integer> warShip = Arrays.stream(scanner.nextLine().split("\\>"))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
 
-            if (day % 3 == 0) {
-                double bonusPlunder = 0;
-                bonusPlunder = 50 * 1.0 / 100 * dailyPlunder;
-                plunder += bonusPlunder;
+
+        int maxHealth = Integer.parseInt(scanner.nextLine());
+
+        String input = scanner.nextLine();
+
+        while (!input.equals("Retire")) {
+
+            String command = input.split(" ")[0];
+
+            switch (command) {
+
+                case "Fire":
+                    int indexFire = Integer.parseInt(input.split(" ")[1]);
+                    int currentSectionCondition = Integer.parseInt(input.split(" ")[2]);
+
+                    if (isExist(warShip, indexFire)) {
+                        int damageSection = warShip.get(indexFire);
+                        int damage = currentSectionCondition - damageSection;
+
+                        if (damage <= 0) {
+                            System.out.println("You won! The enemy ship has sunken.");
+                            input = "Retire";
+                            continue;
+                        } else {
+                            warShip.set(indexFire, damage);
+                        }
+                    }
+                    break;
+                    
+                case "Defend":
+                    int startIndex = Integer.parseInt(input.split(" ")[1]);
+                    int endIndex = Integer.parseInt(input.split(" ")[2]);
+                    int defend = Integer.parseInt(input.split(" ")[3]);
+
+                    if(isExist(pirateShip, startIndex) && isExist(pirateShip, endIndex)){
+
+                    }
+
+                    break;
+                case "Repair":
+                    break;
+                case "Status":
+                    break;
             }
-            if (day % 5 == 0) {
-                double losePlinder = 0;
-                losePlinder = 30 * 1.0 / 100 * plunder;
-                plunder -= losePlinder;
-            }
-        }
 
-        if (plunder >= expectedPlunder) {
-            System.out.printf("Ahoy! %.2f plunder gained.", plunder);
-        } else {
-            double percent = 0;
-            percent = plunder * 100 / expectedPlunder;
-            System.out.printf("Collected only %.2f%% of the plunder.", percent);
+            input = scanner.nextLine();
         }
+    }
+
+    public static boolean isExist(List<Integer> list, int index) {
+        return (index >= 0 && index < list.size());
     }
 }
