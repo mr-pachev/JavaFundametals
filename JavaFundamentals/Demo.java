@@ -18,6 +18,7 @@ public class Demo {
         int maxHealth = Integer.parseInt(scanner.nextLine());
 
         String input = scanner.nextLine();
+        boolean isEnded = false;
 
         while (!input.equals("Retire")) {
 
@@ -31,12 +32,12 @@ public class Demo {
 
                     if (isExist(warShip, indexFire)) {
                         int warshipSectionHealth = warShip.get(indexFire);
-                        int damage = currentSectionCondition - warshipSectionHealth;
+                        int damage = warshipSectionHealth - currentSectionCondition;
 
                         if (damage <= 0) {
                             System.out.println("You won! The enemy ship has sunken.");
-                            input = scanner.nextLine();
-                            ;
+                            isEnded = true;
+                            input = "Retire";
                             continue;
                         } else {
                             warShip.set(indexFire, damage);
@@ -57,6 +58,7 @@ public class Demo {
 
                             if (damageCurrentSection <= 0) {
                                 System.out.println("You lost! The pirate ship has sunken.");
+                                isEnded = true;
                                 input = "Retire";
                                 break;
                             } else {
@@ -67,16 +69,52 @@ public class Demo {
 
                     break;
                 case "Repair":
+                    int indexRepair = Integer.parseInt(input.split(" ")[1]);
+                    int repairHealth = Integer.parseInt(input.split(" ")[2]);
+
+                    if (isExist(pirateShip, indexRepair)) {
+                        int repairCurrentSection = pirateShip.get(indexRepair);
+                        int repair = repairCurrentSection + repairHealth;
+
+                        if (repair >= maxHealth) {
+                            pirateShip.set(indexRepair, maxHealth);
+                        } else {
+                            pirateShip.set(indexRepair, repair);
+                        }
+                    }
                     break;
+
                 case "Status":
+                    double limit = 20 * 1.0 / 100 * maxHealth;
+                    int countSection = 0;
+
+                    for (int i = 0; i < pirateShip.size(); i++) {
+                        int currentSectionStatus = pirateShip.get(i);
+
+                        if (currentSectionStatus < limit) {
+                            countSection++;
+                        }
+                    }
+                    System.out.printf("%d sections need repair.%n", countSection);
                     break;
             }
 
             input = scanner.nextLine();
         }
+        if (!isEnded) {
+            System.out.printf("Pirate ship status: %d%nWarship status: %d", sumSectionStatus(pirateShip), sumSectionStatus(warShip));
+        }
     }
 
     public static boolean isExist(List<Integer> list, int index) {
         return (index >= 0 && index < list.size());
+    }
+
+    public static Integer sumSectionStatus (List<Integer> list){
+        int counterSum = 0;
+        for (int i = 0; i < list.size(); i++) {
+            counterSum += list.get(i);
+        }
+        return counterSum;
     }
 }
