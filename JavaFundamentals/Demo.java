@@ -30,26 +30,39 @@ public class Demo {
                     int currentSectionCondition = Integer.parseInt(input.split(" ")[2]);
 
                     if (isExist(warShip, indexFire)) {
-                        int damageSection = warShip.get(indexFire);
-                        int damage = currentSectionCondition - damageSection;
+                        int warshipSectionHealth = warShip.get(indexFire);
+                        int damage = currentSectionCondition - warshipSectionHealth;
 
                         if (damage <= 0) {
                             System.out.println("You won! The enemy ship has sunken.");
-                            input = "Retire";
+                            input = scanner.nextLine();
+                            ;
                             continue;
                         } else {
                             warShip.set(indexFire, damage);
                         }
                     }
                     break;
-                    
+
                 case "Defend":
                     int startIndex = Integer.parseInt(input.split(" ")[1]);
                     int endIndex = Integer.parseInt(input.split(" ")[2]);
                     int defend = Integer.parseInt(input.split(" ")[3]);
 
-                    if(isExist(pirateShip, startIndex) && isExist(pirateShip, endIndex)){
+                    if (isExist(pirateShip, startIndex) && isExist(pirateShip, endIndex)) {
 
+                        for (int i = startIndex; i <= endIndex; i++) {
+                            int pirateSectionHealth = pirateShip.get(i);
+                            int damageCurrentSection = pirateSectionHealth - defend;
+
+                            if (damageCurrentSection <= 0) {
+                                System.out.println("You lost! The pirate ship has sunken.");
+                                input = "Retire";
+                                break;
+                            } else {
+                                pirateShip.set(i, damageCurrentSection);
+                            }
+                        }
                     }
 
                     break;
