@@ -69,14 +69,13 @@ public class Demo {
                     System.out.printf("%d gold added to the city treasury. %s now has %d gold.%n", gold, city, currentGold);
                 }
             }
-            countCity = conquestMap.entrySet().size();
             input = scanner.nextLine();
         }
 
         if (conquestMap.isEmpty()) {
             System.out.println("Ahoy, Captain! All targets have been plundered and destroyed!");
         } else {
-            System.out.printf("Ahoy, Captain! There are %d wealthy settlements to go to:%n", countCity);
+            System.out.printf("Ahoy, Captain! There are %d wealthy settlements to go to:%n", conquestMap.size());
             for (Map.Entry<String, List<Integer>> entry : conquestMap.entrySet()) {
                 System.out.print(entry.getKey() + " -> ");
 
