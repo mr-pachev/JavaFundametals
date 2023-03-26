@@ -10,6 +10,7 @@ public class Demo {
         String input = scanner.nextLine();
         List<Integer> dataList = new ArrayList<>();
         Map<String, List<Integer>> conquestMap = new LinkedHashMap<>();
+        int countCity = 0;
 
         while (!input.equals("Sail")) {
             String city = input.split("\\|\\|")[0];
@@ -64,9 +65,26 @@ public class Demo {
                     System.out.printf("%d gold added to the city treasury. %s now has %d gold.%n", gold, city, currentGold);
                 }
             }
+            countCity = conquestMap.entrySet().size();
             input = scanner.nextLine();
         }
 
-        
+        if (conquestMap.isEmpty()) {
+            System.out.println("Ahoy, Captain! All targets have been plundered and destroyed!");
+        } else {
+            System.out.printf("Ahoy, Captain! There are %d wealthy settlements to go to:%n", countCity);
+            for (Map.Entry<String, List<Integer>> entry : conquestMap.entrySet()) {
+                System.out.println(entry.getKey() + " -> ");
+
+                for (int i = 0; i < entry.getValue().size(); i++) {
+                    if (i == 0) {
+                        System.out.printf("Population: %d citizens, ", entry.getValue().get(i));
+                    } else if (i == 1) {
+                        System.out.printf("Gold: %d kg, ", entry.getValue().get(i));
+                    }
+                }
+                System.out.println();
+            }
+        }
     }
 }
