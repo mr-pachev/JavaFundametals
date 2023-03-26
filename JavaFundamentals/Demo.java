@@ -46,11 +46,15 @@ public class Demo {
                 currentPeople -= people;
                 currentGold -= gold;
 
-                System.out.printf("%s plundered! %d gold stolen, %d citizens killed.%n", city, currentGold, currentPeople);
+                System.out.printf("%s plundered! %d gold stolen, %d citizens killed.%n", city, gold, people);
 
                 if (currentPeople <= 0 || currentGold <= 0) {
-                    System.out.printf("%s has been wiped off the map!", city);
+                    System.out.printf("%s has been wiped off the map!%n", city);
                     conquestMap.remove(city);
+                }else {
+                    dataList.set(0, currentPeople);
+                    dataList.set(1, currentGold);
+                    conquestMap.put(city, dataList);
                 }
 
             } else if (command.equals("Prosper")) {
@@ -74,13 +78,13 @@ public class Demo {
         } else {
             System.out.printf("Ahoy, Captain! There are %d wealthy settlements to go to:%n", countCity);
             for (Map.Entry<String, List<Integer>> entry : conquestMap.entrySet()) {
-                System.out.println(entry.getKey() + " -> ");
+                System.out.print(entry.getKey() + " -> ");
 
                 for (int i = 0; i < entry.getValue().size(); i++) {
                     if (i == 0) {
                         System.out.printf("Population: %d citizens, ", entry.getValue().get(i));
                     } else if (i == 1) {
-                        System.out.printf("Gold: %d kg, ", entry.getValue().get(i));
+                        System.out.printf("Gold: %d kg ", entry.getValue().get(i));
                     }
                 }
                 System.out.println();
