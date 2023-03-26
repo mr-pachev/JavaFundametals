@@ -17,6 +17,7 @@ public class Demo {
             int golds = Integer.parseInt(input.split("\\|\\|")[2]);
 
             if (!conquestMap.containsKey(city)) {
+                dataList = new ArrayList<>();
                 dataList.add(people);
                 dataList.add(golds);
             } else {
@@ -33,30 +34,39 @@ public class Demo {
             String command = input.split("=>")[0];
             String city = input.split("=>")[1];
 
+            dataList = conquestMap.get(city);
+            int currentPeople = dataList.get(0);
+            int currentGold = dataList.get(1);
+
             if (command.equals("Plunder")) {
                 int people = Integer.parseInt(input.split("=>")[2]);
-                int gold = Integer.parseInt(String city = input.split("=>")[3]);
-
-                dataList = conquestMap.get(city);
-                int currentPeople = dataList.get(0);
-                int currentGold = dataList.get(1);
+                int gold = Integer.parseInt(input.split("=>")[3]);
 
                 currentPeople -= people;
                 currentGold -= gold;
 
                 System.out.printf("%s plundered! %d gold stolen, %d citizens killed.%n", city, currentGold, currentPeople);
 
-                if (currentPeople <= 0 && currentGold <= 0){
+                if (currentPeople <= 0 || currentGold <= 0) {
                     System.out.printf("%s has been wiped off the map!", city);
                     conquestMap.remove(city);
                 }
 
             } else if (command.equals("Prosper")) {
+                int gold = Integer.parseInt(input.split("=>")[2]);
 
+                if (gold <= 0) {
+                    System.out.println("Gold added cannot be a negative number!");
+                } else {
+                    currentGold += gold;
+                    dataList.set(1, currentGold);
+                    conquestMap.put(city, dataList);
+                    System.out.printf("%d gold added to the city treasury. %s now has %d gold.%n", gold, city, currentGold);
+                }
             }
-
             input = scanner.nextLine();
         }
 
+        
     }
 }
