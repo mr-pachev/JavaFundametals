@@ -10,6 +10,7 @@ public class Demo {
         String input = scanner.nextLine();
 
         List<String> emojisList = new ArrayList<>();
+        List<String> coolEmojiList = new ArrayList<>();
         int cool = 1;
 
         Pattern patternDigit = Pattern.compile("(?<digit>[0-9])");
@@ -19,22 +20,27 @@ public class Demo {
             cool *= Integer.parseInt(matcherDigit.group("digit"));
         }
 
-        Pattern pattern = Pattern.compile("([:|*]{2})(?<emoji>[A-Z][a-z]{2,})\\1");
+        Pattern pattern = Pattern.compile("(:{2}|[*]{2})(?<emoji>[A-Z][a-z]{2,})\\1");
         Matcher matcher = pattern.matcher(input);
-        int countEmoji = 0;
 
         while (matcher.find()) {
-            String cuurentEmoji = matcher.group("emoji");
-            emojisList.add(cuurentEmoji);
+            String currentEmoji = matcher.group("emoji");
+            String currentMatch = matcher.group();
+            emojisList.add(currentEmoji);
 
-            if (charSum(cuurentEmoji) >= cool) {
-                countEmoji++;
+            if (charSum(currentEmoji) >= cool) {
+                coolEmojiList.add(currentMatch);
             }
         }
 
-        System.out.println();
+        System.out.printf("Cool threshold: %d%n", cool);
+        System.out.printf("%d emojis found in the text. The cool ones are:%n", emojisList.size());
+        for (String s : coolEmojiList) {
+            System.out.println(s);
+        }
     }
 
+    //метод за сумиране на символите от даден String
     public static Integer charSum(String emoji) {
         char[] emojiChar = emoji.toCharArray();
         int sumChar = 0;
