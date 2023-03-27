@@ -1,32 +1,43 @@
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+
+        String stops = scanner.nextLine();
         String input = scanner.nextLine();
-        List<String> travelStops = Arrays.stream(input
-                .split("[\\:-]+")).collect(Collectors.toList());
-
-        String symbolOne = input.split("[A-Z][a-z]+")[1];
-        String symbolTwo = input.split("[A-Z][a-z]+")[2];
-
-        input = scanner.nextLine();
 
         while (!input.equals("Travel")){
-            String command = input.split("[\\: ]+")[0];
+            String command = input.split("\\:")[0];
 
             switch (command){
-                case "Add":
-                    int indexAdd = Integer.parseInt(input.split("[\\: ]+")[1]);
-                    String stopAdd = input.split("[\\: ]+")[2];
+                case "Add Stop":
+                    int indexAdd = Integer.parseInt(input.split("\\:")[1]);
+                    String stopAdd = input.split("\\:")[2];
 
-
+                    if(isValid(stops, indexAdd)){
+                        String startPart = stops.substring(0, indexAdd);
+                        String endPart = stops.substring(indexAdd);
+                        stops = "";
+                        stops = stops.concat(startPart).concat(stopAdd).concat(endPart);
+                        System.out.println(stops);
+                    }
                     break;
-                case "Remove":
+
+                case "Remove Stop":
+                    int startIndexRemove = Integer.parseInt(input.split("\\:")[1]);
+                    int endIndexRemove = Integer.parseInt(input.split("\\:")[2]);
+
+                    if(isValid(stops,startIndexRemove) && isValid(stops, endIndexRemove)){
+                        String firstPart = stops.substring(0, startIndexRemove);
+                        String secondPart = stops.substring(endIndexRemove);
+                        stops = "";
+                        stops = stops.concat(firstPart).concat(secondPart);
+                        System.out.println(stops);
+                    }
+
                     break;
                 case "Switch":
                     break;
@@ -36,5 +47,9 @@ public class Demo {
             input = scanner.nextLine();
         }
 
+
+    }
+    public static boolean isValid (String stops, int index){
+        return index >= 0 && index < stops.length();
     }
 }
