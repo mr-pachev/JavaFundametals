@@ -22,8 +22,8 @@ public class Demo {
                         String endPart = stops.substring(indexAdd);
                         stops = "";
                         stops = stops.concat(startPart).concat(stopAdd).concat(endPart);
-                        System.out.println(stops);
                     }
+                    System.out.println(stops);
                     break;
 
                 case "Remove Stop":
@@ -32,13 +32,13 @@ public class Demo {
 
                     if (isValid(stops, startIndexRemove) && isValid(stops, endIndexRemove)) {
                         String firstPart = stops.substring(0, startIndexRemove);
-                        String secondPart = stops.substring(endIndexRemove);
+                        String secondPart = stops.substring(endIndexRemove + 1);
                         stops = "";
                         stops = stops.concat(firstPart).concat(secondPart);
-                        System.out.println(stops);
                     }
-
+                    System.out.println(stops);
                     break;
+
                 case "Switch":
                     String oldString = input.split("\\:")[1];
                     String newString = input.split("\\:")[2];
@@ -51,8 +51,8 @@ public class Demo {
                         String second = stops.substring(endInt);
                         stops = "";
                         stops = stops.concat(first).concat(newString).concat(second);
-                        System.out.println(stops);
                     }
+                    System.out.println(stops);
                     break;
             }
 
