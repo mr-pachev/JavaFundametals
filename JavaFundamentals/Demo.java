@@ -8,86 +8,33 @@ public class Demo {
         Scanner scanner = new Scanner(System.in);
 
         String input = scanner.nextLine();
-        List<Integer> dataList = new ArrayList<>();
-        Map<String, List<Integer>> conquestMap = new LinkedHashMap<>();
-        int countCity = 0;
+        List<String> travelStops = Arrays.stream(input
+                .split("[\\:-]+")).collect(Collectors.toList());
 
-        while (!input.equals("Sail")) {
-            String city = input.split("\\|\\|")[0];
-            int people = Integer.parseInt(input.split("\\|\\|")[1]);
-            int golds = Integer.parseInt(input.split("\\|\\|")[2]);
+        String symbolOne = input.split("[A-Z][a-z]+")[1];
+        String symbolTwo = input.split("[A-Z][a-z]+")[2];
 
-            if (!conquestMap.containsKey(city)) {
-                dataList = new ArrayList<>();
-                dataList.add(people);
-                dataList.add(golds);
-            } else {
-                dataList = conquestMap.get(city);
-                dataList.set(0, dataList.get(0) + people);
-                dataList.set(1, dataList.get(1) + golds);
-            }
-            conquestMap.put(city, dataList);
-            input = scanner.nextLine();
-        }
         input = scanner.nextLine();
 
-        while (!input.equals("End")) {
-            String command = input.split("=>")[0];
-            String city = input.split("=>")[1];
+        while (!input.equals("Travel")){
+            String command = input.split("[\\: ]+")[0];
 
-            dataList = conquestMap.get(city);
-            int currentPeople = dataList.get(0);
-            int currentGold = dataList.get(1);
+            switch (command){
+                case "Add":
+                    int indexAdd = Integer.parseInt(input.split("[\\: ]+")[1]);
+                    String stopAdd = input.split("[\\: ]+")[2];
 
-            if (command.equals("Plunder")) {
-                int people = Integer.parseInt(input.split("=>")[2]);
-                int gold = Integer.parseInt(input.split("=>")[3]);
 
-                currentPeople -= people;
-                currentGold -= gold;
-
-                System.out.printf("%s plundered! %d gold stolen, %d citizens killed.%n", city, gold, people);
-
-                if (currentPeople <= 0 || currentGold <= 0) {
-                    System.out.printf("%s has been wiped off the map!%n", city);
-                    conquestMap.remove(city);
-                }else {
-                    dataList.set(0, currentPeople);
-                    dataList.set(1, currentGold);
-                    conquestMap.put(city, dataList);
-                }
-
-            } else if (command.equals("Prosper")) {
-                int gold = Integer.parseInt(input.split("=>")[2]);
-
-                if (gold <= 0) {
-                    System.out.println("Gold added cannot be a negative number!");
-                } else {
-                    currentGold += gold;
-                    dataList.set(1, currentGold);
-                    conquestMap.put(city, dataList);
-                    System.out.printf("%d gold added to the city treasury. %s now has %d gold.%n", gold, city, currentGold);
-                }
+                    break;
+                case "Remove":
+                    break;
+                case "Switch":
+                    break;
             }
+
+
             input = scanner.nextLine();
         }
 
-        if (conquestMap.isEmpty()) {
-            System.out.println("Ahoy, Captain! All targets have been plundered and destroyed!");
-        } else {
-            System.out.printf("Ahoy, Captain! There are %d wealthy settlements to go to:%n", conquestMap.size());
-            for (Map.Entry<String, List<Integer>> entry : conquestMap.entrySet()) {
-                System.out.print(entry.getKey() + " -> ");
-
-                for (int i = 0; i < entry.getValue().size(); i++) {
-                    if (i == 0) {
-                        System.out.printf("Population: %d citizens, ", entry.getValue().get(i));
-                    } else if (i == 1) {
-                        System.out.printf("Gold: %d kg ", entry.getValue().get(i));
-                    }
-                }
-                System.out.println();
-            }
-        }
     }
 }
