@@ -7,23 +7,24 @@ public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String destinations = scanner.nextLine();
+        int countPlants = Integer.parseInt(scanner.nextLine());
+        Map<String, List<Double>> plantaMap = new LinkedHashMap<>();
 
-        List<String> pointsList = new ArrayList<>();
-        int countPoints = 0;
+        for (int currentPlant = 1; currentPlant <= countPlants; currentPlant++) {
+            List<Double> plantsInfo = new ArrayList<>();
+            String input = scanner.nextLine();
 
-        Pattern pattern = Pattern.compile("([\\/]|[\\=])(?<word>[A-Z][A-z]{2,})\\1");
-        Matcher matcher = pattern.matcher(destinations);
+            String plantName = input.split("<->")[0];
+            double rarity = Double.parseDouble(input.split("<->")[1]);
 
-        while (matcher.find()) {
-            String destination = matcher.group("word");
-            pointsList.add(destination);
-            countPoints += destination.length();
+            if (plantaMap.containsKey(plantName)){
+                plantsInfo = plantaMap.get(plantName);
+                plantsInfo.set(0, rarity);
+            }
+
+            plantaMap.put(plantName, plantsInfo);
         }
-
-        System.out.print("Destinations: ");
-        System.out.println(pointsList.toString().replaceAll("[\\[\\]]", ""));
-        System.out.printf("Travel Points: %d", countPoints);
+        System.out.println();
 
     }
 }
