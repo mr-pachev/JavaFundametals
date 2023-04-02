@@ -20,11 +20,16 @@ public class Demo {
             if (plantaMap.containsKey(plantName)){
                 plantsInfo = plantaMap.get(plantName);
                 plantsInfo.set(0, rarity);
+            }else {
+                plantsInfo.add(rarity);
             }
 
             plantaMap.put(plantName, plantsInfo);
         }
-        System.out.println();
+
+        String input = scanner.nextLine();
+
+        
 
     }
 }
