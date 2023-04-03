@@ -17,10 +17,10 @@ public class Demo {
             String plantName = input.split("<->")[0];
             double rarity = Double.parseDouble(input.split("<->")[1]);
 
-            if (plantaMap.containsKey(plantName)){
+            if (plantaMap.containsKey(plantName)) {
                 plantsInfo = plantaMap.get(plantName);
                 plantsInfo.set(0, rarity);
-            }else {
+            } else {
                 plantsInfo.add(rarity);
             }
 
@@ -29,7 +29,26 @@ public class Demo {
 
         String input = scanner.nextLine();
 
-        
+        while (!input.equals("Exhibition")) {
+            String command = input.split("[: -]")[0];
+            String name = input.split("[:\\s-]+")[1];
+
+            if (!plantaMap.containsKey(name)){
+                System.out.println("error");
+            }else {
+                switch (command) {
+                    case "Rate":
+                        break;
+                    case "Update":
+                        break;
+                    case "Reset":
+                        break;
+                }
+            }
+
+
+            input = scanner.nextLine();
+        }
 
     }
 }
