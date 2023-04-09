@@ -60,7 +60,7 @@ public class TakeSkipRope_03 {
         }
     }
 
-    //създава списък само сцифри
+    //създава списък само с цифри
     public static List<Integer> makeNumList(List<String> inputList) {
         List<Integer> digitList = new ArrayList<>(); //списък за цифрите
         for (int currentIndex = 0; currentIndex <= inputList.size() - 1; currentIndex++) { //обхождаме входящия списък

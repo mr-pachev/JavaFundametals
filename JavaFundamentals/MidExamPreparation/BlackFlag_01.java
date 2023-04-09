@@ -27,7 +27,7 @@ public class BlackFlag_01 {
             }
         }
 
-        if (collectedPlunder >= expendedPlunder) { //просерка дали е събрана очакваната плячка
+        if (collectedPlunder >= expendedPlunder) { //проверка дали е събрана очакваната плячка
             System.out.printf("Ahoy! %.2f plunder gained.", collectedPlunder);
         } else {
             double percent = collectedPlunder * 100 / expendedPlunder;

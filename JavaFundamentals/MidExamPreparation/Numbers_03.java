@@ -33,7 +33,7 @@ public class Numbers_03 {
 
     }
 
-    //намиране средната стойност от сбора на елементите от масива
+    //намиране средната стойност от сбора от елементите на списък
     public static Double valueAverage (List<Integer> exampleList){
        double result = 0;
         for (int index = 0; index <= exampleList.size() - 1; index++) {
