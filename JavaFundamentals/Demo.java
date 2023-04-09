@@ -60,15 +60,18 @@ public class Demo {
                         List<String> piecesList = piecesMap.get(piece);
                         piecesList.set(1, newKey);
                         piecesMap.put(piece, piecesList);
-                        System.out.printf("Changed the key of %s to {new key}!%n", newKey);
+                        System.out.printf("Changed the key of %s to %s!%n",piece, newKey);
                     } else {
                         System.out.printf("Invalid operation! %s does not exist in the collection.%n", piece);
                     }
                     break;
             }
-            
+
             input = scanner.nextLine();
         }
 
+        for (Map.Entry<String, List<String>> entry : piecesMap.entrySet()) {
+            System.out.printf("%s -> Composer: %s, Key: %s%n", entry.getKey(), entry.getValue().get(0), entry.getValue().get(1));
+        }
     }
 }
