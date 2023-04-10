@@ -31,6 +31,7 @@ public class The_Race_02 {
                 if (geoHashCode.length() == length){
                     decrypted = decrypted(geoHashCode, length);
                     System.out.printf("Coordinates found! %s -> %s%n", name, decrypted);
+                    break;
                 }
             }
 
