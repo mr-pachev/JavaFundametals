@@ -2,7 +2,7 @@ package RetakeFinalExam;
 
 import java.util.Scanner;
 
-public class Easter {
+public class Easter_01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -36,7 +36,7 @@ public class Easter {
 
                 case "Includes":
                     String includesText = input.split(" ")[1];
-                    if (text.contains(includesText)) {
+                    if (text.contains(includesText) && text.length() >= includesText.length()) {
                         System.out.println("true");
                     } else {
                         System.out.println("false");
@@ -67,10 +67,10 @@ public class Easter {
             input = scanner.nextLine();
         }
 
-
     }
+
     //метод за преобръщане на String-a
-    public static String isReverse(String word){
+    public static String isReverse(String word) {
         char[] symbolArr = word.toCharArray();
         StringBuilder reverse = new StringBuilder();
 
@@ -79,4 +79,5 @@ public class Easter {
         }
         return reverse.toString();
     }
+
 }
