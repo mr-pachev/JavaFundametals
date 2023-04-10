@@ -12,6 +12,8 @@ public class The_Race_02 {
         Scanner scanner = new Scanner(System.in);
 
         String input = scanner.nextLine();
+        boolean isTrue = false;
+
         while (input != null) {
 
             Pattern pattern = Pattern.compile("([#$%*&])(?<name>[\\w]+)\\1[\\=](?<length>[0-9]+)[\\!]{2}(?<geohashcode>[\\w]+)");
@@ -31,12 +33,16 @@ public class The_Race_02 {
                 if (geoHashCode.length() == length){
                     decrypted = decrypted(geoHashCode, length);
                     System.out.printf("Coordinates found! %s -> %s%n", name, decrypted);
-                    break;
+                    isTrue = true;
                 }
             }
 
-            System.out.println("Nothing found!");
-            input = scanner.nextLine();
+            if (!isTrue) {
+                System.out.println("Nothing found!");
+                input = scanner.nextLine();
+            }else {
+                break;
+            }
         }
     }
 
