@@ -7,17 +7,16 @@ public class LongestIncreasingSubsequence_04 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String[] array1 = scanner.nextLine().split(" "); //масив String от конзолата
-        int[] numbers = new int[array1.length];
 
-        for (int i = 0; i < array1.length; i++) {    //пълнене на масива от тип int
-            numbers[i] = Integer.parseInt(array1[i]);
-        }
+        int[] numbers = Arrays.stream(scanner.nextLine()
+                        .split(" "))
+                        .mapToInt(Integer::parseInt)
+                        .toArray();
 
-        int maxLength = 0;                          //показва максимална дължина на нарастващата последователност
+        int maxLength = 0;                          //показва последния най-голям елемент в нарастващата последователност
         int lastIndex = -1;
         int[] len = new int[numbers.length];       //ще съдържа най-дългата нарастваща последователност с дължина равна на основния масив
-        int[] previous = new int[numbers.length];  //ще съдържа най-ЛЯВАТА нарастваща последователност с дължина равна на основния масив
+        int[] previous = new int[numbers.length];  //ще съдържа идексите на последните последователности
 
         for (int i = 0; i < numbers.length; i++) {  //обхожда основния масив с числа
             len[i] = 1;
