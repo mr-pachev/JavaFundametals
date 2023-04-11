@@ -7,47 +7,45 @@ public class LongestIncreasingSubsequence_04 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int[] seq = Arrays.stream(scanner.nextLine()
-                                .split(" "))
-                                .mapToInt(Integer::parseInt)
-                                .toArray();//масив за проверка
+        String[] array1 = scanner.nextLine().split(" "); //масив String от конзолата
+        int[] numbers = new int[array1.length];
 
-        int[] len = new int[seq.length]; //масив, който ще съдържа най-дългата възходяща поредица до текущия елемент включително
-                                        //с дължина равна на входящия масив
-        int[] les = new int[]{};
-        int maxLen = 0;
+        for (int i = 0; i < array1.length; i++) {    //пълнене на масива от тип int
+            numbers[i] = Integer.parseInt(array1[i]);
+        }
 
-        //1 2 5 3 5 2 4 1
+        int maxLength = 0;                          //показва максимална дължина на нарастващата последователност
+        int lastIndex = -1;
+        int[] len = new int[numbers.length];       //ще съдържа най-дългата нарастваща последователност с дължина равна на основния масив
+        int[] previous = new int[numbers.length];  //ще съдържа най-ЛЯВАТА нарастваща последователност с дължина равна на основния масив
 
-        for (int indexSeq = 0; indexSeq < seq.length; indexSeq++) { //цикъл обхождащ всички елементи от входящия масив
+        for (int i = 0; i < numbers.length; i++) {  //обхожда основния масив с числа
+            len[i] = 1;
+            previous[i] = -1;
 
-            len[indexSeq] = 1; //винаги в ляво от първия елемент има само една най-дългата разстяща редица включително и текущия елемент
-
-            for (int indexUnderSeq = 0; indexUnderSeq <= indexSeq - 1; indexUnderSeq++) { //обхождащ входящия масив от начало до елемента преди текущия елемент. Прави се проверка за
-                                            //образувала се най-дългата разстяща редица, която може да се продължи с текущия елемент
-
-                if (seq[indexUnderSeq] < seq[indexSeq] && len[indexUnderSeq] + 1 > len[indexSeq]){ //проверка дали текущия елемент е по-голям от първия елемнт, което означава,
-                                                            //че текущия елемнт може да продължи нарастващата последователност и в
-                                                            //същото време
-                   len[indexSeq] = 1 + len[indexUnderSeq];
-
-                    if (len[indexSeq] > maxLen){
-                        maxLen = len[indexSeq];
-                        les = new int []{seq[indexUnderSeq]};
-
-                    }
+            for (int k = 0; k < i; k++) {
+                if (numbers[k] < numbers[i] && len[k] + 1 > len[i]) {
+                    len[i] = len[k] + 1;
+                    previous[i] = k;
                 }
-
-
             }
 
-
+            if (len[i] > maxLength) {
+                maxLength = len[i];
+                lastIndex = i;
+            }
         }
 
-        for (int currentValue : les) {
-            System.out.printf("%d ", currentValue);
-        }
+        int[] lis = new int[maxLength];
+        int currentIndex = maxLength - 1;
 
+        while (lastIndex != -1) {
+            lis[currentIndex] = numbers[lastIndex];
+            currentIndex--;
+            lastIndex = previous[lastIndex];
+        }
+        for (int print = 0; print < lis.length; print++) {
+            System.out.print(lis[print] + " ");
+        }
     }
 }
-
