@@ -15,14 +15,14 @@ public class LongestIncreasingSubsequence_04 {
 
         int maxLength = 0;                          //показва последния най-голям елемент в нарастващата последователност
         int lastIndex = -1;
-        int[] len = new int[numbers.length];       //ще съдържа най-дългата нарастваща последователност с дължина равна на основния масив
-        int[] previous = new int[numbers.length];  //ще съдържа идексите на последните последователности
+        int[] len = new int[numbers.length];        //ще съдържа стойностите(брой елементи) на нарастващите последователности
+        int[] previous = new int[numbers.length];   //ще съдържа идексите на най-големите конкретни последователности
 
         for (int i = 0; i < numbers.length; i++) {  //обхожда основния масив с числа
             len[i] = 1;
             previous[i] = -1;
 
-            for (int k = 0; k < i; k++) {
+            for (int k = 0; k < i; k++) {           //обхожда основния масив до позиция i - 1 и търси елемент previous[i] с максимална стойност k
                 if (numbers[k] < numbers[i] && len[k] + 1 > len[i]) {
                     len[i] = len[k] + 1;
                     previous[i] = k;
