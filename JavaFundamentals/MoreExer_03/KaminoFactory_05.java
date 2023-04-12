@@ -22,14 +22,21 @@ public class KaminoFactory_05 {
             currentPosition++;
 
             int[] dna = Arrays.stream(inputData.split("!+"))
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
 
-            int currentSubsequence = lengthOfLIS(dna);
-            int currentLeftIndex = leftIndex(dna);
-            int currentSum = elementSum(dna);
+            int currentSubsequence = longSequence(dna);
+            int currentLeftIndex = 0;
+            int currentSum = 0;
 
-            if (currentSubsequence > maxSubsequence) {          //проверка дали дадената последователност е по-голяма от максималната до момента
+            for (int i = 0; i < dna.length; i++) {
+                if (i != dna.length - 1 && dna[i] == 1 && dna[i + 1] == 1) { //проверка, че има последователност
+                    currentLeftIndex = i;
+                }
+                currentSum += dna[i];
+            }
+
+            if (currentSubsequence > maxSubsequence) {              //проверка дали дадената последователност е по-голяма от максималната до момента
                 maxSubsequence = currentSubsequence;
                 minLeftIndex = currentLeftIndex;
                 bestPosition = currentPosition;
@@ -37,80 +44,45 @@ public class KaminoFactory_05 {
                 dnaArr = dna;
 
             } else if (currentSubsequence == maxSubsequence) {
-                if (currentLeftIndex < minLeftIndex) {          //при равенство но последователностите проверява най-левия индекс
+                if (currentLeftIndex < minLeftIndex) {              //при равни последователности сравнява най-левия индекс
                     minLeftIndex = currentLeftIndex;
                     bestPosition = currentPosition;
                     maxSum = currentSum;
                     dnaArr = dna;
-
-                } else if (currentLeftIndex == minLeftIndex) {
-                    if (currentSum > maxSum) {                  //при еднакви индекси се проверява дали сумата от елементите е по-голяма
-                        maxSum = currentSum;
-                        bestPosition = currentPosition;
-                        dnaArr = dna;
-                    }
+                } else if (currentSum > maxSum) {                   //при равни последователности и равни индекси сравнява за по-голямата сума от индекси
+                    minLeftIndex = currentLeftIndex;
+                    bestPosition = currentPosition;
+                    maxSum = currentSum;
+                    dnaArr = dna;
                 }
+
             }
 
             inputData = scanner.nextLine();
         }
 
-
         System.out.printf("Best DNA sample %d with sum: %d.%n", bestPosition, maxSum);
         for (int s : dnaArr) {
             System.out.printf("%s ", s);
         }
+
     }
 
-    //метод за намиране на най-дългата последователност в масив от тип int
-    public static int lengthOfLIS(int[] nums) {
-        if (nums == null || nums.length == 0)
-            return 0;
-
-        int[] max = new int[nums.length];
-        Arrays.fill(max, 1);
-
-        int result = 1;
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    max[i] = Math.max(max[i], max[j] + 1);
-                }
-            }
-            result = Math.max(max[i], result);
-        }
-        return result;
-    }
-
-    //метод определящ най-левият индекс на най-дългата последователност
-    public static int leftIndex(int[] nums) {
-        if (nums == null || nums.length == 0)
-            return 0;
-
-        int index = 0;
-        int[] max = new int[nums.length];
-        Arrays.fill(max, 1);
-
-        int result = 1;
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    max[i] = Math.max(max[i], max[j] + 1);
-                    index = i;
-                }
-            }
-            result = Math.max(max[i], result);
-        }
-        return index - (result - 1);
-    }
-
-    //метод определащ сумата на елементите то масива
-    public static Integer elementSum(int[] arr) {
+    //метод за номиране броя на най-дългата последователност от 1
+    public static Integer longSequence(int[] arr) {
         int sum = 0;
-
+        int max = 0;
         for (int i = 0; i < arr.length; i++) {
-            sum += arr[i];
+            if (arr[i] == 1) {
+                sum++;
+            } else {
+                sum = 0;
+            }
+
+            if (sum >= max) {
+                max = sum;
+            }
         }
-        return sum;
+        return max;
     }
 }
