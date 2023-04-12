@@ -33,15 +33,31 @@ public class LadyBugs_06 {
             for (int i = 0; i < fieldArr.length; i++) {
 
                 if (oldIndex == i) {
-                    if (isExistBug(fieldArr, oldIndex) && inTheBoarder(fieldArr, oldIndex) && newIndex > 0) { //проверка дали на дадения индекс има калинка и дали индекса на коленката е в полето
-                        if (!isExistBug(fieldArr, oldIndex) && inTheBoarder(fieldArr, oldIndex + newIndex)) { //няма калинка на новия индекс
-                            fieldArr[i] = 0;
-                            fieldArr[newIndex] = 1;
+                    if (isExistBug(fieldArr, oldIndex) && inTheBoarder(fieldArr, oldIndex)) { //проверка дали на дадения индекс има калинка и дали индекса на коленката е в полето
+                        int checkIndex = 0;
 
-                        } else if (isExistBug(fieldArr, oldIndex) && oldIndex + newIndex <= fieldArr.length - 1) {  //ако съществува буболечка но новия индекс, но е в греницата на масива
+                        if(direction.equals("right")) {
+                            checkIndex = oldIndex + newIndex;
+                        }else if (direction.equals("left")){
+                            checkIndex = oldIndex - newIndex;
+                        }
+
+                        if (!isExistBug(fieldArr, checkIndex) && (checkIndex <= fieldArr.length - 1)  && (checkIndex >= 0)) { //няма калинка на новия индекс
                             fieldArr[i] = 0;
-                            fieldArr[newIndex + 1] = 1;
-                        } else if (isExistBug(fieldArr, oldIndex) && oldIndex + newIndex > fieldArr.length - 1) {    //ако съществува буболечка но новия индекс и не е в греницата на масива
+                            if(direction.equals("right")) {
+                                fieldArr[oldIndex + newIndex] = 1;
+                            }else if (direction.equals("left")){
+                                fieldArr[oldIndex - newIndex] = 1;
+                            }
+
+                        } else if (isExistBug(fieldArr, checkIndex) && (checkIndex <= fieldArr.length - 1)  && (checkIndex >= 0)) {  //ако съществува буболечка но новия индекс, но е в греницата на масива
+                            fieldArr[i] = 0;
+                            if(direction.equals("right")) {
+                                fieldArr[newIndex + 1] = 1;
+                            }else if (direction.equals("left")){
+                                fieldArr[newIndex - 1] = 1;
+                            }
+                        } else if (checkIndex > fieldArr.length - 1 || checkIndex < 0) {    //ако съществува буболечка но новия индекс и не е в греницата на масива
                             fieldArr[i] = 0;
                         }
                     }
@@ -60,7 +76,7 @@ public class LadyBugs_06 {
     public static boolean isExistBug(int[] arr, int index) {
         boolean existBug = false;
         for (int j = 0; j < arr.length; j++) {
-            if (index == j) {
+            if (index == j && arr[j] == 1) {
                 existBug = true;
                 break;
             }
