@@ -12,12 +12,13 @@ public class LadyBugs_06 {
 
         int[] bugs = Arrays.stream(scanner.nextLine()
                         .split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
+                        .mapToInt(Integer::parseInt)
+                        .toArray();
 
         for (int i = 0; i < fieldArr.length; i++) { //инициализираме индексите, на които има калинки
             for (int j = 0; j < bugs.length; j++) {
-                if (bugs[j] == i) {
+
+                if (bugs[j] == i && bugs[j] >= 0 && bugs[j] < fieldArr.length) {
                     fieldArr[i] = 1;
                 }
             }
@@ -30,62 +31,39 @@ public class LadyBugs_06 {
             String direction = input.split("\\s+")[1];
             int newIndex = Integer.parseInt(input.split("\\s+")[2]);
 
-            for (int i = 0; i < fieldArr.length; i++) {
+            if (oldIndex < 0 || oldIndex > fieldArr.length-1 || fieldArr[oldIndex] == 0){   //проверка дали индекса е извън масива и дали на този индекс има калинка
+                input = scanner.nextLine();
+                continue;
+            }
 
-                if (oldIndex == i) {
-                    if (isExistBug(fieldArr, oldIndex) && inTheBoarder(fieldArr, oldIndex)) { //проверка дали на дадения индекс има калинка и дали индекса на коленката е в полето
-                        int checkIndex = 0;
+            fieldArr[oldIndex] = 0;                  //калинката отлита от индекса и стова 0
 
-                        if(direction.equals("right")) {
-                            checkIndex = oldIndex + newIndex;
-                        }else if (direction.equals("left")){
-                            checkIndex = oldIndex - newIndex;
-                        }
+            if (direction.equals("right")) {
+                oldIndex += newIndex;                //пресмята индекса, на който трябва да кацне калинката спрямо стъката
 
-                        if (!isExistBug(fieldArr, checkIndex) && (checkIndex <= fieldArr.length - 1)  && (checkIndex >= 0)) { //няма калинка на новия индекс
-                            fieldArr[i] = 0;
-                            if(direction.equals("right")) {
-                                fieldArr[oldIndex + newIndex] = 1;
-                            }else if (direction.equals("left")){
-                                fieldArr[oldIndex - newIndex] = 1;
-                            }
-
-                        } else if (isExistBug(fieldArr, checkIndex) && (checkIndex <= fieldArr.length - 1)  && (checkIndex >= 0)) {  //ако съществува буболечка но новия индекс, но е в греницата на масива
-                            fieldArr[i] = 0;
-                            if(direction.equals("right")) {
-                                fieldArr[newIndex + 1] = 1;
-                            }else if (direction.equals("left")){
-                                fieldArr[newIndex - 1] = 1;
-                            }
-                        } else if (checkIndex > fieldArr.length - 1 || checkIndex < 0) {    //ако съществува буболечка но новия индекс и не е в греницата на масива
-                            fieldArr[i] = 0;
-                        }
-                    }
+                while (oldIndex < field && fieldArr[oldIndex] == 1) {                       //проверка дали НОВАТА стойност oldIndex е в горната граница на полето и дали каца на индекс с калинка
+                    oldIndex += newIndex;
                 }
 
+                if (oldIndex < field) {             //проверка дали все още индекса е в полето
+                    fieldArr[oldIndex] = 1;         //отразяваме, че на индекса има вече калинка
+                }
+
+            }else if (direction.equals("left")){   //обратна но горната логика
+                oldIndex -= newIndex;
+
+                while (oldIndex >= 0 && fieldArr[oldIndex] == 1){
+                    oldIndex -= newIndex;
+                }
+
+                if (oldIndex >= 0){
+                    fieldArr[oldIndex] = 1;
+                }
             }
             input = scanner.nextLine();
         }
-
-        for (int j : fieldArr) {
-            System.out.printf("%d ", j);
+        for (int i = 0; i < fieldArr.length; i++) {
+            System.out.printf("%d ", fieldArr[i]);
         }
-    }
-
-    //метод за проверка дали на дадения индекс има калинка
-    public static boolean isExistBug(int[] arr, int index) {
-        boolean existBug = false;
-        for (int j = 0; j < arr.length; j++) {
-            if (index == j && arr[j] == 1) {
-                existBug = true;
-                break;
-            }
-        }
-        return existBug;
-    }
-
-    //метод за проверка дали индекса с калинката е в полето
-    public static boolean inTheBoarder(int[] arr, int index) {
-        return index >= 0 && index < arr.length;
     }
 }
