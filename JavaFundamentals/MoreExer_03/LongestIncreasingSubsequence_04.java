@@ -7,7 +7,6 @@ public class LongestIncreasingSubsequence_04 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-
         int[] numbers = Arrays.stream(scanner.nextLine()
                         .split(" "))
                         .mapToInt(Integer::parseInt)
@@ -22,7 +21,7 @@ public class LongestIncreasingSubsequence_04 {
             len[i] = 1;
             previous[i] = -1;
 
-            for (int k = 0; k < i; k++) {           //обхожда основния масив до позиция i - 1 и търси елемент previous[i] с максимална стойност k
+            for (int k = 0; k < i; k++) {           //обхожда основния масив до позиция i - 1 и търси елемент previous[i] с максимална стойност [k]
                 if (numbers[k] < numbers[i] && len[k] + 1 > len[i]) {
                     len[i] = len[k] + 1;
                     previous[i] = k;
