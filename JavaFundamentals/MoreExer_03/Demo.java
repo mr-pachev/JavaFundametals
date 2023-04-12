@@ -13,7 +13,7 @@ public class Demo {
         int bestSequenceSum = 0;                //най-голямата сума от последователности
         int bestSequenceIndex = 0;              //най-левия индекс на най-дългата последователност
         int count = 0;                          //брояч на позицийте
-        int sequenceIndex = length;
+        int sequenceIndex = length;             //реда с най-голяма последователност от говаряща на критерийте
         int[] dnaSequence = new int[length];    //масив с най-добрата последователност
 
         while (!input.equals("Clone them!")) {
@@ -21,8 +21,8 @@ public class Demo {
                     .mapToInt(Integer::parseInt)
                     .toArray();
 
-            int sum = 0;                    //сума от елементите на конкретния масив
-            int index = length;             //стартиращия индекс на конкретната последователност
+            int sum = 0;                        //сума от елементите на конкретния масив
+            int index = length;                 //стартиращия индекс на конкретната последователност
             count++;
 
             for (int i = 0; i < arr.length; i++) {
@@ -32,7 +32,7 @@ public class Demo {
                 sum += arr[i];
             }
 
-            if (index == sequenceIndex && sum > bestSequenceSum) {
+            if (sum > bestSequenceSum) {
                 dnaSequence = arr;
                 bestSequenceIndex = count;
                 bestSequenceSum = sum;
@@ -46,7 +46,7 @@ public class Demo {
             }
             input = scanner.nextLine();
         }
-        if (bestSequenceSum == 0) {
+        if (bestSequenceSum == 0) {         //проверка за редове саво с нули
             bestSequenceIndex = 1;
         }
 

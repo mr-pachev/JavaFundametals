@@ -22,8 +22,8 @@ public class KaminoFactory_05 {
             currentPosition++;
 
             int[] dna = Arrays.stream(inputData.split("!+"))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
+                        .mapToInt(Integer::parseInt)
+                        .toArray();
 
             int currentSubsequence = lengthOfLIS(dna);
             int currentLeftIndex = leftIndex(dna);
