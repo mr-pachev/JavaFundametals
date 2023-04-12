@@ -33,33 +33,33 @@ public class LadyBugs_06 {
             for (int i = 0; i < fieldArr.length; i++) {
 
                 if (oldIndex == i) {
-                    if (isExistBug(bugs, oldIndex) && inTheBoarder(fieldArr, oldIndex)) { //проверка дали на дадения индекс има калинка и дали индекса на коленката е в полето
-                        if (!isExistBug(bugs, newIndex)) {
+                    if (isExistBug(fieldArr, oldIndex) && inTheBoarder(fieldArr, oldIndex) && newIndex > 0) { //проверка дали на дадения индекс има калинка и дали индекса на коленката е в полето
+                        if (!isExistBug(fieldArr, oldIndex) && inTheBoarder(fieldArr, oldIndex + newIndex)) { //няма калинка на новия индекс
                             fieldArr[i] = 0;
                             fieldArr[newIndex] = 1;
-                            bugs[oldIndex] = newIndex;
-                        } else if (isExistBug(bugs, newIndex) && newIndex + 1 <= fieldArr.length - 1) {
+
+                        } else if (isExistBug(fieldArr, oldIndex) && oldIndex + newIndex <= fieldArr.length - 1) {  //ако съществува буболечка но новия индекс, но е в греницата на масива
                             fieldArr[i] = 0;
                             fieldArr[newIndex + 1] = 1;
-                            bugs[oldIndex] = newIndex + 1;
-                        } else if (isExistBug(fieldArr, newIndex) && newIndex + 1 > fieldArr.length - 1) {
+                        } else if (isExistBug(fieldArr, oldIndex) && oldIndex + newIndex > fieldArr.length - 1) {    //ако съществува буболечка но новия индекс и не е в греницата на масива
                             fieldArr[i] = 0;
-                            bugs[oldIndex] = 0;
                         }
                     }
                 }
 
             }
-
             input = scanner.nextLine();
         }
 
+        for (int j : fieldArr) {
+            System.out.printf("%d ", j);
+        }
     }
 
     //метод за проверка дали на дадения индекс има калинка
     public static boolean isExistBug(int[] arr, int index) {
         boolean existBug = false;
-        for (int j : arr) {
+        for (int j = 0; j < arr.length; j++) {
             if (index == j) {
                 existBug = true;
                 break;
