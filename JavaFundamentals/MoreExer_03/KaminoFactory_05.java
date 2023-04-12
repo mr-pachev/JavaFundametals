@@ -8,28 +8,22 @@ public class KaminoFactory_05 {
         Scanner scanner = new Scanner(System.in);
 
         int n = Integer.parseInt(scanner.nextLine());
-        Map<Integer, List<String>> dnaMap = new LinkedHashMap<>();
-        dnaMap.put(n,new ArrayList<>());
 
-        int maxSubsequence = 0; //съдържа на голямата последователност
-        int minLeftIndex = 0;   //съдържа най-левия индекс на най-голямата последователност
-        int maxSum = 0;         //съдържа най-голямата сума на най-голямата последователност
+        int maxSubsequence = Integer.MIN_VALUE; //съдържа на голямата последователност
+        int minLeftIndex = Integer.MAX_VALUE;   //съдържа най-левия индекс на най-голямата последователност
+        int maxSum = Integer.MIN_VALUE;         //съдържа най-голямата сума на най-голямата последователност
         int bestPosition = 0;
         int currentPosition = 0;
+        int[] dnaArr = new int[n];
 
         String inputData = scanner.nextLine();
 
         while (!inputData.equals("Clone them!")) {
             currentPosition++;
-            List<String> currentLsit = Arrays.stream(inputData.split("\\!")).collect(Collectors.toList());
-            dnaMap.put(currentPosition, currentLsit);
 
-            String[] input = inputData.split("\\!");
-            int[] dna = new int[input.length];
-
-            for (int i = 0; i < input.length; i++) {
-                dna[i] = Integer.parseInt(input[i]);
-            }
+            int[] dna = Arrays.stream(inputData.split("!+"))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
 
             int currentSubsequence = lengthOfLIS(dna);
             int currentLeftIndex = leftIndex(dna);
@@ -40,17 +34,20 @@ public class KaminoFactory_05 {
                 minLeftIndex = currentLeftIndex;
                 bestPosition = currentPosition;
                 maxSum = currentSum;
+                dnaArr = dna;
 
             } else if (currentSubsequence == maxSubsequence) {
                 if (currentLeftIndex < minLeftIndex) {          //при равенство но последователностите проверява най-левия индекс
                     minLeftIndex = currentLeftIndex;
                     bestPosition = currentPosition;
                     maxSum = currentSum;
+                    dnaArr = dna;
 
                 } else if (currentLeftIndex == minLeftIndex) {
                     if (currentSum > maxSum) {                  //при еднакви индекси се проверява дали сумата от елементите е по-голяма
                         maxSum = currentSum;
                         bestPosition = currentPosition;
+                        dnaArr = dna;
                     }
                 }
             }
@@ -58,13 +55,11 @@ public class KaminoFactory_05 {
             inputData = scanner.nextLine();
         }
 
-        System.out.printf("Best DNA sample %d with sum: %d.%n", bestPosition, maxSum);
-        for (Map.Entry<Integer, List<String>> entry : dnaMap.entrySet()) {
-            if (entry.getKey() == bestPosition) {
-                System.out.println(entry.getValue().toString().replaceAll("[\\[\\],]", ""));
-            }
-        }
 
+        System.out.printf("Best DNA sample %d with sum: %d.%n", bestPosition, maxSum);
+        for (int s : dnaArr) {
+            System.out.printf("%s ", s);
+        }
     }
 
     //метод за намиране на най-дългата последователност в масив от тип int
