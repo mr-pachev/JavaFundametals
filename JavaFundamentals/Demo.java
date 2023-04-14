@@ -27,7 +27,7 @@ public class Demo {
         String input = scanner.nextLine();
 
         while (!input.equals("end of assignment")) {
-            String[] inputData = scanner.nextLine().split("->");
+            String[] inputData = input.split("->");
 
             String user = inputData[0];
             String teamName = inputData[1];
@@ -44,8 +44,31 @@ public class Demo {
             input = scanner.nextLine();
         }
 
+        Map<String, List<String>> disbandMap = new TreeMap<>();
+        Map<String, List<String>> finishMap = new TreeMap<>();
+
         for (Map.Entry<String, List<String>> entry : teamMap.entrySet()) {
-            System.out.printf("%s: %d%n", entry.getKey(), entry.getValue());
+            List<String> currentList = entry.getValue();
+            Collections.sort(currentList);
+            Collections.reverse(currentList);
+            if (entry.getValue().size() == 1){
+                disbandMap.put(entry.getKey(), currentList);
+            }else {
+                finishMap.put(entry.getKey(), currentList);
+            }
+        }
+
+        for (Map.Entry<String, List<String>> entry : finishMap.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.printf("- %s%n", entry.getValue().get(0));
+            for (int i = 1; i < entry.getValue().size(); i++) {
+                System.out.printf("-- %s%n", entry.getValue().get(i));
+            }
+        }
+
+        for (Map.Entry<String, List<String>> entry : disbandMap.entrySet()) {
+            System.out.println("Teams to disband:");
+            System.out.println(entry.getKey());
         }
     }
 
