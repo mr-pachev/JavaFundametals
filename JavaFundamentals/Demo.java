@@ -32,11 +32,11 @@ public class Demo {
             String user = inputData[0];
             String teamName = inputData[1];
 
-            if (!teamMap.containsKey(teamName)){
+            if (!teamMap.containsKey(teamName)) {
                 System.out.printf("Team %s does not exist!%n", teamName);
-            }else if (isExist(teamMap, user)){
+            } else if (isExist(teamMap, user)) {
                 System.out.printf("Member %s cannot join team %s!%n", user, teamName);
-            }else {
+            } else {
                 List<String> teamList = teamMap.get(teamName);
                 teamList.add(user);
                 teamMap.put(teamName, teamList);
@@ -49,13 +49,22 @@ public class Demo {
 
         for (Map.Entry<String, List<String>> entry : teamMap.entrySet()) {
             List<String> currentList = entry.getValue();
-            Collections.sort(currentList);
-            Collections.reverse(currentList);
-            if (entry.getValue().size() == 1){
+            String currentCreator = entry.getValue().get(0);
+
+            if (isBigger(teamMap, currentList.size())) {
+                Collections.sort(currentList);
+                Collections.reverse(currentList);
+
+            } else {
+                Collections.sort(currentList);
+            }
+
+            if (entry.getValue().size() == 1) {
                 disbandMap.put(entry.getKey(), currentList);
-            }else {
+            } else {
                 finishMap.put(entry.getKey(), currentList);
             }
+
         }
 
         for (Map.Entry<String, List<String>> entry : finishMap.entrySet()) {
@@ -66,8 +75,9 @@ public class Demo {
             }
         }
 
+        System.out.println("Teams to disband:");
+
         for (Map.Entry<String, List<String>> entry : disbandMap.entrySet()) {
-            System.out.println("Teams to disband:");
             System.out.println(entry.getKey());
         }
     }
@@ -81,5 +91,16 @@ public class Demo {
             }
         }
         return isExist;
+    }
+
+    //метод за проверка дължините на списъците
+    public static boolean isBigger(Map<String, List<String>> map, int length) {
+        boolean isBigger = false;
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            if (length > entry.getValue().size()) {
+                isBigger = true;
+            }
+        }
+        return isBigger;
     }
 }
