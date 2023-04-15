@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toMap;
@@ -18,14 +19,17 @@ public class Demo {
             //пълнене на речника с екип и дъздател според условията
             if (teamMap.containsKey(team)) {
                 System.out.printf("Team %s was already created!%n", team);
-            } else if (isExist(teamMap, creator)) {
-                System.out.printf("%s cannot create another team!%n", creator);
-            } else {
-                List<String> teamList = new ArrayList<>();
-                teamList.add(creator);
-                teamMap.put(team, teamList);
-                System.out.printf("Team %s has been created by %s!%n", team, creator);
+                continue;
             }
+            if (isExist(teamMap, creator)) {
+                System.out.printf("%s cannot create another team!%n", creator);
+                continue;
+            }
+            List<String> teamList = new ArrayList<>();
+            teamList.add(creator);
+            teamMap.put(team, teamList);
+            System.out.printf("Team %s has been created by %s!%n", team, creator);
+
         }
 
         String input = scanner.nextLine();
@@ -40,70 +44,51 @@ public class Demo {
             //допълване на екипите според условията
             if (!teamMap.containsKey(teamName)) {
                 System.out.printf("Team %s does not exist!%n", teamName);
-            } else if (isExist(teamMap, user)) {
-                System.out.printf("Member %s cannot join team %s!%n", user, teamName);
-            } else {
-                List<String> teamList = teamMap.get(teamName);
-                teamList.add(user);
-                teamMap.put(teamName, teamList);
+                input = scanner.nextLine();
+                continue;
             }
+            if (isExist(teamMap, user)) {
+                System.out.printf("Member %s cannot join team %s!%n", user, teamName);
+                input = scanner.nextLine();
+                continue;
+            }
+
+            List<String> teamList = teamMap.get(teamName);
+            teamList.add(user);
+            teamMap.put(teamName, teamList);
+
             input = scanner.nextLine();
         }
 
-        List<String> disbandList = new ArrayList<>();
-        List<String> teamCreator = new ArrayList<>();
+        teamMap = teamMap.entrySet().stream()
+                .sorted((s1, s2) -> {
+                    int sort = Integer.compare(s2.getValue().size(), s1.getValue().size());
+                    if (sort == 0) {
+                        sort = s1.getKey().compareTo(s2.getKey());
+                    }
+                    return sort;
+                }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
         for (Map.Entry<String, List<String>> entry : teamMap.entrySet()) {
-            teamCreator.add(entry.getKey());
-            teamCreator.add(entry.getValue().get(0));
 
-            List<String> currentList = entry.getValue();
-            currentList.remove(0);
-            teamMap.put(entry.getKey(), currentList);
-        }
-
-
-        Map<String, List<String>> descByValues = new LinkedHashMap<>();
-
-        teamMap.entrySet()
-                .stream()
-                .sorted((e1, e2) -> e2.getValue().size() - e1.getValue().size())
-                .forEachOrdered(x -> descByValues.put(x.getKey(), x.getValue()));
-
-        for (String s : descByValues.keySet()) {
-            Collections.sort(descByValues.get(s));
-        }
-
-        for (Map.Entry<String, List<String>> entry : teamMap.entrySet()) {
-            List<String> currentList = descByValues.get(entry.getKey());
-
-            if (entry.getValue().size() == 0) {
-                disbandList.add(entry.getKey());
-                descByValues.remove(entry.getKey());
-            }
-
-        }
-
-        for (Map.Entry<String, List<String>> entry : descByValues.entrySet()) {
-            System.out.println(entry.getKey());
-
-            for (int i = 0; i < teamCreator.size(); i++) {
-                if (teamCreator.get(i).equals(entry.getKey())){
-                    System.out.printf("- %s%n", teamCreator.get(i + 1));
+            if (entry.getValue().size() > 1) {
+                System.out.println(entry.getKey());
+                for (int i = 0; i < entry.getValue().size(); i++) {
+                    if (i == 0) {
+                        System.out.printf("- %s%n", entry.getValue().get(i));
+                    } else {
+                        System.out.printf("-- %s%n", entry.getValue().get(i));
+                    }
                 }
             }
+        }
+        System.out.println("Teams to disband:");
 
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                System.out.printf("-- %s%n", entry.getValue().get(i));
+        for (Map.Entry<String, List<String>> entry1 : teamMap.entrySet()) {
+            if (entry1.getValue().size() == 1) {
+                System.out.println(entry1.getKey());
             }
         }
-
-        System.out.println("Teams to disband:");
-        Collections.sort(disbandList);
-        if (!disbandList.isEmpty()) {
-            System.out.println(disbandList.toString().replaceAll("[\\[\\],]", ""));
-        }
-
     }
 
     //метод за проверка дали създателя вече го има в речника
