@@ -59,12 +59,12 @@ public class MoreExerTeamworkProject_04 {
                 }
             }
 
-            if (!isExist) {                                                        //добавяне на дадения потребител към дадения екип
+            if (!isExist) {                                                             //добавяне на дадения потребител към дадения екип
                 for (Map.Entry<String, List<String>> entry : teamsUsers.entrySet()) {
                     if (entry.getKey().contains(currentTeam)) {
-                        membersList = entry.getValue();                              //листа с потребителите на конкретния екип
-                        membersList.add(user);                          //добавяне на конкретния потребител към вече съществуващ списък на даден екип
-                        teamsUsers.put(currentTeam, membersList);                    //добавяне на новия потребител към конкретния екип
+                        membersList = entry.getValue();                                 //листа с потребителите на конкретния екип
+                        membersList.add(user);                                          //добавяне на конкретния потребител към вече съществуващ списък на даден екип
+                        teamsUsers.put(currentTeam, membersList);                       //добавяне на новия потребител към конкретния екип
                         break;
                     }
                 }
