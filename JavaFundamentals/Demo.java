@@ -51,7 +51,17 @@ public class Demo {
         }
 
         List<String> disbandList = new ArrayList<>();
-        Map<String, List<String>> finishMap = new LinkedHashMap<>();
+        List<String> teamCreator = new ArrayList<>();
+
+        for (Map.Entry<String, List<String>> entry : teamMap.entrySet()) {
+            teamCreator.add(entry.getKey());
+            teamCreator.add(entry.getValue().get(0));
+
+            List<String> currentList = entry.getValue();
+            currentList.remove(0);
+            teamMap.put(entry.getKey(), currentList);
+        }
+
 
         Map<String, List<String>> descByValues = new LinkedHashMap<>();
 
@@ -67,19 +77,23 @@ public class Demo {
         for (Map.Entry<String, List<String>> entry : teamMap.entrySet()) {
             List<String> currentList = descByValues.get(entry.getKey());
 
-            if (entry.getValue().size() == 1) {
+            if (entry.getValue().size() == 0) {
                 disbandList.add(entry.getKey());
-                teamMap.remove(entry.getKey());
-            } else {
-                finishMap.put(entry.getKey(), currentList);
+                descByValues.remove(entry.getKey());
             }
 
         }
 
-        for (Map.Entry<String, List<String>> entry : finishMap.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : descByValues.entrySet()) {
             System.out.println(entry.getKey());
-            System.out.printf("- %s%n", entry.getValue().get(0));
-            for (int i = 1; i < entry.getValue().size(); i++) {
+
+            for (int i = 0; i < teamCreator.size(); i++) {
+                if (teamCreator.get(i).equals(entry.getKey())){
+                    System.out.printf("- %s%n", teamCreator.get(i + 1));
+                }
+            }
+
+            for (int i = 0; i < entry.getValue().size(); i++) {
                 System.out.printf("-- %s%n", entry.getValue().get(i));
             }
         }
@@ -87,8 +101,7 @@ public class Demo {
         System.out.println("Teams to disband:");
         Collections.sort(disbandList);
         if (!disbandList.isEmpty()) {
-            System.out.println(disbandList.toString().replaceAll("[\\[\\],]", "")
-                    .replaceAll(" ", ""));
+            System.out.println(disbandList.toString().replaceAll("[\\[\\],]", ""));
         }
 
     }
@@ -102,16 +115,5 @@ public class Demo {
             }
         }
         return isExist;
-    }
-
-    //метод за проверка дължините на списъците
-    public static boolean isBigger(Map<String, List<String>> map, int length) {
-        boolean isBigger = false;
-        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-            if (length > entry.getValue().size()) {
-                isBigger = true;
-            }
-        }
-        return isBigger;
     }
 }
