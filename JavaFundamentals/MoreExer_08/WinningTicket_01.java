@@ -15,67 +15,63 @@ public class WinningTicket_01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String input = scanner.nextLine();                                //входни данни
-        String[] wordsArr = input.split("(\\s+)*,(\\s+)*");         //масив с думи за проверка
+        String[] ticketsArr = scanner.nextLine().split("[,\\s]+");
 
-        for (int numWords = 0; numWords < wordsArr.length; numWords++) {
-            char[] currentWord = wordsArr[numWords].toCharArray();        //конкретната дума
-            boolean isMatch = false;
+        for (int i = 0; i < ticketsArr.length; i++) {
+            String ticket = ticketsArr[i];
 
-            if (currentWord.length != 20) {
-                System.out.println("invalid ticket");
-                continue;
-            }
+            if (ticketsArr[i].length() == 20) { //проверка дали думата е 20 символа
+                String leftPart = left(ticket);
+                String rightPart = right(ticket);
 
-            Pattern pattern = Pattern.compile("(\\@{6,10}|\\${6,10}|\\^{6,10}|\\#{6,10})");
+                Pattern pattern = Pattern.compile("[@]{6,10}|[#]{6,10}|[$]{6,10}|[\\\\^]{6,10}");
+                Matcher matcher = pattern.matcher(leftPart);
 
-            StringBuilder leftPart = new StringBuilder();                //за лявата част на думата
-            StringBuilder rightPart = new StringBuilder();               //за дясната част на думата
-            char symbolLeft = '0';
-            char symbolRight = '0';
-            String leftTail = "";
-            String rightTail = "";
+                String leftMatch = "";
+                String rightMatch = "";
 
-            for (int i = 0; i < 10; i++) {                                //взимане на лявата част на думата
-                leftPart.append(currentWord[i]);
-            }
-
-            Matcher matcherLeft = pattern.matcher(leftPart);              //проверка за съвпадение на лявата част на думата
-
-            while (matcherLeft.find()) {
-                leftTail = matcherLeft.group();                           //съвпадение отговарящо на regex-са
-                symbolLeft = leftTail.charAt(0);
-                isMatch = true;
-            }
-
-            for (int i = 10; i < 20; i++) {                               //взимане на дясната част на думата
-                rightPart.append(currentWord[i]);
-            }
-
-            Matcher matcherRight = pattern.matcher(rightPart);             //проверка за съвпадение на дясната част на думата
-
-            while (matcherRight.find()) {
-                rightTail = matcherRight.group();                         //съвпадение отговарящо на regex-са
-                symbolRight = rightTail.charAt(0);
-            }
-
-            if ((symbolLeft == symbolRight) && isMatch) {                  //проверка дали символите в двете части на думата са еднакви
-
-                if (leftTail.length() < rightTail.length()) {
-                    System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], leftTail.length(), symbolLeft);
-                }
-                if (leftTail.length() > rightTail.length()) {
-                    System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], rightTail.length(), symbolRight);
-                }
-                if (leftTail.length() == rightTail.length() && leftTail.length() == 10) {
-                    System.out.printf("ticket \"%s\" - %d%s Jackpot!%n", wordsArr[numWords], rightTail.length(), symbolLeft);
-                }else if (leftTail.length() == rightTail.length()){
-                    System.out.printf("ticket \"%s\" - %d%s%n", wordsArr[numWords], rightTail.length(), symbolRight);
+                while (matcher.find()) {
+                    leftMatch = matcher.group();
                 }
 
+                matcher = pattern.matcher(rightPart);
+
+                while (matcher.find()) {
+                    rightMatch = matcher.group();
+                }
+
+                if (leftMatch.equals("") || rightMatch.equals("")) {
+                    System.out.printf("ticket \"%s\" - no match%n", ticket);
+                } else if (leftMatch.equals(rightMatch)) {
+                    if (leftMatch.length() == 10) {
+                        System.out.printf("ticket \"%s\" - %d%c Jackpot!%n", ticket, 10, ticket.charAt(0));
+                    } else {
+                        System.out.printf("ticket \"%s\" - %d%c%n", ticket, leftMatch.length(), leftMatch.charAt(0));
+                    }
+                }
             } else {
-                System.out.printf("ticket \"%s\" - no match", wordsArr[numWords]);
+                System.out.println("invalid ticket");
             }
+
         }
+
+    }
+
+    public static String left(String word) {
+        StringBuilder leftWord = new StringBuilder();
+        for (int i = 0; i < word.length() / 2; i++) {
+            char letter = word.charAt(i);
+            leftWord.append(letter);
+        }
+        return leftWord.toString();
+    }
+
+    public static String right(String word) {
+        StringBuilder rightWord = new StringBuilder();
+        for (int i = word.length() / 2; i < word.length(); i++) {
+            char letter = word.charAt(i);
+            rightWord.append(letter);
+        }
+        return rightWord.toString();
     }
 }
