@@ -11,7 +11,7 @@ public class Demo {
 
         double bonus = 0;
         double loss = 0;
-        int sumPlunder = 0;
+        double sumPlunder = 0;
 
         for (int day = 1; day <= allDay; day++) {
             sumPlunder += targetPlunder;
@@ -28,9 +28,9 @@ public class Demo {
         }
 
         if (sumPlunder >= expectedPlunder) {
-            System.out.printf("Ahoy! %s plunder gained.", sumPlunder);
+            System.out.printf("Ahoy! %.2f plunder gained.", sumPlunder);
         } else {
-            double percentPlunder = (sumPlunder * 1.0 / expectedPlunder) * 100;
+            double percentPlunder = sumPlunder / expectedPlunder * 100;
             System.out.printf("Collected only %.2f%% of the plunder.", percentPlunder);
         }
 
