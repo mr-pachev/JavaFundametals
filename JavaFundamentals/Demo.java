@@ -17,12 +17,12 @@ public class Demo {
             sumPlunder += targetPlunder;
 
             if (day % 3 == 0) {
-                bonus = 50 * 1.0 / 100 * targetPlunder;
+                bonus = (50 * 1.0 / 100) * targetPlunder;
                 sumPlunder += bonus;
             }
 
             if (day % 5 == 0) {
-                loss = 30 * 1.0 / 100 * sumPlunder;
+                loss = (30 * 1.0 / 100) * sumPlunder;
                 sumPlunder -= loss;
             }
         }
