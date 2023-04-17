@@ -1,38 +1,56 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        int people = Integer.parseInt(scanner.nextLine());
+        int[] liftArr = Arrays.stream(scanner.nextLine()
+                        .split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
-        int allDay = Integer.parseInt(scanner.nextLine());          //дни за плячкосване
-        int targetPlunder = Integer.parseInt(scanner.nextLine());   //плячкосване на ден
-        int expectedPlunder = Integer.parseInt(scanner.nextLine()); //очаквано плячкосване
+        for (int i = 0; i < liftArr.length; i++) {
+            int currentCabin = liftArr[i];
 
-        double bonus = 0;
-        double loss = 0;
-        double sumPlunder = 0;
+            if (currentCabin < 4) {
+                int freeSpace = 4 - currentCabin;
+                if (freeSpace <= people) {
+                    liftArr[i] += freeSpace;
+                    people -= freeSpace;
+                }else {
+                    liftArr[i] = people;
+                    people = 0;
+                }
 
-        for (int day = 1; day <= allDay; day++) {
-            sumPlunder += targetPlunder;
-
-            if (day % 3 == 0) {
-                bonus = (50 * 1.0 / 100) * targetPlunder;
-                sumPlunder += bonus;
-            }
-
-            if (day % 5 == 0) {
-                loss = (30 * 1.0 / 100) * sumPlunder;
-                sumPlunder -= loss;
             }
         }
 
-        if (sumPlunder >= expectedPlunder) {
-            System.out.printf("Ahoy! %.2f plunder gained.", sumPlunder);
-        } else {
-            double percentPlunder = sumPlunder / expectedPlunder * 100;
-            System.out.printf("Collected only %.2f%% of the plunder.", percentPlunder);
+        if (people == 0 || isFull(liftArr)){
+            if (people == 0 && !isFull(liftArr)){
+                System.out.println("The lift has empty spots!");
+                print(liftArr);
+            }else if (people != 0 && isFull(liftArr)){
+                System.out.printf("There isn't enough space! %d people in a queue!%n", people);
+                print(liftArr);
+            }
         }
+    }
+    public static boolean isFull (int[] arr){
+        boolean isFull = true;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != 4){
+                isFull = false;
+                break;
+            }
+        }
+        return isFull;
+    }
 
+    public static void print (int[] arr){
+        for (int i = 0; i < arr.length; i++) {
+            System.out.printf("%d ", arr[i]);
+        }
     }
 }
