@@ -1,62 +1,64 @@
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int people = Integer.parseInt(scanner.nextLine());
-        int[] liftArr = Arrays.stream(scanner.nextLine()
-                        .split("\\s+"))
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
+        int[] inputArr = Arrays.stream(scanner.nextLine()
+                        .split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
-        for (int i = 0; i < liftArr.length; i++) {
-            int currentCabin = liftArr[i];
+        double average = valueAverage(inputArr);
 
-            if (currentCabin < 4) {                     //проверка дали има сводни места в кабинката
-                int freeSpace = 4 - currentCabin;       //определяне на свободните места в кабинката
+        int[] resultArr = new int[inputArr.length];
 
-                if (people > 0) {
-                    if (freeSpace <= people) {          //проверка дали свободните места са по-малко или равни на хората от опашката
-                        currentCabin += freeSpace;
-                        liftArr[i] = currentCabin;
-                        people -= freeSpace;
-                    } else {
-                        liftArr[i] += people;           //допълва се кабинката с хората от опашката
-                        people = 0;
-                    }
+        for (int i = 0; i < inputArr.length; i++) {
+            if (inputArr[i] > average) {
+                resultArr[i] = inputArr[i];
+            }
+        }
+
+        if (!isNegative(resultArr)) {
+            resultArr = Arrays.stream(resultArr)
+                    .boxed()
+                    .sorted(Collections.reverseOrder())
+                    .mapToInt(Integer::intValue)
+                    .toArray();
+        }
+
+        if (Arrays.stream(resultArr).sum() == 0) {
+            System.out.println("No");
+        } else {
+            for (int i = 0; i < 5; i++) {
+                if (resultArr[i] != 0) {
+                    System.out.printf("%d ", resultArr[i]);
                 }
             }
         }
-
-        if (people <= 0 || isFull(liftArr)) {
-            if (people == 0 && !isFull(liftArr)) {
-                System.out.println("The lift has empty spots!");
-                print(liftArr);
-            } else if (people != 0 && isFull(liftArr)) {
-                System.out.printf("There isn't enough space! %d people in a queue!%n", people);
-                print(liftArr);
-            } else if (people <= 0 && isFull(liftArr)) {
-                print(liftArr);
-            }
-        }
-
     }
 
-    public static boolean isFull(int[] arr) {
-        boolean isFull = true;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] < 4) {
-                isFull = false;
-            }
+    //метод за намиране средната стойност на елементите от масив
+    public static Double valueAverage(int[] exampleArr) {
+        double result = 0;
+        for (int index = 0; index <= exampleArr.length - 1; index++) {
+            result += exampleArr[index];
         }
-        return isFull;
+        result = result / exampleArr.length;
+        return result;
     }
 
-    public static void print(int[] arr) {
+    //проверка дали елементите са отрицателни числа
+    public static boolean isNegative(int[]arr){
+        boolean isNegative = true;
         for (int i = 0; i < arr.length; i++) {
-            System.out.printf("%d ", arr[i]);
+            if (arr[i] > 0){
+                isNegative = false;
+            }
         }
+        return isNegative;
     }
 }
