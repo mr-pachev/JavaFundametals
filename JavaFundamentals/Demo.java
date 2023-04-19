@@ -38,6 +38,7 @@ public class Demo {
                 if (stealCount >= treasureList.size()) { //проверка дали елементите за крадене са равни или повече от съкровището
                     System.out.println(treasureList.toString().replaceAll("[\\[\\],]", "")
                             .replaceAll(" ", ", "));
+                    treasureList = new ArrayList<>();
                 } else {
                     int indexOf = treasureList.indexOf(treasureList.get(treasureList.size() - stealCount));
                     List<String> stealList = new ArrayList<>();
@@ -56,9 +57,27 @@ public class Demo {
             input = scanner.nextLine();
         }
 
+        if (treasureList.isEmpty()){
+            System.out.println("Failed treasure hunt.");
+        }else {
+            double avrSum = avr(treasureList);
+            System.out.printf("Average treasure gain: %.2f pirate credits.", avrSum);
+        }
     }
 
     public static boolean isValid(List<String> list, int index) {
         return (index >= 0 && index < list.size());
+    }
+    public static Double avr (List<String> list){
+        double averageSum = 0.0;
+        double allSum = 0.0;
+
+        for (int i = 0; i < list.size(); i++) {
+            String currentElement = list.get(i);
+
+            allSum += currentElement.length();
+
+        }
+        return averageSum = allSum / list.size();
     }
 }
