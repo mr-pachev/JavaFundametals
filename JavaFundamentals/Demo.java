@@ -65,9 +65,12 @@ public class Demo {
         }
     }
 
+    //метод за проверка дали индекса е валиден
     public static boolean isValid(List<String> list, int index) {
         return (index >= 0 && index < list.size());
     }
+
+    //метод за намиране средната стойност на съкровището
     public static Double avr (List<String> list){
         double averageSum = 0.0;
         double allSum = 0.0;
