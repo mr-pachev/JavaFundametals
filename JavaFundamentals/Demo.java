@@ -40,7 +40,7 @@ public class Demo {
                     String oldLetters = input.split("\\|")[1];
                     String newLetters = input.split("\\|")[2];
 
-                    codedText = codedText.replaceAll(oldLetters, newLetters);
+                    codedText = codedText.replace(oldLetters, newLetters);
                     break;
             }
             input = scanner.nextLine();
