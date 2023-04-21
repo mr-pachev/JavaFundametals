@@ -1,51 +1,39 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Demo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String codedText = scanner.nextLine();
         String input = scanner.nextLine();
 
-        while (!input.equals("Decode")){
-            String command = input.split("\\|")[0];
+        int allCalories = 0;
+        Map<String, List<String>> itemMap = new LinkedHashMap<>();
 
-            switch (command){
 
-                case "Move":
-                    int sumLetters = Integer.parseInt(input.split("\\|")[1]);
+        Pattern pattern = Pattern.compile("([#]|[\\\\|])(?<name>[A-z\\s]+)\\1(?<date>[0-9]{2}[\\/][0-9]{2}[\\/][0-9]{2})\\1(?<calories>[0-9]{0,5})\\1");
+        Matcher matcher = pattern.matcher(input);
 
-                    String moveText = codedText.substring(0, sumLetters);
-                    String endTextMove = codedText.substring(sumLetters);
-                    codedText = "";
-                    codedText = codedText.concat(endTextMove).concat(moveText);
-                    break;
+        while (matcher.find()){
+            String name = matcher.group("name");
+            String date = matcher.group("date");
+            String calories = matcher.group("calories");
 
-                case "Insert":
-                    int indexInsert = Integer.parseInt(input.split("\\|")[1]);
-                    String newLetter = input.split("\\|")[2];
-
-                    String startTextInsert = codedText.substring(0, indexInsert);
-                    String endTextInsert = codedText.substring(indexInsert);
-
-                    codedText = "";
-                    codedText = codedText.concat(startTextInsert).concat(newLetter).concat(endTextInsert);
-                    break;
-
-                case "ChangeAll":
-                    String oldLetters = input.split("\\|")[1];
-                    String newLetters = input.split("\\|")[2];
-
-                    codedText = codedText.replace(oldLetters, newLetters);
-                    break;
-            }
-            input = scanner.nextLine();
+            List<String> data = new ArrayList<>();
+            allCalories += Integer.parseInt(calories);
+            data.add(date);
+            data.add(calories);
+            itemMap.put(name, data);
         }
 
-        System.out.printf("The decrypted message is: %s", codedText);
+        int daysLive = Math.abs(allCalories / 2000);
+
+        System.out.printf("You have food to last you for: %d days!%n", daysLive);
+
+        if (!itemMap.isEmpty()){
+            
+        }
     }
 }
