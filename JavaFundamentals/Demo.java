@@ -21,11 +21,14 @@ public class Demo {
             String date = matcher.group("date");
             String calories = matcher.group("calories");
 
-            data = new ArrayList<>();
-            allCalories += Integer.parseInt(calories);
-            data.add(date);
-            data.add(calories);
-            itemMap.putIfAbsent(name, data);
+            if (!itemMap.containsKey(name)) {
+                data = new ArrayList<>();
+                data.add(date);
+                data.add(calories);
+                itemMap.put(name, data);
+                allCalories += Integer.parseInt(calories);
+            }
+
         }
 
         int daysLive = allCalories / 2000;
