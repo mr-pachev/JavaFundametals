@@ -13,27 +13,31 @@ public class Demo {
         Map<String, List<String>> itemMap = new LinkedHashMap<>();
 
 
-        Pattern pattern = Pattern.compile("([#]|[\\\\|])(?<name>[A-z\\s]+)\\1(?<date>[0-9]{2}[\\/][0-9]{2}[\\/][0-9]{2})\\1(?<calories>[0-9]{0,5})\\1");
+        Pattern pattern = Pattern.compile("([#|\\|])(?<name>[a-zA-Z\\s]+)\\1(?<date>[0-9]{2}[\\/][0-9]{2}[\\/][0-9]{2})\\1(?<calories>[0-9]{1,5})\\1");
         Matcher matcher = pattern.matcher(input);
 
-        while (matcher.find()){
+        while (matcher.find()) {
             String name = matcher.group("name");
             String date = matcher.group("date");
             String calories = matcher.group("calories");
 
             List<String> data = new ArrayList<>();
+
             allCalories += Integer.parseInt(calories);
             data.add(date);
             data.add(calories);
             itemMap.put(name, data);
+
         }
 
         int daysLive = Math.abs(allCalories / 2000);
 
         System.out.printf("You have food to last you for: %d days!%n", daysLive);
 
-        if (!itemMap.isEmpty()){
-            
+        if (!itemMap.isEmpty()) {
+            for (Map.Entry<String, List<String>> entry : itemMap.entrySet()) {
+                System.out.printf("Item: %s, Best before: %s, Nutrition: %s%n", entry.getKey(), entry.getValue().get(0), entry.getValue().get(1));
+            }
         }
     }
 }
